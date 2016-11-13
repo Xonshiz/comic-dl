@@ -134,7 +134,7 @@ You can check the changelog [**`HERE`**](https://github.com/Xonshiz/comic-dl/blo
 If your're planning to open an issue for the script or ask for a new feature or anything that requires opening an Issue, then please do keep these things in mind.
 
 ### Reporting Issues
-If you're about to report some issue with the script, the please do include these things :
+If you're about to report some issue with the script, then please do include these things :
 * The command your entered. Yes, with the URL
 * The output of that command. You can simply copy the text from the terminal/command prompt and paste it. Make sure you put that output inside `` (tilde).
 * Your Operating System and python version.
