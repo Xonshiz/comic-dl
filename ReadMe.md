@@ -1,4 +1,4 @@
-# Comic-DL
+# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.
 
