@@ -9,22 +9,22 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 
 ### Table of Content
 
-* [Supported Sites]()
-* [Dependencies Installation]()
-    * [Linux/Debian]()
-    * [Windows]()
-    * [Mac OS X]()
-* [Installation]()
-* [Windows Binary]()
-* [List of Arguments]()
-* [Usage]()
-    * [Windows]()
-    * [Linux/Debian]()
-* [Features]()
-* [Changelog]()
-* [Opening An Issue/Requesting A Site]()
-    * [Reporting Issues]()
-    * [Suggesting A Feature]()
+* [Supported Sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md)
+* [Dependencies Installation](https://github.com/Xonshiz/comic-dl#dependencies-installation)
+    * [Linux/Debian](https://github.com/Xonshiz/comic-dl#linuxdebian-)
+    * [Windows](https://github.com/Xonshiz/comic-dl#windows-)
+    * [Mac OS X](https://github.com/Xonshiz/comic-dl#mac-os-x-)
+* [Installation](https://github.com/Xonshiz/comic-dl#installation)
+* [Windows Binary](https://github.com/Xonshiz/comic-dl#windows-binary)
+* [List of Arguments](https://github.com/Xonshiz/comic-dl#list-of-arguments)
+* [Usage](https://github.com/Xonshiz/comic-dl#usage)
+    * [Windows](https://github.com/Xonshiz/comic-dl#windows)
+    * [Linux/Debian](https://github.com/Xonshiz/comic-dl#linuxdebian)
+* [Features](https://github.com/Xonshiz/comic-dl#features)
+* [Changelog](https://github.com/Xonshiz/comic-dl/blob/master/Changelog.md)
+* [Opening An Issue/Requesting A Site](https://github.com/Xonshiz/comic-dl#opening-an-issuerequesting-a-site)
+    * [Reporting Issues](https://github.com/Xonshiz/comic-dl#reporting-issues)
+    * [Suggesting A Feature](https://github.com/Xonshiz/comic-dl#suggesting-a-feature)
 
 ## Supported Websites
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
@@ -82,7 +82,7 @@ and then, execute with this :
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. You can download the binary and start using the script right off the bat. Grab the respective binaries from the links below :
 * `x86 Systems` : [COMING SOON](#)
-* `x64 Systems` : [COMING SOON](#)
+* `x64 Systems` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.13)
 
 ## List of Arguments
 Currently, the script supports these arguments :
