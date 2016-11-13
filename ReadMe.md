@@ -5,8 +5,6 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
 
-> WINDOWS BINARY COMING SOON!
-
 ### Table of Content
 
 * [Supported Sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md)
@@ -41,7 +39,7 @@ We need `pip` to install any external dependenc(ies). So, open any terminal and 
 
 If you're on Fedora, CentOS/RHEL, openSUSE, Arch Linux, then you simply need to follow [`THIS TUTORIAL`](https://packaging.python.org/install_requirements_linux/) to install `pip`.
 
-If this still doesn't work, then you'll manually need to install pip. Doing so is an easy one time job and you can follow   [`THHIS TUTORIAL`](https://pip.pypa.io/en/stable/installing/) to do so.
+If this still doesn't work, then you'll manually need to install pip. Doing so is an easy one time job and you can follow   [`THIS TUTORIAL`](https://pip.pypa.io/en/stable/installing/) to do so.
 
 ### Windows :
 If you're on windows, then it is recommended to download the [`windows binary`](#) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
