@@ -1,5 +1,5 @@
 #List of Supported Websites
 
-* [Mangafox]
-* [YoManga]
-* [GoManga]
+* [Mangafox](http://mangafox.me/)
+* [YoManga](http://yomanga.co/)
+* [GoManga](http://gomanga.co/)

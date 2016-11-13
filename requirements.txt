@@ -1,0 +1,3 @@
+more_itertools
+bs4
+requests
