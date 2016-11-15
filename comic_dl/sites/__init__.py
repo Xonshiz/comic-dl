@@ -5,3 +5,4 @@
 import mangafox
 import yomanga
 import gomanga
+import batoto

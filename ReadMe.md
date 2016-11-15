@@ -1,6 +1,6 @@
 # Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl)
 
-Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.
+Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
@@ -42,8 +42,38 @@ If you're on Fedora, CentOS/RHEL, openSUSE, Arch Linux, then you simply need to 
 
 If this still doesn't work, then you'll manually need to install pip. Doing so is an easy one time job and you can follow   [`THIS TUTORIAL`](https://pip.pypa.io/en/stable/installing/) to do so.
 
+We need `PhantomJS` to access some websites. So, after all this, we'll install PhantomJS.
+
+First, make sure your system is updated :
+```
+sudo apt-get update
+sudo apt-get install build-essential chrpath libssl-dev libxft-dev
+```
+Grab Dependencies for PhantomJS (most important) :
+```
+sudo apt-get install libfreetype6 libfreetype6-dev
+sudo apt-get install libfontconfig1 libfontconfig1-dev
+```
+Grab the suitable `tar.bz2` file from this [link](http://phantomjs.org/download.html)
+Extract the contents of this `tar.bz2` file you just downloaded. Open a terminal and follow the commands. 
+* Don't forget the change the name of the file(s) mentioned here with the ones that you downloaded.There might be a newer version when you download
+```
+cd /Name/of_the/directory/that/contains/the/tar_bz2/file
+export PHANTOM_JS="phantomjs-2.1.1-linux-x86_64"
+sudo tar xvjf $PHANTOM_JS.tar.bz2
+```
+Once downloaded, move Phantomjs folder to /usr/local/share/ and create a symlink:
+```
+sudo mv $PHANTOM_JS /usr/local/share
+sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
+```
+If none of these commands gave error(s), PhantomJS should be installed in your Linux/Debian systems just fine. You can check it by entering this command in any terminal :
+```
+phantomjs --version
+```
+
 ### Windows :
-If you're on windows, then it is recommended to download the [`windows binary`](#) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
+If you're on windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
 
 * Install Python > 2.7.6. Download the desired installer from [here](https://www.python.org/downloads/).
 * [Add it in the system path](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path) (if not already added).
@@ -54,6 +84,7 @@ If you're on windows, then it is recommended to download the [`windows binary`](
 pip install -r requirements.txt
 ```
 * It should install the required external libraries.
+* Download PhantomJS : http://phantomjs.org/download.html
 
 Well, if everything came up good without any error(s), then you're good to go!
 
@@ -61,12 +92,13 @@ Well, if everything came up good without any error(s), then you're good to go!
 Mac OS X users will have to fetch their version of `Python` and `Pip`.
 * Python installation guide : http://docs.python-guide.org/en/latest/starting/install/osx/
 * Pip installation guide : http://stackoverflow.com/questions/17271319/installing-pip-on-mac-os-x
+* PhantomJS Mac Binary : http://phantomjs.org/download.html (Download the latest build for your OS)
 
 After downloading and installing these, you need to add PIP & Python in your path. Follow [`THIS LITTLE GUIDE`](http://www.pyladies.com/blog/Get-Your-Mac-Ready-for-Python-Programming/) to install both, Python & pip successfully.
 
 ## Installation
 After installing and setting up all the dependencies in your Operating System, you're good to go and use this script.
-The instructions for all the OS would remain same. Download [`THIS REPOSITORY`]() and put it somewhere in your system.
+The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](https://github.com/Xonshiz/comic-dl/archive/master.zip) and put it somewhere in your system. Move over the `comic_dl` folder.
 
 **Windows users**, it's better to not place it places where it requires administrator privileges. Good example would be `C:\Windows`. This goes for both, the Python script and the windows binary file (.exe).
 
@@ -81,7 +113,7 @@ and then, execute with this :
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. You can download the binary and start using the script right off the bat. Grab the respective binaries from the links below :
 * `x86 Systems` : [COMING SOON](#)
-* `x64 Systems` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.13)
+* `x64 Systems` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.15)
 
 ## List of Arguments
 Currently, the script supports these arguments :
@@ -90,10 +122,14 @@ Currently, the script supports these arguments :
 -i,--input                             Defines the input link to the comic/manga.
 -V,--version                           Prints the VERSION and exits.
 -a,--about                             Prints ABOUT and USAGE of the script and exits.
+-u,--username                          Indicates username for a website.
+-p,--password                          Indicates password for a website.
 ```
+#### Note :
+Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
 
 ## Usage
-With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`] to know more about which arguments the script offers.
+With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](https://github.com/Xonshiz/comic-dl#list-of-arguments) to know more about which arguments the script offers.
 
 Follow the instructions according to your OS :
 
@@ -111,7 +147,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 `comic-dl.py -i <URL TO THE COMIC>`
 
-URL can be any URL of the [supported websites]().
+URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ### Linux/Debian
 After you've saved this script in a directory/folder, you need to open `command prompt` and browse to that directory and then execute the script. Let's do it step by step :
@@ -121,7 +157,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 `comic-dl.py -i <URL TO THE COMIC>`
 
-URL can be any URL of the [supported websites]().
+URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ## Features
 This is a very basic and small sript, so at the moment it only have a few features.
