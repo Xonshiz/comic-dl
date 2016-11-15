@@ -13,7 +13,7 @@ python:
 install: "pip install -r requirements.txt"
 # command to run tests
 #script: nosetests
-script: cd comic_dl && comic-dl.py -h
+script: cd comic_dl
 notifications:
   email:
     - xonshiz@psychoticelites.com    
