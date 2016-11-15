@@ -23,6 +23,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 * [Opening An Issue/Requesting A Site](https://github.com/Xonshiz/comic-dl#opening-an-issuerequesting-a-site)
     * [Reporting Issues](https://github.com/Xonshiz/comic-dl#reporting-issues)
     * [Suggesting A Feature](https://github.com/Xonshiz/comic-dl#suggesting-a-feature)
+* [Contributors](https://github.com/Xonshiz/comic-dl/blob/master/Contributors.md)
 
 ## Supported Websites
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
@@ -35,7 +36,7 @@ Since most (if not all) Linux/Debian OS come with python pre-installed, you don'
 
 We need `pip` to install any external dependenc(ies). So, open any terminal and type in `pip list` and if it shows some data, then it is fine. But, if it shows error, like `pip not found` or something along this line, then you need to install `pip`. Just type this command in terminal :
 
-> `sudo apt-get install python-pip`
+`sudo apt-get install python-pip`
 
 If you're on Fedora, CentOS/RHEL, openSUSE, Arch Linux, then you simply need to follow [`THIS TUTORIAL`](https://packaging.python.org/install_requirements_linux/) to install `pip`.
 
@@ -71,11 +72,11 @@ The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](
 
 **Linux/Debian** users make sure that this script is executable.just run this command, if you run into problem(s) :
 
-> `chmod +x comic-dl.py`
+`chmod +x comic-dl.py`
 
 and then, execute with this :
 
-> `./comic-dl.py`
+`./comic-dl.py`
 
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. You can download the binary and start using the script right off the bat. Grab the respective binaries from the links below :
@@ -103,10 +104,12 @@ After you've saved this script in a directory/folder, you need to open `command 
 * Now, in the command prompt, type this :
 
 *If you're using the windows binary :*
->>> `comic-dl.exe -i <URL TO THE COMIC>`
+
+`comic-dl.exe -i <URL TO THE COMIC>`
 
 *If you're using the Python Script :*
->>> `comic-dl.py -i <URL TO THE COMIC>`
+
+`comic-dl.py -i <URL TO THE COMIC>`
 
 URL can be any URL of the [supported websites]().
 
@@ -116,7 +119,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 * Now, change the current working directory of the terminal to the one where you've downloaded this repository.
 * Now, in the Terminal, type this :
 
->>> `comic-dl.py -i <URL TO THE COMIC>`
+`comic-dl.py -i <URL TO THE COMIC>`
 
 URL can be any URL of the [supported websites]().
 
