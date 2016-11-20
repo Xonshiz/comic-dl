@@ -16,7 +16,7 @@ install: "pip install -r requirements.txt"
 #script: cd comic_dl
 script:
 - cd comic_dl
-- comic-dl.py -h
+- comic-dl -h
 notifications:
   email:
     - xonshiz@psychoticelites.com    
