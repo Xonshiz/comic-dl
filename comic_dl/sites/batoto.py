@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests
 import re
 import os
 import sys
 from  more_itertools import unique_everseen
-import urllib2
-import urllib
-import shutil
-from urllib2 import URLError
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from downloader.universal import main as FileDownloader
 
 
 """Bato serves the chapters in 2 ways :
@@ -133,7 +129,7 @@ def single_chapter(driver,url,current_directory,User_Name,User_Password):
         chapter_number = '0'
     
     try:
-        Group_Name_Finder = str(driver.find_element_by_xpath('//*[@id="reader"]/div[1]/ul/li[3]/select').text).strip() # Used to find translation group's name from the 'Drop Down Menu'.
+        Group_Name_Finder = str(driver.find_element_by_xpath('//*[@id="reader"]/div[1]/ul/li[3]/select').text).replace("/"," ").strip() # Used to find translation group's name from the 'Drop Down Menu'.
         
     except Exception as e:
         Group_Name_Finder = str('No Group') # Some entries on batoto don't have a name. So, if we get to any such occassion, let's be prepared.
@@ -189,24 +185,7 @@ def single_chapter(driver,url,current_directory,User_Name,User_Password):
                 ddl_image = str(img_link).replace('img000001','img0000%s')%(i)
                 
             File_Name_Final = str(i).strip()+"."+str(re.search('\d\.(.*?)$', ddl_image).group(1)).strip()
-            File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
-            
-            if os.path.isfile(File_Check_Path):
-                print 'File Exist! Skipping ',File_Name_Final,
-                pass
-
-            if not os.path.isfile(File_Check_Path): 
-                print 'Downloading : ',File_Name_Final
-                urllib.urlretrieve(ddl_image, File_Name_Final)
-                File_Path = os.path.normpath(File_Name_Final)
-                try:
-                    shutil.move(File_Path,Directory_path)
-                except Exception, e:
-                    #raise e
-                    print e,'\n'
-                    os.remove(File_Path)
-                    pass
-
+            FileDownloader(File_Name_Final,Directory_path,ddl_image)
 
         print '\n'
         print "Completed downloading ",Series_Name,' - ',chapter_number
@@ -230,24 +209,7 @@ def single_chapter(driver,url,current_directory,User_Name,User_Password):
                 ddl_image = a['src']
                 
                 File_Name_Final = str(re.search('img0000(\d+)\.([jpg]|[png])', ddl_image).group(1)).strip()+"."+str(re.search('\d\.(.*?)$', ddl_image).group(1)).strip()
-                File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
-                
-
-                if os.path.isfile(File_Check_Path):
-                    print 'File Exist! Skipping ',File_Name_Final,'\n'
-                    pass
-
-                if not os.path.isfile(File_Check_Path): 
-                    print 'Downloading : ',File_Name_Final
-                    urllib.urlretrieve(ddl_image, File_Name_Final)
-                    File_Path = os.path.normpath(File_Name_Final)
-                    try:
-                        shutil.move(File_Path,Directory_path)
-                    except Exception, e:
-                        
-                        print e,'\n'
-                        os.remove(File_Path)
-                        pass
+                FileDownloader(File_Name_Final,Directory_path,ddl_image)
         
         print '\n'
         print "Completed Downloading ",Series_Name,' - ',chapter_number

@@ -11,7 +11,8 @@ from sites.yomanga import yomanga_Url_Check
 from sites.gomanga import gomanga_Url_Check
 from sites.mangafox import mangafox_Url_Check
 from sites.batoto import batoto_Url_Check
-import os
+from sites.kissmanga import kissmanga_Url_Check
+from downloader import universal,cookies_required
 import urllib2
 
 
@@ -32,6 +33,9 @@ def url_checker(input_url,current_directory,User_Name,User_Password):
         pass
     elif domain in ['bato.to']:
         batoto_Url_Check(input_url,current_directory,User_Name,User_Password)
+        pass
+    elif domain in ['kissmanga.com']:
+        kissmanga_Url_Check(input_url,current_directory)
         pass
     elif domain in ['']:
         print 'You need to specify at least 1 URL. Please run : comic-dl -h'
