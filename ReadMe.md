@@ -13,6 +13,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Windows](#windows-)
     * [Mac OS X](#mac-os-x-)
 * [Installation](#installation)
+ * [Python 3 Support](#python-3-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
 * [Usage](#usage)
@@ -24,6 +25,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Reporting Issues](#reporting-issues)
     * [Suggesting A Feature](#suggesting-a-feature)
 * [Contributors](https://github.com/Xonshiz/comic-dl/blob/master/Contributors.md)
+* [Notes](#notes)
 
 ## Supported Websites
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
@@ -110,10 +112,13 @@ and then, execute with this :
 
 `./comic-dl.py`
 
+## Python 3 Support
+If you're using python 3, then you'd want to download the contents of the `comic_dl Python3` folder/directory. Everything in that folder has been written and updated to support python 3.
+
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. You can download the binary and start using the script right off the bat. Grab the respective binaries from the links below :
-* `x86 Systems` : [COMING SOON](#)
-* `x64 Systems` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.22)
+* `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.26)
+
 
 ## List of Arguments
 Currently, the script supports these arguments :
@@ -175,7 +180,7 @@ If your're planning to open an issue for the script or ask for a new feature or 
 ### Reporting Issues
 If you're about to report some issue with the script, then please do include these things :
 * The command your entered. Yes, with the URL
-* The output of that command. You can simply copy the text from the terminal/command prompt and paste it. Make sure you put that output inside `` (tilde).
+* The output of that command. You can simply copy the text from the terminal/command prompt and paste it. Make sure you put that inside inside `` (tilde).
 * Your Operating System and python version.
  
 ### Suggesting A Feature
@@ -186,3 +191,6 @@ If you're here to make suggestions, please follow the basic syntax to post a req
 **Long Explanation** : Describe in details what you want and how you want.
 
 This should be enough, but it'll be great if you can add more ;)
+
+# Notes
+comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.

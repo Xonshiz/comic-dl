@@ -6,3 +6,5 @@
 - Addition of universal `downloader package` for easy maintainance [2016.11.22]
 - Mangafox downloading same images fixed [2016.11.22]
 - Argument priority updated [2016.11.22]
+- Site support for comic.naver.com [2016.11.26]
+- Support for Python 3 [2016.11.26]

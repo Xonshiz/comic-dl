@@ -16,24 +16,24 @@ import shutil
 from urllib2 import URLError
 import sys
 
-def main(File_Name_Final,Directory_path,ddl_image):
-    File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
-            
+
+def main(File_Name_Final, Directory_path, ddl_image):
+    File_Check_Path = str(Directory_path) + '/' + str(File_Name_Final)
+
     if os.path.isfile(File_Check_Path):
-        print '[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n'
+        print '[Comic-dl] File Exist! Skipping ', File_Name_Final, '\n'
         pass
 
-    if not os.path.isfile(File_Check_Path): 
-        print '[Comic-dl] Downloading : ',File_Name_Final
+    if not os.path.isfile(File_Check_Path):
+        print '[Comic-dl] Downloading : ', File_Name_Final
         urllib.urlretrieve(ddl_image, File_Name_Final)
         File_Path = os.path.normpath(File_Name_Final)
         try:
-            shutil.move(File_Path,Directory_path)
-        except Exception, e:
-            print e,'\n'
+            shutil.move(File_Path, Directory_path)
+        except Exception as e:
+            print e, '\n'
             os.remove(File_Path)
             pass
-
 
 
 if __name__ == '__main__':

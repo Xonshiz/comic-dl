@@ -16,28 +16,63 @@ import requests
 import shutil
 from downloader.universal import main as FileDownloader
 
-def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image):
-    File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
+
+def main(File_Name_Final, Directory_path, tasty_cookies, ddl_image):
+    File_Check_Path = str(Directory_path) + '/' + str(File_Name_Final)
 
     if os.path.isfile(File_Check_Path):
-        print '[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n'
+        print '[Comic-dl] File Exist! Skipping ', File_Name_Final, '\n'
         pass
 
-    if not os.path.isfile(File_Check_Path): 
-        print '[Comic-dl] Downloading : ',File_Name_Final
-    
-        response = requests.get(ddl_image, stream=True,cookies=tasty_cookies)
+    if not os.path.isfile(File_Check_Path):
+        print '[Comic-dl] Downloading : ', File_Name_Final
+
+        response = requests.get(ddl_image, stream=True, cookies=tasty_cookies)
         try:
             with open(File_Name_Final, 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
             File_Path = os.path.normpath(File_Name_Final)
         except Exception as e:
-            print "Couldn't download file from : ",ddl_image
+            print "Couldn't download file from : ", ddl_image
             pass
         try:
-            shutil.move(File_Path,Directory_path)
-        except Exception, e:
-            print e,'\n'
+            shutil.move(File_Path, Directory_path)
+        except Exception as e:
+            print e, '\n'
+            pass
+
+
+def with_referer(
+        File_Name_Final,
+        Directory_path,
+        tasty_cookies,
+        ddl_image,
+        referer):
+    File_Check_Path = str(Directory_path) + '/' + str(File_Name_Final)
+
+    if os.path.isfile(File_Check_Path):
+        print '[Comic-dl] File Exist! Skipping ', File_Name_Final, '\n'
+        pass
+
+    if not os.path.isfile(File_Check_Path):
+        print '[Comic-dl] Downloading : ', File_Name_Final
+        headers = {'Referer': referer}
+        response = requests.get(
+            ddl_image,
+            stream=True,
+            cookies=tasty_cookies,
+            headers=headers)
+        try:
+            with open(File_Name_Final, 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
+            File_Path = os.path.normpath(File_Name_Final)
+        except Exception as e:
+            print "Couldn't download file from : ", ddl_image
+            pass
+        try:
+            shutil.move(File_Path, Directory_path)
+        except Exception as e:
+            print e, '\n'
             pass
 
 

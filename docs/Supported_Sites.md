@@ -5,3 +5,4 @@
 * [GoManga](http://gomanga.co/)
 * [Batoto](http://bato.to/)
 * [Kissmanga](http://kissmanga.com/)
+* [Comic Naver](http://comic.naver.com/index.nhn)
