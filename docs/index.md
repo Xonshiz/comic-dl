@@ -13,7 +13,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Windows](#windows-)
     * [Mac OS X](#mac-os-x-)
 * [Installation](#installation)
- * [Python 3 Support](#python-3-support)
+* [Python 3 Support](#python-3-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
 * [Usage](#usage)
@@ -116,8 +116,12 @@ and then, execute with this :
 If you're using python 3, then you'd want to download the contents of the `comic_dl Python3` folder/directory. Everything in that folder has been written and updated to support python 3.
 
 ## Windows Binary
-It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. You can download the binary and start using the script right off the bat. Grab the respective binaries from the links below :
-* `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/tag/v2016.11.26)
+It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
+
+You need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+
+If you already have it, then you can download this binary and start using the script right off the bat :
+* `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/latest)
 
 
 ## List of Arguments
