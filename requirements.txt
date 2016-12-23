@@ -1,4 +1,5 @@
 more_itertools
 bs4
 requests
+cfscrape
 selenium
