@@ -6,5 +6,5 @@
 * [YoManga](http://yomanga.co/)
 * [GoManga](http://gomanga.co/)
 * [Batoto](http://bato.to/) [PhantomJS]
-* [Kissmanga](http://kissmanga.com/) [PhantomJS]
+* [Kissmanga](http://kissmanga.com/)
 * [Comic Naver](http://comic.naver.com/index.nhn)

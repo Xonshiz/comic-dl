@@ -6,65 +6,41 @@ import os
 import sys
 from bs4 import BeautifulSoup
 from downloader.universal import main as FileDownloader
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
+import cfscrape
 
 
-def create_driver():
+def single_chapter(url, current_directory):
 
-    desired_capabilities = DesiredCapabilities.PHANTOMJS.copy()
-    desired_capabilities['phantomjs.page.customHeaders.User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) ' \
-        'AppleWebKit/537.36 (KHTML, like Gecko) ' \
-        'Chrome/39.0.2171.95 Safari/537.36'
-    driver = webdriver.PhantomJS(
-        desired_capabilities=desired_capabilities,
-        service_args=['--load-images=no'])
-    return driver
+    scraper = cfscrape.create_scraper()
 
+    Page_Source = scraper.get(str(url)).content
 
-def single_chapter(driver, url, current_directory):
+    soup = BeautifulSoup(Page_Source, "html.parser")
+    meta = soup.findAll('title')
+    meta_data = list(str(meta).split('\\n'))
 
     try:
-        Series_Name = str(
-            re.search(
-                'Manga/(.*)/([Vol]|[Ch])',
-                url).group(1)).strip().replace(
-            '-',
-            ' ').title()  # Getting the Series Name from the url itself.
+        Series_Name = str(meta_data[2])
     except Exception as e:
         Series_Name = "Unkown Series"
 
     try:
-        # Getting the Volume Number from the url itself.
+        # Getting the Volume Number from the page source.
         volume_number = int(
-            str(re.search('Vol\-(.*)\-Ch', url).group(1)).strip())
+            str(re.search('Vol\.(.*)\ Ch', Page_Source).group(1)).strip())
     except Exception as e:
         volume_number = '0'
 
     try:
-        # Getting the Chapter Number from the url itself.
-        chapter_number = int(
-            str(re.search('Ch\-(.*)\-\-', url).group(1)).strip())
+        chapter_number = int(str(meta_data[3]))
 
     except Exception as e:
-        chapter_number = '0'
-
-    driver.get(url)
-    driver.refresh()
-
-    try:
-        element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "divImage"))
-        )
-
-    except Exception as e:
-        pass
-
-    elem = driver.find_element_by_xpath("//*")
-    Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
+        try:
+            # Getting the Volume Number from the page source.
+            chapter_number = int(
+                str(re.search('Ch\.(.*)\:', Page_Source).group(1)).strip())
+        except Exception as e:
+            chapter_number = '0'
 
     all_links = re.findall('lstImages.push\(\"(.*)\"\)\;', Page_Source)
 
@@ -106,24 +82,11 @@ def single_chapter(driver, url, current_directory):
     print "Completed downloading ", Series_Name, ' - ', chapter_number
 
 
-def whole_series(driver, url, current_directory):
+def whole_series(url, current_directory):
 
-    driver.get(url)
+    scraper = cfscrape.create_scraper()
 
-    try:
-        element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "leftside"))
-        )
-
-    except Exception as e:
-        driver.save_screenshot("error.png")
-        print "Couldn't load the element. I'll try to move ahead in any case."
-        print '\n'
-        print "I took a screenshot, please attach it in the issue you open in the repository."
-        pass
-
-    elem = driver.find_element_by_xpath("//*")
-    Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
+    Page_Source = scraper.get(str(url)).content
 
     link_list = []
 
@@ -147,7 +110,7 @@ def whole_series(driver, url, current_directory):
 
     for item in link_list:
         url = str(item)
-        single_chapter(driver, url, current_directory)
+        single_chapter(url, current_directory)
 
 
 def kissmanga_Url_Check(input_url, current_directory):
@@ -164,13 +127,7 @@ def kissmanga_Url_Check(input_url, current_directory):
             match = found.groupdict()
             if match['Chap_Name']:
                 url = str(input_url)
-                driver = create_driver()
-                try:
-                    single_chapter(driver, url, current_directory)
-                except Exception as e:
-                    print e
-                    driver.quit()
-                driver.quit()
+                single_chapter(url, current_directory)
             else:
                 pass
 
@@ -179,12 +136,6 @@ def kissmanga_Url_Check(input_url, current_directory):
             match = found.groupdict()
             if match['comic']:
                 url = str(input_url)
-                driver = create_driver()
-                try:
-                    whole_series(driver, url, current_directory)
-                except Exception as e:
-                    print e
-                    driver.quit()
-                driver.quit()
+                whole_series(url, current_directory)
             else:
                 pass

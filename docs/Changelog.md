@@ -8,3 +8,4 @@
 - Argument priority updated [2016.11.22]
 - Site support for comic.naver.com [2016.11.26]
 - Support for Python 3 [2016.11.26]
+- Removed Kissmanga PhantomJS dependency [2016.12.23]
