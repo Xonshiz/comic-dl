@@ -13,7 +13,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Windows](#windows-)
     * [Mac OS X](#mac-os-x-)
 * [Installation](#installation)
-* [Python 3 Support](#python-3-support)
+* [Python Support](#python-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
 * [Usage](#usage)
@@ -112,8 +112,8 @@ and then, execute with this :
 
 `./comic-dl.py`
 
-## Python 3 Support
-If you're using python 3, then you'd want to download the contents of the `comic_dl Python3` folder/directory. Everything in that folder has been written and updated to support python 3.
+## Python Support
+This script supports both, Python 3 and Python 2.
 
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
