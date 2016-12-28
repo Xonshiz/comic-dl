@@ -1,3 +1,4 @@
+[![N|Solid](https://raw.githubusercontent.com/Xonshiz/comic-dl/master/Images/Icon.png)](https://github.com/Xonshiz/comic-dl)
 # Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
