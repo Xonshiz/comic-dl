@@ -10,18 +10,22 @@ import cfscrape
 
 
 def single_chapter(url, current_directory):
-
+    
     scraper = cfscrape.create_scraper()
 
     Page_Source = scraper.get(str(url)).content
 
-    soup = BeautifulSoup(Page_Source, "html.parser")
-    meta = soup.findAll('title')
-    meta_data = list(str(meta).split('\\n'))
+    formatted = BeautifulSoup(Page_Source, "lxml")
+    
+    meta = formatted.findAll('title')
+    
+    meta_data = list(str(meta).split('\n'))
+    
 
     try:
         Series_Name = str(meta_data[2])
     except Exception as e:
+        print (e)
         Series_Name = "Unkown Series"
 
     try:
@@ -42,8 +46,8 @@ def single_chapter(url, current_directory):
         except Exception as e:
             chapter_number = '0'
 
-    all_links = re.findall('lstImages.push\(\"(.*)\"\)\;', Page_Source)
-
+    all_links = re.findall('lstImages.push\(\"(.*)\"\)\;', str(formatted))
+    
     if volume_number == '0':
         # Some series don't seem to have volumes mentioned. Let's assume
         # they're 0.
@@ -61,9 +65,9 @@ def single_chapter(url, current_directory):
 
     Directory_path = os.path.normpath(File_Directory)
 
-    print '\n'
-    print '{:^80}'.format('%s - %s') % (Series_Name, chapter_number)
-    print '{:^80}'.format('=====================================================================\n')
+    print ('\n')
+    print('{:^80}'.format('%s - %s') % (Series_Name, chapter_number))
+    print('{:^80}'.format('=====================================================================\n'))
 
     for elements in all_links:
         if not os.path.exists(File_Directory):
@@ -78,8 +82,8 @@ def single_chapter(url, current_directory):
                 'title\=(.*)\_(\d+)\.([png]|[jpg])', ddl_image).group(1)).strip() + "." + str(ddl_image[-3:])
         FileDownloader(File_Name_Final, Directory_path, ddl_image)
 
-    print '\n'
-    print "Completed downloading ", Series_Name, ' - ', chapter_number
+    print('\n')
+    print("Completed downloading ", Series_Name, ' - ', chapter_number)
 
 
 def whole_series(url, current_directory):
@@ -103,10 +107,10 @@ def whole_series(url, current_directory):
                 link_list.append(final_url)
 
     if int(len(link_list)) == '0':
-        print "Sorry, I couldn't bypass KissManga's Hooman check. Please try again in a few minutes."
+        print("Sorry, I couldn't bypass KissManga's Hooman check. Please try again in a few minutes.")
         sys.exit()
 
-    print "Total Chapters To Download : ", len(link_list)
+    print("Total Chapters To Download : ", len(link_list))
 
     for item in link_list:
         url = str(item)

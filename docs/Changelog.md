@@ -9,3 +9,5 @@
 - Site support for comic.naver.com [2016.11.26]
 - Support for Python 3 [2016.11.26]
 - Removed Kissmanga PhantomJS dependency [2016.12.23]
+- Support for Python 2 and 3 has been merged [2016.12.28]
+- Updated PhantomJS dependency in [supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md) [2016.12.28]

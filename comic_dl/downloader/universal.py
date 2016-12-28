@@ -9,31 +9,37 @@ Directory_path which is the directory path where you want to download the file,
 ddl_image is the direct link to the image itself.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
-import urllib2
 import urllib
 import shutil
-from urllib2 import URLError
+import urllib
+#from urllib import URLError
 import sys
 
-
-def main(File_Name_Final, Directory_path, ddl_image):
-    File_Check_Path = str(Directory_path) + '/' + str(File_Name_Final)
-
+def main(File_Name_Final,Directory_path,ddl_image):
+    File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
+            
     if os.path.isfile(File_Check_Path):
-        print '[Comic-dl] File Exist! Skipping ', File_Name_Final, '\n'
+        print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
         pass
 
-    if not os.path.isfile(File_Check_Path):
-        print '[Comic-dl] Downloading : ', File_Name_Final
-        urllib.urlretrieve(ddl_image, File_Name_Final)
+    if not os.path.isfile(File_Check_Path): 
+        print('[Comic-dl] Downloading : ',File_Name_Final)
+        urllib.request.URLopener.version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
+        urllib.request.urlretrieve(ddl_image, File_Name_Final)
+        #filename, headers = urllib.urlretrieve(ddl_image,File_Name_Final)
+        #print "File Name : ",filename
+        #print "Headers : ",headers
         File_Path = os.path.normpath(File_Name_Final)
         try:
-            shutil.move(File_Path, Directory_path)
+            shutil.move(File_Path,Directory_path)
         except Exception as e:
-            print e, '\n'
+            print(e,'\n')
             os.remove(File_Path)
             pass
+
 
 
 if __name__ == '__main__':

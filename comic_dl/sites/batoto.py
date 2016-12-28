@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 import os
 import sys
@@ -12,6 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from downloader.universal import main as FileDownloader
+from six.moves import range
 
 
 """Bato serves the chapters in 2 ways :
@@ -63,12 +66,12 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
 
     if str(User_Name) not in ["N"] or str(User_Password) not in ["N"]:
         if str(User_Name) in ["N"] or str(User_Password) in ["N"]:
-            print "Username or Password cannot be empty."
+            print("Username or Password cannot be empty.")
             sys.exit()
-        print "Authenticating Your Username and Password ..."
+        print("Authenticating Your Username and Password ...")
 
         batoto_login(driver, User_Name, User_Password)
-        print "Logged in successfully"
+        print("Logged in successfully")
     """Selenium was navigating to the new url, but the old page still had its resources loaded, which made selenium
     think that the page was already loaded. So, it started taking 'Stale Elements' and threw the same exception.
     So, refreshing the page seemed to do the job.
@@ -107,7 +110,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
 
         if access_check in [
                 "ERROR [10030]: The thing you're looking for is unavailable. It may be due to:"]:
-            print "You cannot access this page. You'll need to log in to download this page."
+            print("You cannot access this page. You'll need to log in to download this page.")
             driver.quit()
             sys.exit()
 
@@ -183,9 +186,9 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
 
     Directory_path = os.path.normpath(File_Directory)
 
-    print '\n'
-    print '{:^80}'.format('%s - %s') % (Series_Name, chapter_number)
-    print '{:^80}'.format('=====================================================================\n')
+    print('\n')
+    print('{:^80}'.format('%s - %s') % (Series_Name, chapter_number))
+    print('{:^80}'.format('=====================================================================\n'))
 
     if page_list:  # If batoto is serving 1 image per page, we'll be using this part.
         """We will be grabbing all the values in the drop down menu that has page numbers and take the very last value
@@ -224,8 +227,8 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
                 i).strip() + "." + str(re.search('\d\.(.*?)$', ddl_image).group(1)).strip()
             FileDownloader(File_Name_Final, Directory_path, ddl_image)
 
-        print '\n'
-        print "Completed downloading ", Series_Name, ' - ', chapter_number
+        print('\n')
+        print("Completed downloading ", Series_Name, ' - ', chapter_number)
         # driver.close()
 
     # If Batoto is serving all the images in one page, we'll follow this block.
@@ -253,8 +256,8 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
                         ddl_image).group(1)).strip()
                 FileDownloader(File_Name_Final, Directory_path, ddl_image)
 
-        print '\n'
-        print "Completed Downloading ", Series_Name, ' - ', chapter_number
+        print('\n')
+        print("Completed Downloading ", Series_Name, ' - ', chapter_number)
 
 
 def whole_series(driver, url, current_directory, User_Name, User_Password):
@@ -268,12 +271,12 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
 
     if str(User_Name) not in ["N"] or str(User_Password) not in ["N"]:
         if str(User_Name) in ["N"] or str(User_Password) in ["N"]:
-            print "Username or Password cannot be empty."
+            print("Username or Password cannot be empty.")
             sys.exit()
-        print "Authenticating Your Username and Password ..."
+        print("Authenticating Your Username and Password ...")
 
         batoto_login(driver, User_Name, User_Password)
-        print "Logged in successfully"
+        print("Logged in successfully")
 
         driver.get(url)
         """Let's wait till the 'content' element has been loaded. This element contains the list of all the
@@ -310,7 +313,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
 
                     link_list.append(ddl_image)
 
-        print "Total Chapters To Download : ", len(link_list)
+        print("Total Chapters To Download : ", len(link_list))
 
         for item in link_list:
             url = str(item)
@@ -349,8 +352,8 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
                 if "reader" in ddl_image:
                     link_list.append(ddl_image)
 
-        print "Total Chapters To Download : ", len(link_list)
-        # print link_list
+        print("Total Chapters To Download : ", len(link_list))
+        #print(link_list)
 
         for x in link_list:
             url = str(x)
@@ -388,7 +391,7 @@ def batoto_login(driver, User_Name, User_Password):
     """
 
     if str(LoggedIn_Title).strip() == str(LoggedOut_Title).strip():
-        print "Couldn't log you in. Please check your credentials."
+        print("Couldn't log you in. Please check your credentials.")
         driver.quit()
         sys.exit()
 
@@ -399,7 +402,7 @@ def batoto_Url_Check(input_url, current_directory, User_Name, User_Password):
         'https?://(?P<host>bato.to)/reader\#(?P<extra_characters>[\d\w-]+)?(\/|.)')
     batoto_whole_regex = re.compile(
         '^https?://(?P<host>bato.to)/comic/\_/comics/(?P<comic>[\d\w-]+)?(\/|.)$')
-
+    #print "Inside"
     lines = input_url.split('\n')
     for line in lines:
         found = re.search(batoto_single_regex, line)
@@ -423,6 +426,7 @@ def batoto_Url_Check(input_url, current_directory, User_Name, User_Password):
             match = found.groupdict()
             if match['comic']:
                 url = str(input_url)
+                
                 driver = create_driver()
                 whole_series(
                     driver,
