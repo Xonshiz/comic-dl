@@ -353,7 +353,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
                     link_list.append(ddl_image)
 
         print("Total Chapters To Download : ", len(link_list))
-        print(link_list)
+        #print(link_list)
 
         for x in link_list:
             url = str(x)

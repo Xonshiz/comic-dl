@@ -7,7 +7,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 
 ## Table of Content
 
-* [Supported Sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md)
+* [Supported Sites](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/)
 * [Dependencies Installation](#dependencies-installation)
     * [Linux/Debian](#linuxdebian-)
     * [Windows](#windows-)
@@ -20,15 +20,15 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
 * [Features](#features)
-* [Changelog](https://github.com/Xonshiz/comic-dl/blob/master/Changelog.md)
+* [Changelog](http://comic-dl.readthedocs.io/en/latest/Changelog/)
 * [Opening An Issue/Requesting A Site](#opening-an-issuerequesting-a-site)
     * [Reporting Issues](#reporting-issues)
     * [Suggesting A Feature](#suggesting-a-feature)
-* [Contributors](https://github.com/Xonshiz/comic-dl/blob/master/Contributors.md)
+* [Contributors](http://comic-dl.readthedocs.io/en/latest/Contributors/)
 * [Notes](#notes)
 
 ## Supported Websites
-You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+You can check the list of supported websites [**`HERE`**](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/).
 
 ## Dependencies Installation
 This script can run on multiple Operating Systems. So, if you're using the `python` script instead of the `windows binary` of this script, then you'll need to get things ready first. Follow the instructions mentioned below, according to your OS.
@@ -75,7 +75,7 @@ phantomjs --version
 ```
 
 ### Windows :
-If you're on windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
+If you're on windows, then it is recommended to download the [`windows binary`](http://comic-dl.readthedocs.io/en/latest/?badge=latest#windows-binary) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
 
 * Install Python > 2.7.6. Download the desired installer from [here](https://www.python.org/downloads/).
 * [Add it in the system path](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path) (if not already added).
@@ -118,7 +118,7 @@ If you're using python 3, then you'd want to download the contents of the `comic
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
 
-You need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+You need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/).
 
 If you already have it, then you can download this binary and start using the script right off the bat :
 * `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/latest)
@@ -138,7 +138,7 @@ Currently, the script supports these arguments :
 Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
 
 ## Usage
-With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](https://github.com/Xonshiz/comic-dl#list-of-arguments) to know more about which arguments the script offers.
+With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](http://comic-dl.readthedocs.io/en/latest/?badge=latest#list-of-arguments) to know more about which arguments the script offers.
 
 Follow the instructions according to your OS :
 
@@ -156,7 +156,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 `comic-dl.py -i <URL TO THE COMIC>`
 
-URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+URL can be any URL of the [supported websites](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/).
 
 ### Linux/Debian
 After you've saved this script in a directory/folder, you need to open `command prompt` and browse to that directory and then execute the script. Let's do it step by step :
@@ -166,7 +166,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 `comic-dl.py -i <URL TO THE COMIC>`
 
-URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+URL can be any URL of the [supported websites](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/).
 
 ## Features
 This is a very basic and small sript, so at the moment it only have a few features.
@@ -176,7 +176,7 @@ This is a very basic and small sript, so at the moment it only have a few featur
 * Show human readable error(s) in most places.
 
 ## Changelog
-You can check the changelog [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Changelog.md).
+You can check the changelog [**`HERE`**](http://comic-dl.readthedocs.io/en/latest/Changelog/).
 
 ## Opening An Issue/Requesting A Site
 If your're planning to open an issue for the script or ask for a new feature or anything that requires opening an Issue, then please do keep these things in mind.
