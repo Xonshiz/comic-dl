@@ -16,6 +16,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 * [Python Support](#python-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
+* [Youtube Tutorial](https://www.youtube.com/watch?v=TmQYhLHEZxA)
 * [Usage](#usage)
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
@@ -136,6 +137,9 @@ Currently, the script supports these arguments :
 ```
 #### Note :
 Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
+
+## Youtube Tutorial
+[![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)](https://www.youtube.com/watch?v=TmQYhLHEZxA)
 
 ## Usage
 With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](http://comic-dl.readthedocs.io/en/latest/?badge=latest#list-of-arguments) to know more about which arguments the script offers.
