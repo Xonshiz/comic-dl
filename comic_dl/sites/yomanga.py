@@ -25,7 +25,6 @@ def single_chapter(url,current_directory):
     s = requests.Session()
     response = s.get(url, headers=headers)
     tasty_cookies = response.cookies
-    # print(tasty_cookies)
     
     Page_source = str(response.text.encode('utf-8'))
     
