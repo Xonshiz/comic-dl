@@ -28,24 +28,24 @@ from urllib.parse import urlparse
 
 
 def url_checker(input_url, current_directory, User_Name, User_Password):
-    
+
     domain = urlparse(input_url).netloc
 
     if domain in ['mangafox.me']:
         mangafox_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['yomanga.co']:
         yomanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['gomanga.co']:
         gomanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['bato.to']:
         batoto_Url_Check(input_url, current_directory, User_Name, User_Password)
-        
+
     elif domain in ['kissmanga.com']:
         kissmanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['comic.naver.com']:
         comic_naver_Url_Check(input_url, current_directory)
 
