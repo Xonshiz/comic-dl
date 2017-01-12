@@ -14,3 +14,4 @@
 - Added Icon (Logo) [2016.12.28]
 - Added a YouTube Tutorial for the script [2016.12.30]
 - Site support for readcomiconlin.to [2017.01.02]
+- Site support for kisscomic.us [2017.01.12]
