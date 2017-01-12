@@ -59,7 +59,22 @@ def single_chapter(url, directory):
     print("Completed downloading %s" % Series_Name)
 
 def whole_series(url, directory):
-    print("I'm NOT single!")
+
+    scraper = cfscrape.create_scraper()
+    connection = scraper.get(url).content
+
+    soup = BeautifulSoup(connection, "html.parser")
+    all_links = soup.findAll('div', {'class': 'list-chapter mCustomScrollbar'})
+
+    for link in all_links:
+        x = link.findAll('a')
+        for a in x:
+            # print(a['href'])
+            url = "http://kisscomic.us" + a['href']
+            single_chapter(url, directory)
+    print("Finished Downloading")
+
+
 
 def kissmcomicus_Url_Check(input_url, current_directory):
     kissmcomicus_single_regex = re.compile('https?://(?P<host>[^/]+)/chapters/(?P<comic>[\d\w-]+)(?:/Issue-)?')
