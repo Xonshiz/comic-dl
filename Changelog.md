@@ -13,4 +13,5 @@
 - Updated PhantomJS dependency in [supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md) [2016.12.28]
 - Added Icon (Logo) [2016.12.28]
 - Added a YouTube Tutorial for the script [2016.12.30]
-- Site support for readcomiconlin.to [2017.01.02]
+- Site support for readcomiconline.to [2017.01.02]
+- Site support for kisscomic.us [2017.01.12]
