@@ -20,6 +20,7 @@ from sites.batoto import batoto_Url_Check
 from sites.kissmanga import kissmanga_Url_Check
 from sites.comic_naver import comic_naver_Url_Check
 from sites.readcomic import readcomic_Url_Check
+from sites.kisscomicus import kissmcomicus_Url_Check
 from downloader import universal,cookies_required
 from urllib.parse import urlparse
 
@@ -27,28 +28,32 @@ from urllib.parse import urlparse
 
 
 def url_checker(input_url, current_directory, User_Name, User_Password):
-    
+
     domain = urlparse(input_url).netloc
 
     if domain in ['mangafox.me']:
         mangafox_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['yomanga.co']:
         yomanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['gomanga.co']:
         gomanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['bato.to']:
         batoto_Url_Check(input_url, current_directory, User_Name, User_Password)
-        
+
     elif domain in ['kissmanga.com']:
         kissmanga_Url_Check(input_url, current_directory)
-        
+
     elif domain in ['comic.naver.com']:
         comic_naver_Url_Check(input_url, current_directory)
+
     elif domain in ['readcomiconline.to']:
         readcomic_Url_Check(input_url, current_directory)
+
+    elif domain in ['kisscomic.us']:
+        kissmcomicus_Url_Check(input_url, current_directory)
         
     elif domain in ['']:
         print('You need to specify at least 1 URL. Please run : comic-dl -h')
