@@ -14,4 +14,5 @@
 - Added Icon (Logo) [2016.12.28]
 - Added a YouTube Tutorial for the script [2016.12.30]
 - Site support for readcomiconlin.to [2017.01.02]
-- Added `Verbose Logging` [2017.01.21]
+- Added `Verbose Logging` [2017.01.22]
+- Fixed chapter count error in Kissmanga [2017.01.22]

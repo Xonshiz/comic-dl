@@ -39,17 +39,16 @@ def single_chapter(url, current_directory, logger):
         volume_number = '0'
 
     try:
-        chapter_number = int(str(meta_data[3]))
+        chapter_number = str(meta_data[3])
 
     except Exception as e:
         logging.debug("Error in Chapter Number : %s\nTrying Something else." % e)
         try:
             # Getting the Volume Number from the page source.
-            chapter_number = int(
-                str(re.search('Ch\.(.*)\:', Page_Source).group(1)).strip())
+            chapter_number = str(re.search('Ch\.(.*)\:', str(Page_Source)).group(1)).strip()
         except Exception as e:
             logging.debug("Error in Chapter Number : %s" % e)
-            chapter_number = '0'
+            chapter_number = str('0')
 
     all_links = re.findall('lstImages.push\(\"(.*)\"\)\;', str(formatted))
     logging.debug("Image Links : %s" % all_links)
