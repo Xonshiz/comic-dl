@@ -135,6 +135,7 @@ Currently, the script supports these arguments :
 -a,--about                             Prints ABOUT and USAGE of the script and exits.
 -u,--username                          Indicates username for a website.
 -p,--password                          Indicates password for a website.
+-v,--verbose                           Enables Verbose logging.
 ```
 #### Note :
 Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.

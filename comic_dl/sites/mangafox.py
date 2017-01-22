@@ -16,6 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from downloader.universal import main as FileDownloader
 from six.moves import range
+import logging
 
 
 def create_driver():
@@ -27,22 +28,25 @@ def create_driver():
     driver = webdriver.PhantomJS(desired_capabilities=desired_capabilities,service_args=['--load-images=no'])
     return driver
 
-def single_chapter(driver,url,current_directory):
+def single_chapter(driver,url,current_directory, logger):
     
     try:
         Series_Name = str(re.search('manga\/(.*?)/v', url).group(1)).strip().replace('_',' ').title() # Getting the Series Name from the URL itself for naming the folder/dicrectories.
     except Exception as e:
+        logging.debug("Error in Series Name : %s\nTrying something else." % e)
         Series_Name = str(re.search('manga\/(.*?)/c', url).group(1)).strip().replace('_',' ').title() # Getting the Series Name from the URL itself for naming the folder/dicrectories.
     
     try:
         volume_number = "Volume " + str(re.search('v(.*?)/c', url).group(1)).strip() # Getting the volume count from the URL itself for naming the folder/dicrectories.
     except Exception as e:
+        logging.debug("Error in Volume Number : %s" % e)
         volume_number = "Volume 01"
     
     try:
         chapter_number = int(str(re.search('\/c(.*?)/\d', url).group(1)).strip()) # Getting the chapter count from the URL itself for naming the folder/dicrectories in integer.
     except Exception as e:
-        chapter_number = float(str(re.search('\/c(.*?)/\d', url).group(1)).strip()) # Getting the chapter count from the URL itself for naming the folder/dicrectories in float.
+        logging.debug("Error in Chapter Number : %s\nTrying something else." % e)
+        chapter_number = 0 # Getting the chapter count from the URL itself for naming the folder/dicrectories in float.
     
     if volume_number == '0':
         Raw_File_Directory = str(Series_Name)+'/'+"Chapter "+str(chapter_number) # Some series don't seem to have volumes mentioned. Let's assume they're 0.
@@ -61,6 +65,7 @@ def single_chapter(driver,url,current_directory):
         )
                 
     except Exception as e:
+        logging.debug("Error in loading the webpage : %s\nScreenshot saved." % e)
         driver.save_screenshot("error.png")
         print("Couldn't load the element. I'll try to move ahead in any case.")
         print('\n')
@@ -88,15 +93,17 @@ def single_chapter(driver,url,current_directory):
         driver.refresh()
         File_Name_Final = str(x)+'.jpg'
         link_container = driver.find_element_by_xpath('//*[@id="image"]')
+        logging.debug("Link Container : %s" % link_container)
         ddl_image = str(link_container.get_attribute('src'))
-        FileDownloader(File_Name_Final,Directory_path,ddl_image)
+        logging.debug("Image Link : %s" % ddl_image)
+        FileDownloader(File_Name_Final,Directory_path,ddl_image, logger)
         driver.find_element_by_xpath('//*[@id="top_bar"]/div/a[2]').click()
         
     print('\n')
     print("Completed downloading ",Series_Name,' - ',chapter_number)
 
 
-def whole_series(url,current_directory):
+def whole_series(url,current_directory, logger):
     
     if not url:
         print("Couldn't get the URL. Please report it on Github Repository.")
@@ -134,13 +141,15 @@ def whole_series(url,current_directory):
         chapter_link = str(str(chapter_link_format)+str(x)+"html").strip()
         
         try:
-            single_chapter(driver,chapter_link,current_directory)
+            single_chapter(driver,chapter_link,current_directory, logger)
         except Exception as e:
             print(e)
             driver.quit()
     driver.quit()
 
-def mangafox_Url_Check(input_url,current_directory):
+def mangafox_Url_Check(input_url,current_directory, logger):
+    if logger == "True":
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
     
     mangafox_single_regex = re.compile('https?://(?P<host>mangafox.me)/manga/(?P<comic>[\d\w-]+)(?P<Volume>(/v\d+)|(.))/(?P<chapter>c\d+(\.\d)?)?/(?P<issue>\d+)?\.html')
     mangafox_whole_regex = re.compile('^https?://(?P<host>mangafox.me)/manga/(?P<comic_series>[\d\w-]+)?|(\/)$')
@@ -154,7 +163,7 @@ def mangafox_Url_Check(input_url,current_directory):
                 url = str(input_url)
                 driver = create_driver()
                 try:
-                    single_chapter(driver,url,current_directory)
+                    single_chapter(driver,url,current_directory, logger)
                 except Exception as e:
                     print(e)
                     driver.quit()
@@ -172,7 +181,7 @@ def mangafox_Url_Check(input_url,current_directory):
                 url = str(input_url)
                 #driver = create_driver()
                 try:
-                    whole_series(url,current_directory)
+                    whole_series(url,current_directory, logger)
                 except Exception as e:
                     print(e)
                 sys.exit()

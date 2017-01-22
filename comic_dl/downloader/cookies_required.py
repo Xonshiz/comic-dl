@@ -17,9 +17,13 @@ import os
 import requests
 import shutil
 from downloader.universal import main as FileDownloader
+import logging
 
-def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image):
+def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image, logger):
+    if logger == "True":
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
     File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
+    logging.debug("File Check Path : %s" % File_Check_Path)
 
     if os.path.isfile(File_Check_Path):
         print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
@@ -34,6 +38,7 @@ def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image):
                 shutil.copyfileobj(response.raw, out_file)
             File_Path = os.path.normpath(File_Name_Final)
         except Exception as e:
+            logging.debug("File download error : %s" % e)
             print("Couldn't download file from : ",ddl_image)
             pass
         try:
@@ -43,8 +48,10 @@ def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image):
             pass
 
 
-def with_referer(File_Name_Final,Directory_path,tasty_cookies,ddl_image,referer):
+def with_referer(File_Name_Final,Directory_path,tasty_cookies,ddl_image,referer, logger):
     File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
+    logging.debug("File Check Path : %s" % File_Check_Path)
+    logging.debug("Referrer Received : %s" % referer)
 
     if os.path.isfile(File_Check_Path):
         print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
@@ -59,6 +66,7 @@ def with_referer(File_Name_Final,Directory_path,tasty_cookies,ddl_image,referer)
                 shutil.copyfileobj(response.raw, out_file)
             File_Path = os.path.normpath(File_Name_Final)
         except Exception as e:
+            logging.debug("File download error : %s" % e)
             print("Couldn't download file from : ",ddl_image)
             pass
         try:

@@ -7,9 +7,10 @@ import sys
 from bs4 import BeautifulSoup
 from downloader.universal import main as FileDownloader
 import cfscrape
+import logging
 
 
-def single_chapter(url, current_directory):
+def single_chapter(url, current_directory, logger):
     
     scraper = cfscrape.create_scraper()
 
@@ -25,7 +26,8 @@ def single_chapter(url, current_directory):
     try:
         Series_Name = str(meta_data[2])
     except Exception as e:
-        print (e)
+        # print (e)
+        logging.debug("Error in Series Name : %s" % e)
         Series_Name = "Unkown Series"
 
     try:
@@ -33,20 +35,24 @@ def single_chapter(url, current_directory):
         volume_number = int(
             str(re.search('Vol\.(.*)\ Ch', Page_Source).group(1)).strip())
     except Exception as e:
+        logging.debug("Error in Volume Number : %s" % e)
         volume_number = '0'
 
     try:
         chapter_number = int(str(meta_data[3]))
 
     except Exception as e:
+        logging.debug("Error in Chapter Number : %s\nTrying Something else." % e)
         try:
             # Getting the Volume Number from the page source.
             chapter_number = int(
                 str(re.search('Ch\.(.*)\:', Page_Source).group(1)).strip())
         except Exception as e:
+            logging.debug("Error in Chapter Number : %s" % e)
             chapter_number = '0'
 
     all_links = re.findall('lstImages.push\(\"(.*)\"\)\;', str(formatted))
+    logging.debug("Image Links : %s" % all_links)
     
     if volume_number == '0':
         # Some series don't seem to have volumes mentioned. Let's assume
@@ -54,6 +60,7 @@ def single_chapter(url, current_directory):
         Raw_File_Directory = str(Series_Name) + '/' + \
             "Chapter " + str(chapter_number)
     else:
+        logging.debug("Found the Volume. Making a directory.")
         Raw_File_Directory = str(Series_Name) + '/' + "Volume " + \
             str(volume_number) + '/' + "Chapter " + str(chapter_number)
 
@@ -78,15 +85,16 @@ def single_chapter(url, current_directory):
             File_Name_Final = str(re.search(
                 's0/(.*)\.([png]|[jpg])', ddl_image).group(1)).strip() + "." + str(ddl_image[-3:])
         except Exception as e:
+            logging.debug("Error in File Name : %s" % e)
             File_Name_Final = str(re.search(
                 'title\=(.*)\_(\d+)\.([png]|[jpg])', ddl_image).group(1)).strip() + "." + str(ddl_image[-3:])
-        FileDownloader(File_Name_Final, Directory_path, ddl_image)
+        FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
 
     print('\n')
     print("Completed downloading ", Series_Name, ' - ', chapter_number)
 
 
-def whole_series(url, current_directory):
+def whole_series(url, current_directory, logger):
 
     scraper = cfscrape.create_scraper()
 
@@ -96,6 +104,7 @@ def whole_series(url, current_directory):
 
     soup = BeautifulSoup(Page_Source, "html.parser")
     all_links = soup.findAll('table', {'class': 'listing'})
+    logging.debug("Chapter Links : %s" % all_links)
 
     for link in all_links:
         x = link.findAll('a')
@@ -105,6 +114,7 @@ def whole_series(url, current_directory):
             if "Manga" in ddl_image:
                 final_url = "http://kissmanga.com" + ddl_image
                 link_list.append(final_url)
+                logging.debug("%s added in the bag!" % final_url)
 
     if int(len(link_list)) == '0':
         print("Sorry, I couldn't bypass KissManga's Hooman check. Please try again in a few minutes.")
@@ -114,10 +124,13 @@ def whole_series(url, current_directory):
 
     for item in link_list:
         url = str(item)
-        single_chapter(url, current_directory)
+        logging.debug("Chapter Links : %s" % url)
+        single_chapter(url, current_directory, logger)
 
 
-def kissmanga_Url_Check(input_url, current_directory):
+def kissmanga_Url_Check(input_url, current_directory, logger):
+    if logger == "True":
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
 
     kissmanga_single_regex = re.compile(
         'https?://(?P<host>kissmanga.com)/Manga/(?P<Series_Name>[\d\w-]+)?/((?P<Volume>[Vol\-\d]+)|(.*)(?P<Chapter>[Ch\-\d]+))\-(?P<Chap_Name>[\d\w-]+)\?(?P<id>[\=\d\w-]+)')
@@ -131,7 +144,7 @@ def kissmanga_Url_Check(input_url, current_directory):
             match = found.groupdict()
             if match['Chap_Name']:
                 url = str(input_url)
-                single_chapter(url, current_directory)
+                single_chapter(url, current_directory, logger)
             else:
                 pass
 
@@ -140,6 +153,6 @@ def kissmanga_Url_Check(input_url, current_directory):
             match = found.groupdict()
             if match['comic']:
                 url = str(input_url)
-                whole_series(url, current_directory)
+                whole_series(url, current_directory, logger)
             else:
                 pass

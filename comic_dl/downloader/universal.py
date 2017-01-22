@@ -12,14 +12,18 @@ ddl_image is the direct link to the image itself.
 from __future__ import absolute_import
 from __future__ import print_function
 import os
-import urllib
+# import urllib
 import shutil
 import urllib
 #from urllib import URLError
-import sys
+# import sys
+import logging
 
-def main(File_Name_Final,Directory_path,ddl_image):
+def main(File_Name_Final,Directory_path,ddl_image, logger):
+    if logger == "True":
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
     File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
+    logging.debug("File Check Path : %s" % File_Check_Path)
             
     if os.path.isfile(File_Check_Path):
         print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
@@ -28,7 +32,10 @@ def main(File_Name_Final,Directory_path,ddl_image):
     if not os.path.isfile(File_Check_Path): 
         print('[Comic-dl] Downloading : ',File_Name_Final)
         urllib.request.URLopener.version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
-        urllib.request.urlretrieve(ddl_image, File_Name_Final)
+        try:
+            urllib.request.urlretrieve(ddl_image, File_Name_Final)
+        except Exception as e:
+            logging.debug("Error in retrieving image : %s" % e)
         #filename, headers = urllib.urlretrieve(ddl_image,File_Name_Final)
         #print "File Name : ",filename
         #print "Headers : ",headers

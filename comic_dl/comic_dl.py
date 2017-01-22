@@ -6,7 +6,9 @@ from __future__ import print_function
 import os
 import sys
 import argparse
+import platform
 from honcho import url_checker
+import logging
 from version import __version__
 
 def version():
@@ -33,6 +35,7 @@ def usage():
     print('{:^80}'.format("-i,--input : Specifies the Input URL"))
     print('{:^80}'.format("-h : Prints this help menu"))
     print('{:^80}'.format("--version : Prints the current version and exits"))
+    print('{:^80}'.format("-v, --verbose : Prints important debugging messages on screen."))
     print('{:^80}'.format("-a,--about : Shows the info about this script and exits."))
     print('{:^80}'.format("-u,--username : Indicates username for a website."))
     print('{:^80}'.format("-p,--password : Indicates password for a website."))
@@ -46,9 +49,18 @@ def main(argv):
     parser.add_argument('-i','--input',nargs=1,help='Inputs the URL to comic')
     parser.add_argument('-p','--password',nargs=1,help='Indicates password for a website',default='None')
     parser.add_argument('-u','--username',nargs=1,help='Indicates username for a website',default='None')
+    parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.", action="store_true")
     
-
+    logger = "False"
     args = parser.parse_args()
+    if args.verbose:
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
+        logging.debug('You have successfully set the Debugging On.')
+        logging.debug("Arguments Provided : %s" % (args))
+        logging.debug("Operating System : %s - %s - %s" % (platform.system(), platform.release(), platform.version()))
+        logging.debug("Python Version : %s (%s)" % (platform.python_version(), platform.architecture()[0]))
+        logger = "True"
+
 
     if args.version:
         version()
@@ -61,7 +73,7 @@ def main(argv):
         input_url = str(args.input[0]).strip()
         User_Password = str(args.password[0].strip())
         User_Name = str(args.username[0].strip())
-        url_checker(input_url,current_directory,User_Name,User_Password)
+        url_checker(input_url, current_directory, User_Name, User_Password, logger=logger)
         sys.exit()
 
 if __name__ == "__main__":

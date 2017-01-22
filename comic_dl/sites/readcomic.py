@@ -11,9 +11,12 @@ import sys
 import cfscrape
 import os
 from bs4 import BeautifulSoup
+import logging
 
 
-def readcomic_Url_Check(input_url, current_directory):
+def readcomic_Url_Check(input_url, current_directory, logger):
+    if logger == "True":
+        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
 
     Issue_Regex = re.compile('https?://(?P<host>[^/]+)/Comic/(?P<comic>[\d\w-]+)(?:/Issue-)?(?P<issue>\d+)?')
     Annual_Regex = re.compile('https?://(?P<host>[^/]+)/Comic/(?P<comic>[\d\w-]+)(?:/Annual-)?(?P<issue>\d+)?')
@@ -25,11 +28,11 @@ def readcomic_Url_Check(input_url, current_directory):
             if match['issue']:
                 Edited_Url = str(input_url) + '?&readType=1'
                 url = str(Edited_Url)
-                Single_Issue(url, current_directory)
+                Single_Issue(url, current_directory, logger)
 
             else:
                 url = str(input_url)
-                Whole_Series(url, current_directory)
+                Whole_Series(url, current_directory, logger)
 
         found = re.search(Annual_Regex, line)
         if found:
@@ -38,7 +41,7 @@ def readcomic_Url_Check(input_url, current_directory):
             if match['issue']:
                 Edited_Url = str(input_url) + '?&readType=1'
                 url = str(Edited_Url)
-                Single_Issue(url, current_directory)
+                Single_Issue(url, current_directory, logger)
             else:
                 print()
                 'Uh, please check the link'
@@ -48,7 +51,7 @@ def readcomic_Url_Check(input_url, current_directory):
             'Please Check Your URL one again!'
             sys.exit()
 
-def Single_Issue(url, current_directory):
+def Single_Issue(url, current_directory, logger):
 
     scraper = cfscrape.create_scraper()
     connection = scraper.get(url).content
@@ -59,6 +62,7 @@ def Single_Issue(url, current_directory):
     Issue_Or_Annual_Split = str(Issue_Number_Splitter).split("?")
     Issue_Or_Annual = str(Issue_Or_Annual_Split[0]).replace("-", " ").strip()
     reg = re.findall(r'[(\d)]+', Issue_Number_Splitter)
+
     Issue_Number = str(reg[0])
 
     Raw_File_Directory = str(Series_Name) + '/' + "Chapter " + str(Issue_Or_Annual)
@@ -74,24 +78,31 @@ def Single_Issue(url, current_directory):
     print('{:^80}'.format('=====================================================================\n'))
 
     linksList = re.findall('lstImages.push\(\"(.*?)\"\)\;', str(connection))
+    logging.debug("Image Links : %s" % linksList)
 
     for link in linksList:
         if not os.path.exists(File_Directory):
             os.makedirs(File_Directory)
         fileName = str(linksList.index(link)) + ".jpg"
-        FileDownloader(fileName, Directory_path, link)
+        # logging.debug("Name of File : %s" % fileName)
+        FileDownloader(fileName, Directory_path, link, logger)
 
-def Whole_Series(url, current_directory):
+def Whole_Series(url, current_directory, logger):
 
     scraper = cfscrape.create_scraper()
     connection = scraper.get(url).content
 
     soup = BeautifulSoup(connection, "html.parser")
+    # logging.debug("Soup : %s" % soup)
     all_links = soup.findAll('table', {'class': 'listing'})
+    # logging.debug("Issue Links : %s" % all_links)
 
     for link in all_links:
+        # logging.debug("link : %s" % link)
         x = link.findAll('a')
+        logging.debug("Actual Link : %s" % x)
         for a in x:
             url = "http://readcomiconline.to" + a['href']
-            Single_Issue(url, current_directory=current_directory)
+            logging.debug("Final URL : %s" % url)
+            Single_Issue(url, current_directory=current_directory, logger=logger)
     print("Finished Downloading")

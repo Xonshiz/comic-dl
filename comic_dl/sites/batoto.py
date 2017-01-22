@@ -15,6 +15,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from downloader.universal import main as FileDownloader
 from six.moves import range
+import logging
 
 
 """Bato serves the chapters in 2 ways :
@@ -56,7 +57,7 @@ def create_driver():
     return driver
 
 
-def single_chapter(driver, url, current_directory, User_Name, User_Password):
+def single_chapter(driver, url, current_directory, User_Name, User_Password, logger):
     """This little block checks whether the user has provided the arguments for password or username.
     If the user has provided something, then check that both UserName and Password has been provided.
     Filling either of them won't work. If the user has provided both, the username and password, send
@@ -70,7 +71,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
             sys.exit()
         print("Authenticating Your Username and Password ...")
 
-        batoto_login(driver, User_Name, User_Password)
+        batoto_login(driver, User_Name, User_Password, logger)
         print("Logged in successfully")
     """Selenium was navigating to the new url, but the old page still had its resources loaded, which made selenium
     think that the page was already loaded. So, it started taking 'Stale Elements' and threw the same exception.
@@ -91,8 +92,10 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
         )
 
     except Exception as e:
+        logging.debug("Error in loading page : %s\nTrying to move on." % e)
         pass
     page_title = str(driver.title)
+    logging.debug("Page Title : %s" % page_title)
 
     """Batoto doesn't provide shit in the source code of the web page. Hence, we'll be using the outer HTML
     to scrap all the info we need.
@@ -118,6 +121,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
             pass
 
     except Exception as e:
+        logging.debug("Error in access check : %s" % e)
         pass
 
     try:
@@ -130,6 +134,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
             '_',
             ' ').title()
     except Exception as e:
+        logging.debug("Error in Series Name : %s" % e)
         Series_Name = "Unkown Series"
 
     try:
@@ -138,6 +143,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
         volume_number = int(
             str(re.search('vol (\d+)', page_title).group(1)).strip())
     except Exception as e:
+        logging.debug("Error in Volume Number : %s" % e)
         volume_number = '0'
 
     try:
@@ -146,6 +152,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
         chapter_number = int(
             str(re.search('ch (\d+)', page_title).group(1)).strip())
     except Exception as e:
+        logging.debug("Error in Chapter Number : %s" % e)
         chapter_number = '0'
 
     try:
@@ -154,6 +161,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
             '//*[@id="reader"]/div[1]/ul/li[3]/select').text).replace("/", " ").strip()
 
     except Exception as e:
+        logging.debug("Error in Group Name : %s\nMoving forward..." % e)
         # Some entries on batoto don't have a name. So, if we get to any such
         # occassion, let's be prepared.
         Group_Name_Finder = str('No Group')
@@ -164,6 +172,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
         page_list = driver.find_element_by_id('page_select')
 
     except Exception as e:
+        logging.debug("Error in Page Select : %s" % e)
 
         # If we cannot find the 'page_select' element, it means that this
         # chapter is showing all the images in one page.
@@ -199,16 +208,20 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
         Look at the last number for the image. Manipulate that and we have what we need.
         """
         items_list = page_list.find_elements_by_tag_name("option")
+        logging.debug("Items List : %s" % items_list)
 
         for item in items_list:
             list_of_pages = item.text
+        logging.debug("List of Pages : %s" % list_of_pages)
 
         lst_pag = str(list_of_pages)
 
         Last_Page_number = int(
             str(re.search('(\d+)', lst_pag).group(1)).strip())
+        logging.debug("Last Page Number : %s" % Last_Page_number)
 
         img_link = driver.find_element_by_id('comic_page').get_attribute('src')
+        logging.debug("Image Link : %s" % img_link)
 
         for i in range(1, Last_Page_number + 1):
             if not os.path.exists(File_Directory):
@@ -225,7 +238,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
 
             File_Name_Final = str(
                 i).strip() + "." + str(re.search('\d\.(.*?)$', ddl_image).group(1)).strip()
-            FileDownloader(File_Name_Final, Directory_path, ddl_image)
+            FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
 
         print('\n')
         print("Completed downloading ", Series_Name, ' - ', chapter_number)
@@ -246,6 +259,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
             x = link.findAll('img')
             for a in x:
                 ddl_image = a['src']
+                logging.debug("Image Download Link : %s" % ddl_image)
 
                 File_Name_Final = str(
                     re.search(
@@ -254,13 +268,13 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password):
                     re.search(
                         '\d\.(.*?)$',
                         ddl_image).group(1)).strip()
-                FileDownloader(File_Name_Final, Directory_path, ddl_image)
+                FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
 
         print('\n')
         print("Completed Downloading ", Series_Name, ' - ', chapter_number)
 
 
-def whole_series(driver, url, current_directory, User_Name, User_Password):
+def whole_series(driver, url, current_directory, User_Name, User_Password, logger):
     # print "Whole Series : ",url
     """This little block checks whether the user has provided the arguments for password or username.
     If the user has provided something, then check that both UserName and Password has been provided.
@@ -275,7 +289,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
             sys.exit()
         print("Authenticating Your Username and Password ...")
 
-        batoto_login(driver, User_Name, User_Password)
+        batoto_login(driver, User_Name, User_Password, logger)
         print("Logged in successfully")
 
         driver.get(url)
@@ -291,6 +305,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
             )
 
         except Exception as e:
+            logging.debug("Error in loading the page : %s\nMoving ahead..." % e)
             pass
         elem = driver.find_element_by_xpath("//*")
         Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
@@ -304,11 +319,13 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
         soup = BeautifulSoup(Page_Source, "html.parser")
         all_links = soup.findAll(
             'tr', {'class': 'row lang_English chapter_row'})
+        logging.debug("Image Links : %s" % all_links)
 
         for link in all_links:
             x = link.findAll('a')
             for a in x:
                 ddl_image = a['href']
+                logging.debug("Second Image Link : %s" % ddl_image)
                 if "reader" in ddl_image:
 
                     link_list.append(ddl_image)
@@ -324,7 +341,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
                 url,
                 current_directory,
                 User_Name,
-                User_Password)
+                User_Password, logger)
 
     else:
         # If the user hasn't supplied any logging information, we'll do this.
@@ -335,6 +352,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
             )
 
         except Exception as e:
+            logging.debug("Error in loading the page : %s\nMoving ahead." % e)
             pass
         elem = driver.find_element_by_xpath("//*")
         Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
@@ -351,6 +369,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
                 ddl_image = a['href']
                 if "reader" in ddl_image:
                     link_list.append(ddl_image)
+                    logging.debug("%s added in the bag!" % ddl_image)
 
         print("Total Chapters To Download : ", len(link_list))
         #print(link_list)
@@ -364,10 +383,10 @@ def whole_series(driver, url, current_directory, User_Name, User_Password):
                 url,
                 current_directory,
                 User_Name,
-                User_Password)
+                User_Password, logger)
 
 
-def batoto_login(driver, User_Name, User_Password):
+def batoto_login(driver, User_Name, User_Password, logger):
 
     driver.get(
         "https://bato.to/forums/index.php?app=core&module=global&section=login")
@@ -377,14 +396,17 @@ def batoto_login(driver, User_Name, User_Password):
         )
 
     except Exception as e:
+        logging.debug("Error in loading page : %s\nSaving screenshot and moving..." % e)
         # driver.save_screenshot('Single_exception.png')
         pass
     LoggedOut_Title = driver.title
+    logging.debug("Logged out Title : %s" % LoggedOut_Title)
     driver.find_element_by_id('ips_username').send_keys(User_Name)
     driver.find_element_by_id('ips_password').send_keys(User_Password)
 
     driver.find_element_by_xpath('//*[@id="login"]/fieldset[2]/input').click()
     LoggedIn_Title = driver.title
+    logging.debug("Logged In Title : %s" % LoggedIn_Title)
 
     """A little check to see whether we've logged in or not. Comparing the titles of the before and after logging
     pages.
@@ -396,7 +418,9 @@ def batoto_login(driver, User_Name, User_Password):
         sys.exit()
 
 
-def batoto_Url_Check(input_url, current_directory, User_Name, User_Password):
+def batoto_Url_Check(input_url, current_directory, User_Name, User_Password, logger):
+    if logger == "True":
+        logging.basicConfig(format='[Comic-dl]%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
 
     batoto_single_regex = re.compile(
         'https?://(?P<host>bato.to)/reader\#(?P<extra_characters>[\d\w-]+)?(\/|.)')
@@ -416,7 +440,7 @@ def batoto_Url_Check(input_url, current_directory, User_Name, User_Password):
                     url,
                     current_directory,
                     User_Name,
-                    User_Password)
+                    User_Password, logger)
                 driver.quit()
             else:
                 pass
@@ -433,7 +457,7 @@ def batoto_Url_Check(input_url, current_directory, User_Name, User_Password):
                     url,
                     current_directory,
                     User_Name,
-                    User_Password)
+                    User_Password, logger)
                 driver.quit()
             else:
                 pass
