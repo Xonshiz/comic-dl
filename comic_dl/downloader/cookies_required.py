@@ -13,36 +13,36 @@ This module uses `requests` library to achieve the handling of cookies.
 
 from __future__ import absolute_import
 from __future__ import print_function
-import os
-import requests
-import shutil
+from os import path
+from requests import get
+from shutil import move,copyfileobj
 from downloader.universal import main as FileDownloader
-import logging
+from logging import debug, basicConfig, DEBUG
 
 def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image, logger):
     if logger == "True":
-        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
+        basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
     File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
-    logging.debug("File Check Path : %s" % File_Check_Path)
+    debug("File Check Path : %s" % File_Check_Path)
 
-    if os.path.isfile(File_Check_Path):
+    if path.isfile(File_Check_Path):
         print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
         pass
 
-    if not os.path.isfile(File_Check_Path): 
+    if not path.isfile(File_Check_Path): 
         print('[Comic-dl] Downloading : ',File_Name_Final)
     
-        response = requests.get(ddl_image, stream=True,cookies=tasty_cookies)
+        response = get(ddl_image, stream=True,cookies=tasty_cookies)
         try:
             with open(File_Name_Final, 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
-            File_Path = os.path.normpath(File_Name_Final)
+                copyfileobj(response.raw, out_file)
+            File_Path = path.normpath(File_Name_Final)
         except Exception as e:
-            logging.debug("File download error : %s" % e)
+            debug("File download error : %s" % e)
             print("Couldn't download file from : ",ddl_image)
             pass
         try:
-            shutil.move(File_Path,Directory_path)
+            move(File_Path,Directory_path)
         except Exception as e:
             print(e,'\n')
             pass
@@ -50,27 +50,27 @@ def main(File_Name_Final,Directory_path,tasty_cookies,ddl_image, logger):
 
 def with_referer(File_Name_Final,Directory_path,tasty_cookies,ddl_image,referer, logger):
     File_Check_Path = str(Directory_path)+'/'+str(File_Name_Final)
-    logging.debug("File Check Path : %s" % File_Check_Path)
-    logging.debug("Referrer Received : %s" % referer)
+    debug("File Check Path : %s" % File_Check_Path)
+    debug("Referrer Received : %s" % referer)
 
-    if os.path.isfile(File_Check_Path):
+    if path.isfile(File_Check_Path):
         print('[Comic-dl] File Exist! Skipping ',File_Name_Final,'\n')
         pass
 
-    if not os.path.isfile(File_Check_Path): 
+    if not path.isfile(File_Check_Path): 
         print('[Comic-dl] Downloading : ',File_Name_Final)
         headers = {'Referer': referer}    
-        response = requests.get(ddl_image, stream=True,cookies=tasty_cookies,headers=headers)
+        response = get(ddl_image, stream=True,cookies=tasty_cookies,headers=headers)
         try:
             with open(File_Name_Final, 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
-            File_Path = os.path.normpath(File_Name_Final)
+                copyfileobj(response.raw, out_file)
+            File_Path = path.normpath(File_Name_Final)
         except Exception as e:
-            logging.debug("File download error : %s" % e)
+            debug("File download error : %s" % e)
             print("Couldn't download file from : ",ddl_image)
             pass
         try:
-            shutil.move(File_Path,Directory_path)
+            move(File_Path,Directory_path)
         except Exception as e:
             print(e,'\n')
             pass

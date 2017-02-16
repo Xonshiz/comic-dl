@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import cfscrape
-import re
+from re import search,sub,compile, findall
+from os import path,makedirs
 from bs4 import BeautifulSoup
-import os
+from cfscrape import create_scraper
+from logging import debug, basicConfig, DEBUG
 # from downloader.universal import main as FileDownloader
 from downloader.cookies_required import main as FileDownloader
-import requests
-import logging
+from requests import session
 
 def single_chapter(url, directory, logger):
 
-    sess = requests.session()
-    sess = cfscrape.create_scraper(sess)
+    sess = session()
+    sess = create_scraper(sess)
     s = sess.get(url)
     cookies = sess.cookies
     connection = s.text.encode('utf-8')
@@ -31,10 +31,10 @@ def single_chapter(url, directory, logger):
 
     Raw_File_Directory = str(Series_Name) + '/' + "Chapter " + str(chapter_number)
 
-    File_Directory = re.sub('[^A-Za-z0-9\-\.\'\#\/ ]+', '',
+    File_Directory = sub('[^A-Za-z0-9\-\.\'\#\/ ]+', '',
                             Raw_File_Directory)  # Fix for "Special Characters" in The series name
 
-    Directory_path = os.path.normpath(File_Directory)
+    Directory_path = path.normpath(File_Directory)
 
     print('\n')
     print('{:^80}'.format('=====================================================================\n'))
@@ -43,16 +43,16 @@ def single_chapter(url, directory, logger):
 
     # soup = BeautifulSoup(connection, "html.parser")
     linkFinder = soup.findAll('ul', {'class': 'list-image'})
-    logging.debug("Image Links : %s" % linkFinder)
+    debug("Image Links : %s" % linkFinder)
 
     # print("Link Finder :s %s" % linkFinder)
     for link in linkFinder:
         x = link.findAll('img')
         for a in x:
-            if not os.path.exists(File_Directory):
-                os.makedirs(File_Directory)
+            if not path.exists(File_Directory):
+                makedirs(File_Directory)
             ddlLink = a['src']
-            logging.debug("Final URL : %s" % ddlLink)
+            debug("Final URL : %s" % ddlLink)
             fileName = str(ddlLink).split("/")[-1].strip()
             # print("Link : %s\nFile Name : %s" % (ddlLink, fileName))
             FileDownloader(File_Name_Final=fileName, Directory_path=File_Directory, tasty_cookies=cookies, ddl_image=ddlLink, logger=logger)
@@ -62,7 +62,7 @@ def single_chapter(url, directory, logger):
 
 def whole_series(url, directory, logger):
 
-    scraper = cfscrape.create_scraper()
+    scraper = create_scraper()
     connection = scraper.get(url).content
 
     soup = BeautifulSoup(connection, "html.parser")
@@ -73,7 +73,7 @@ def whole_series(url, directory, logger):
         for a in x:
             # print(a['href'])
             url = "http://kisscomic.us" + a['href']
-            logging.debug("Chapter URL : %s" % url)
+            debug("Chapter URL : %s" % url)
             single_chapter(url, directory, logger)
     print("Finished Downloading")
 
@@ -81,13 +81,13 @@ def whole_series(url, directory, logger):
 
 def kissmcomicus_Url_Check(input_url, current_directory, logger):
     if logger == "True":
-        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
-    kissmcomicus_single_regex = re.compile('https?://(?P<host>[^/]+)/chapters/(?P<comic>[\d\w-]+)(?:/Issue-)?')
-    kissmcomicus_whole_regex = re.compile('https?://(?P<host>[^/]+)/comics/(?P<comic_name>[\d\w-]+)?')
+        basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
+    kissmcomicus_single_regex = compile('https?://(?P<host>[^/]+)/chapters/(?P<comic>[\d\w-]+)(?:/Issue-)?')
+    kissmcomicus_whole_regex = compile('https?://(?P<host>[^/]+)/comics/(?P<comic_name>[\d\w-]+)?')
 
     lines = input_url.split('\n')
     for line in lines:
-        found = re.search(kissmcomicus_single_regex, line)
+        found = search(kissmcomicus_single_regex, line)
         if found:
             match = found.groupdict()
             if match['comic']:
@@ -96,7 +96,7 @@ def kissmcomicus_Url_Check(input_url, current_directory, logger):
             else:
                 pass
 
-        found = re.search(kissmcomicus_whole_regex, line)
+        found = search(kissmcomicus_whole_regex, line)
         if found:
             match = found.groupdict()
             if match['comic_name']:

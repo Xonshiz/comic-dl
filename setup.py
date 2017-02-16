@@ -1,55 +1,26 @@
-#!/usr/bin/env python
-# coding: utf-8
+from distutils.core import setup
 
-import os
-import sys
-import comic_dl
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
-
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    sys.exit()
-
-readme = open('README.txt').read()
+readme = open('ReadMe.md').read()
 history = open('Changelog.md').read()
 
-exec(compile(open('comic_dl/version.py').read(),
-             'comic_dl/version.py', 'exec'))
-
 setup(
-    name='comic-dl',
-    version=__version__,
-    description='Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.',
-    long_description=readme + '\n\n' + history,
-    author='Xonshiz',
-    author_email='xonshiz@psychoticelites.com',
-    url='https://github.com/Xonshiz/comic-dl',
-    download_url = 'https://codeload.github.com/Xonshiz/comic-dl/legacy.tar.gz/v2016.11.26(1)',
-    packages=[
-        'comic_dl',
-        'comic_dl.sites',
-        'comic_dl.downloader',
-    ],
-    package_dir={'comic_dl': 'comic_dl'},
-    include_package_data=True,
-    install_requires=["selenium",
+  name = 'comic_dl',
+  packages = ['comic_dl','comic_dl.sites','comic_dl.downloader'], # this must be the same as the name above
+  install_requires=["selenium",
                       "requests",
                       "more_itertools",
+                      "cfscrape",
                       "bs4"
     ],
-    entry_points={
-        'console_scripts': [
-            'comic_dl = comic_dl:main'
-        ],
-    },
-    license="MIT Licence",
-    zip_safe=False,
-    keywords = ['comic-dl', 'cli', 'comic downloader','manga downloader','mangafox','batoto','kissmanga'],
-    classifiers=[
+  version = '2017.01.22',
+  description = 'Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.',
+  long_description=readme + '\n\n' + history,
+  author = 'Xonshiz',
+  author_email = 'xonshiz@psychoticelites.com',
+  url='https://github.com/Xonshiz/comic-dl',
+  download_url = 'https://codeload.github.com/Xonshiz/comic-dl/legacy.tar.gz/v2016.11.26(1)',
+  keywords = ['comic-dl', 'cli', 'comic downloader','manga downloader','mangafox','batoto','kissmanga','comic naver'],
+  classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: End Users/Desktop',
@@ -65,5 +36,4 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Multimedia :: Graphics'
     ],
-    #test_suite='tests',
 )

@@ -16,3 +16,5 @@
 - Site support for readcomiconlin.to [2017.01.02]
 - Added `Verbose Logging` [2017.01.22]
 - Fixed chapter count error in Kissmanga [2017.01.22]
+- Fixed #4 [2017.02.16]
+- Optimized Imports [2017.02.16]

@@ -3,10 +3,9 @@
 
 from __future__ import absolute_import
 from __future__ import print_function
-import re
-import os
-import sys
-from more_itertools import unique_everseen
+from re import search,sub,compile, findall
+from os import path,makedirs
+from sys import exit
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -15,7 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from downloader.universal import main as FileDownloader
 from six.moves import range
-import logging
+from logging import debug, basicConfig, DEBUG
 
 
 """Bato serves the chapters in 2 ways :
@@ -68,7 +67,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
     if str(User_Name) not in ["N"] or str(User_Password) not in ["N"]:
         if str(User_Name) in ["N"] or str(User_Password) in ["N"]:
             print("Username or Password cannot be empty.")
-            sys.exit()
+            exit()
         print("Authenticating Your Username and Password ...")
 
         batoto_login(driver, User_Name, User_Password, logger)
@@ -92,10 +91,10 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
         )
 
     except Exception as e:
-        logging.debug("Error in loading page : %s\nTrying to move on." % e)
+        debug("Error in loading page : %s\nTrying to move on." % e)
         pass
     page_title = str(driver.title)
-    logging.debug("Page Title : %s" % page_title)
+    debug("Page Title : %s" % page_title)
 
     """Batoto doesn't provide shit in the source code of the web page. Hence, we'll be using the outer HTML
     to scrap all the info we need.
@@ -115,44 +114,44 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
                 "ERROR [10030]: The thing you're looking for is unavailable. It may be due to:"]:
             print("You cannot access this page. You'll need to log in to download this page.")
             driver.quit()
-            sys.exit()
+            exit()
 
         else:
             pass
 
     except Exception as e:
-        logging.debug("Error in access check : %s" % e)
+        debug("Error in access check : %s" % e)
         pass
 
     try:
         # Getting the Series Name from the <title></title> tags of the web
         # page.
         Series_Name = str(
-            re.search(
+            search(
                 '^(.*)\ \-',
                 page_title).group(1)).strip().replace(
             '_',
             ' ').title()
     except Exception as e:
-        logging.debug("Error in Series Name : %s" % e)
+        debug("Error in Series Name : %s" % e)
         Series_Name = "Unkown Series"
 
     try:
         # Getting the Series Name from the <title></title> tags of the web
         # page.
         volume_number = int(
-            str(re.search('vol (\d+)', page_title).group(1)).strip())
+            str(search('vol (\d+)', page_title).group(1)).strip())
     except Exception as e:
-        logging.debug("Error in Volume Number : %s" % e)
+        debug("Error in Volume Number : %s" % e)
         volume_number = '0'
 
     try:
         # Getting the Series Name from the <title></title> tags of the web
         # page.
         chapter_number = int(
-            str(re.search('ch (\d+)', page_title).group(1)).strip())
+            str(search('ch (\d+)', page_title).group(1)).strip())
     except Exception as e:
-        logging.debug("Error in Chapter Number : %s" % e)
+        debug("Error in Chapter Number : %s" % e)
         chapter_number = '0'
 
     try:
@@ -161,7 +160,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
             '//*[@id="reader"]/div[1]/ul/li[3]/select').text).replace("/", " ").strip()
 
     except Exception as e:
-        logging.debug("Error in Group Name : %s\nMoving forward..." % e)
+        debug("Error in Group Name : %s\nMoving forward..." % e)
         # Some entries on batoto don't have a name. So, if we get to any such
         # occassion, let's be prepared.
         Group_Name_Finder = str('No Group')
@@ -172,7 +171,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
         page_list = driver.find_element_by_id('page_select')
 
     except Exception as e:
-        logging.debug("Error in Page Select : %s" % e)
+        debug("Error in Page Select : %s" % e)
 
         # If we cannot find the 'page_select' element, it means that this
         # chapter is showing all the images in one page.
@@ -188,12 +187,12 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
             '/' + "Chapter " + str(chapter_number) + " [" + str(Group_Name_Finder) + " ]"
 
     # Fix for "Special Characters" in The series name
-    File_Directory = re.sub(
+    File_Directory = sub(
         '[^A-Za-z0-9\-\.\'\#\/ \[\]]+',
         '',
         Raw_File_Directory)
 
-    Directory_path = os.path.normpath(File_Directory)
+    Directory_path = path.normpath(File_Directory)
 
     print('\n')
     print('{:^80}'.format('%s - %s') % (Series_Name, chapter_number))
@@ -208,24 +207,24 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
         Look at the last number for the image. Manipulate that and we have what we need.
         """
         items_list = page_list.find_elements_by_tag_name("option")
-        logging.debug("Items List : %s" % items_list)
+        debug("Items List : %s" % items_list)
 
         for item in items_list:
             list_of_pages = item.text
-        logging.debug("List of Pages : %s" % list_of_pages)
+        debug("List of Pages : %s" % list_of_pages)
 
         lst_pag = str(list_of_pages)
 
         Last_Page_number = int(
-            str(re.search('(\d+)', lst_pag).group(1)).strip())
-        logging.debug("Last Page Number : %s" % Last_Page_number)
+            str(search('(\d+)', lst_pag).group(1)).strip())
+        debug("Last Page Number : %s" % Last_Page_number)
 
         img_link = driver.find_element_by_id('comic_page').get_attribute('src')
-        logging.debug("Image Link : %s" % img_link)
+        debug("Image Link : %s" % img_link)
 
         for i in range(1, Last_Page_number + 1):
-            if not os.path.exists(File_Directory):
-                os.makedirs(File_Directory)
+            if not path.exists(File_Directory):
+                makedirs(File_Directory)
             if len(str(i)) == 1:
 
                 ddl_image = str(img_link).replace(
@@ -237,7 +236,7 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
                     'img000001', 'img0000%s') % (i)
 
             File_Name_Final = str(
-                i).strip() + "." + str(re.search('\d\.(.*?)$', ddl_image).group(1)).strip()
+                i).strip() + "." + str(search('\d\.(.*?)$', ddl_image).group(1)).strip()
             FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
 
         print('\n')
@@ -254,18 +253,18 @@ def single_chapter(driver, url, current_directory, User_Name, User_Password, log
         Image_Links = soup.findAll('div', {'style': 'text-align:center;'})
 
         for link in Image_Links:
-            if not os.path.exists(File_Directory):
-                os.makedirs(File_Directory)
+            if not path.exists(File_Directory):
+                makedirs(File_Directory)
             x = link.findAll('img')
             for a in x:
                 ddl_image = a['src']
-                logging.debug("Image Download Link : %s" % ddl_image)
+                debug("Image Download Link : %s" % ddl_image)
 
                 File_Name_Final = str(
-                    re.search(
+                    search(
                         'img0000(\d+)\.([jpg]|[png])',
                         ddl_image).group(1)).strip() + "." + str(
-                    re.search(
+                    search(
                         '\d\.(.*?)$',
                         ddl_image).group(1)).strip()
                 FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
@@ -286,7 +285,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password, logge
     if str(User_Name) not in ["N"] or str(User_Password) not in ["N"]:
         if str(User_Name) in ["N"] or str(User_Password) in ["N"]:
             print("Username or Password cannot be empty.")
-            sys.exit()
+            exit()
         print("Authenticating Your Username and Password ...")
 
         batoto_login(driver, User_Name, User_Password, logger)
@@ -305,7 +304,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password, logge
             )
 
         except Exception as e:
-            logging.debug("Error in loading the page : %s\nMoving ahead..." % e)
+            debug("Error in loading the page : %s\nMoving ahead..." % e)
             pass
         elem = driver.find_element_by_xpath("//*")
         Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
@@ -319,13 +318,13 @@ def whole_series(driver, url, current_directory, User_Name, User_Password, logge
         soup = BeautifulSoup(Page_Source, "html.parser")
         all_links = soup.findAll(
             'tr', {'class': 'row lang_English chapter_row'})
-        logging.debug("Image Links : %s" % all_links)
+        debug("Image Links : %s" % all_links)
 
         for link in all_links:
             x = link.findAll('a')
             for a in x:
                 ddl_image = a['href']
-                logging.debug("Second Image Link : %s" % ddl_image)
+                debug("Second Image Link : %s" % ddl_image)
                 if "reader" in ddl_image:
 
                     link_list.append(ddl_image)
@@ -352,7 +351,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password, logge
             )
 
         except Exception as e:
-            logging.debug("Error in loading the page : %s\nMoving ahead." % e)
+            debug("Error in loading the page : %s\nMoving ahead." % e)
             pass
         elem = driver.find_element_by_xpath("//*")
         Page_Source = elem.get_attribute("outerHTML").encode('utf-8')
@@ -369,7 +368,7 @@ def whole_series(driver, url, current_directory, User_Name, User_Password, logge
                 ddl_image = a['href']
                 if "reader" in ddl_image:
                     link_list.append(ddl_image)
-                    logging.debug("%s added in the bag!" % ddl_image)
+                    debug("%s added in the bag!" % ddl_image)
 
         print("Total Chapters To Download : ", len(link_list))
         #print(link_list)
@@ -396,17 +395,17 @@ def batoto_login(driver, User_Name, User_Password, logger):
         )
 
     except Exception as e:
-        logging.debug("Error in loading page : %s\nSaving screenshot and moving..." % e)
+        debug("Error in loading page : %s\nSaving screenshot and moving..." % e)
         # driver.save_screenshot('Single_exception.png')
         pass
     LoggedOut_Title = driver.title
-    logging.debug("Logged out Title : %s" % LoggedOut_Title)
+    debug("Logged out Title : %s" % LoggedOut_Title)
     driver.find_element_by_id('ips_username').send_keys(User_Name)
     driver.find_element_by_id('ips_password').send_keys(User_Password)
 
     driver.find_element_by_xpath('//*[@id="login"]/fieldset[2]/input').click()
     LoggedIn_Title = driver.title
-    logging.debug("Logged In Title : %s" % LoggedIn_Title)
+    debug("Logged In Title : %s" % LoggedIn_Title)
 
     """A little check to see whether we've logged in or not. Comparing the titles of the before and after logging
     pages.
@@ -415,21 +414,21 @@ def batoto_login(driver, User_Name, User_Password, logger):
     if str(LoggedIn_Title).strip() == str(LoggedOut_Title).strip():
         print("Couldn't log you in. Please check your credentials.")
         driver.quit()
-        sys.exit()
+        exit()
 
 
 def batoto_Url_Check(input_url, current_directory, User_Name, User_Password, logger):
     if logger == "True":
-        logging.basicConfig(format='[Comic-dl]%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
+        basicConfig(format='[Comic-dl]%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
 
-    batoto_single_regex = re.compile(
+    batoto_single_regex = compile(
         'https?://(?P<host>bato.to)/reader\#(?P<extra_characters>[\d\w-]+)?(\/|.)')
-    batoto_whole_regex = re.compile(
+    batoto_whole_regex = compile(
         '^https?://(?P<host>bato.to)/comic/\_/comics/(?P<comic>[\d\w-]+)?(\/|.)$')
     #print "Inside"
     lines = input_url.split('\n')
     for line in lines:
-        found = re.search(batoto_single_regex, line)
+        found = search(batoto_single_regex, line)
         if found:
             match = found.groupdict()
             if match['extra_characters']:
@@ -445,7 +444,7 @@ def batoto_Url_Check(input_url, current_directory, User_Name, User_Password, log
             else:
                 pass
 
-        found = re.search(batoto_whole_regex, line)
+        found = search(batoto_whole_regex, line)
         if found:
             match = found.groupdict()
             if match['comic']:

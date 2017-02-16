@@ -188,7 +188,7 @@ You can check the changelog [**`HERE`**](https://github.com/Xonshiz/comic-dl/blo
 If your're planning to open an issue for the script or ask for a new feature or anything that requires opening an Issue, then please do keep these things in mind.
 
 ### Reporting Issues
-If you're going to report an issue, then please run the script again with the "-v or --verbose" argument. It should generate a file in the same directory, with the name "Error Log.log". Copy that log file's data and post it on a [Gist](https://gist.github.com/) and share that gist's link while reporting the issue here.
+If you're going to report an issue, then please run the script again with the "-v or --verbose" argument. It should generate a file in the same directory, with the name "Error Log.log". Copy that log file's data and post it on a [Gist](https://gist.github.com/) and share that gist's link while reporting the issue here. Make sure you **EDIT OUT YOUR USERNAME AND PASSWORD**, if supplied within the command.
 
 If you don't include the verbose log, there are chances it'll take time to fix the issue(s) you're having.
  
