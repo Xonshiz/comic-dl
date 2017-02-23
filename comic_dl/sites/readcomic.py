@@ -14,7 +14,7 @@ from cfscrape import create_scraper
 from logging import debug, basicConfig, DEBUG
 
 
-def readcomic_Url_Check(input_url, current_directory, logger):
+def readcomic_Url_Check(input_url, current_directory, logger, sortingOrder):
     if logger == "True":
         basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
 
@@ -32,7 +32,7 @@ def readcomic_Url_Check(input_url, current_directory, logger):
 
             else:
                 url = str(input_url)
-                Whole_Series(url, current_directory, logger)
+                Whole_Series(url, current_directory, logger, sortingOrder)
 
         found = search(Annual_Regex, line)
         if found:
@@ -87,7 +87,7 @@ def Single_Issue(url, current_directory, logger):
         # debug("Name of File : %s" % fileName)
         FileDownloader(fileName, Directory_path, link, logger)
 
-def Whole_Series(url, current_directory, logger):
+def Whole_Series(url, current_directory, logger, sortingOrder):
 
     scraper = create_scraper()
     connection = scraper.get(url).content
@@ -97,6 +97,7 @@ def Whole_Series(url, current_directory, logger):
     all_links = soup.findAll('table', {'class': 'listing'})
     # debug("Issue Links : %s" % all_links)
 
+    final_links = []
     for link in all_links:
         # debug("link : %s" % link)
         x = link.findAll('a')
@@ -104,5 +105,14 @@ def Whole_Series(url, current_directory, logger):
         for a in x:
             url = "http://readcomiconline.to" + a['href']
             debug("Final URL : %s" % url)
-            Single_Issue(url, current_directory=current_directory, logger=logger)
+            final_links.append(url)
+    print(final_links)
+    if str(sortingOrder).lower() in ['new', 'desc', 'descending', 'latest']:
+        for chapLink in final_links:
+            Single_Issue(chapLink, current_directory=current_directory, logger=logger)
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+        # print("Running this")
+        for chapLink in final_links[::-1]:
+            Single_Issue(chapLink, current_directory=current_directory, logger=logger)
     print("Finished Downloading")
+

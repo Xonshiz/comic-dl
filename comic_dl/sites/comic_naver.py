@@ -64,7 +64,7 @@ def single_chapter(url,current_directory, logger):
 
 
 
-def whole_series(url, current_directory, logger):
+def whole_series(url, current_directory, logger, sortingOrder):
     
     
     
@@ -83,15 +83,24 @@ def whole_series(url, current_directory, logger):
         if not first_link:
             print("You failed to enter the last chapter count. Script will exit now.")
             exit()
-    
+    all_links = []
     for x in range(1,int(first_link)):
         Chapter_Url = "http://comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s" %(titleId,x)
         debug("Chapter URL : %s" % Chapter_Url)
-        single_chapter(Chapter_Url,current_directory, logger)
+        all_links.append(Chapter_Url)
+    # print(all_links)
+    if str(sortingOrder).lower() in ['new','desc','descending','latest']:
+        for chapLink in all_links[::-1]:
+            single_chapter(chapLink, current_directory, logger)
+    elif str(sortingOrder).lower() in ['old','asc','ascending','oldest']:
+        # print("Running this")
+        for chapLink in all_links:
+            single_chapter(chapLink, current_directory, logger)
+    print("Finished Downloading")
 
 
 
-def comic_naver_Url_Check(input_url, current_directory, logger):
+def comic_naver_Url_Check(input_url, current_directory, logger, sortingOrder):
     if logger == "True":
         basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
 
@@ -117,6 +126,6 @@ def comic_naver_Url_Check(input_url, current_directory, logger):
             match = found.groupdict()
             if match['list']:
                 url = str(input_url)
-                whole_series(url, current_directory, logger)
+                whole_series(url, current_directory, logger, sortingOrder)
             else:
                 pass

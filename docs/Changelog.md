@@ -18,3 +18,5 @@
 - Fixed chapter count error in Kissmanga [2017.01.22]
 - Fixed #4 [2017.02.16]
 - Optimized Imports [2017.02.16]
+- Site support for mangahere.co [2017.02.23]
+- Added `Sorting Order` a.k.a `Download Order` [2017.02.23]

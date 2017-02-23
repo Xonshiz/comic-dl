@@ -39,6 +39,7 @@ def usage():
     print('{:^80}'.format("-a,--about : Shows the info about this script and exits."))
     print('{:^80}'.format("-u,--username : Indicates username for a website."))
     print('{:^80}'.format("-p,--password : Indicates password for a website."))
+    print('{:^80}'.format("--sorting : Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)"))
     
 
 def main(argv):
@@ -50,6 +51,7 @@ def main(argv):
     parser.add_argument('-p','--password',nargs=1,help='Indicates password for a website',default='None')
     parser.add_argument('-u','--username',nargs=1,help='Indicates username for a website',default='None')
     parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.", action="store_true")
+    parser.add_argument("--sorting", nargs=1, help="Sorts the download order.")
     
     logger = "False"
     args = parser.parse_args()
@@ -73,7 +75,8 @@ def main(argv):
         input_url = str(args.input[0]).strip()
         User_Password = str(args.password[0].strip())
         User_Name = str(args.username[0].strip())
-        url_checker(input_url, current_directory, User_Name, User_Password, logger=logger)
+        sortingOrder = str(args.sorting[0].strip())
+        url_checker(input_url, current_directory, User_Name, User_Password, logger, sortingOrder)
         sys.exit()
 
 if __name__ == "__main__":

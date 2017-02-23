@@ -60,26 +60,34 @@ def single_chapter(url, directory, logger):
     print('\n')
     print("Completed downloading %s" % Series_Name)
 
-def whole_series(url, directory, logger):
+def whole_series(url, directory, logger, sortingOrder):
 
     scraper = create_scraper()
     connection = scraper.get(url).content
 
     soup = BeautifulSoup(connection, "html.parser")
     all_links = soup.findAll('div', {'class': 'list-chapter mCustomScrollbar'})
-
+    chapterLinks = []
     for link in all_links:
         x = link.findAll('a')
         for a in x:
             # print(a['href'])
             url = "http://kisscomic.us" + a['href']
             debug("Chapter URL : %s" % url)
+            chapterLinks.append(url)
+
+    if str(sortingOrder).lower() in ['new', 'desc', 'descending', 'latest']:
+        for url in chapterLinks:
+            single_chapter(url, directory, logger)
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+        print("Running This")
+        for url in chapterLinks[::-1]:
             single_chapter(url, directory, logger)
     print("Finished Downloading")
 
 
 
-def kissmcomicus_Url_Check(input_url, current_directory, logger):
+def kissmcomicus_Url_Check(input_url, current_directory, logger, sortingOrder):
     if logger == "True":
         basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
     kissmcomicus_single_regex = compile('https?://(?P<host>[^/]+)/chapters/(?P<comic>[\d\w-]+)(?:/Issue-)?')
@@ -101,6 +109,6 @@ def kissmcomicus_Url_Check(input_url, current_directory, logger):
             match = found.groupdict()
             if match['comic_name']:
                 url = str(input_url)
-                whole_series(url, current_directory, logger)
+                whole_series(url, current_directory, logger, sortingOrder)
             else:
                 pass

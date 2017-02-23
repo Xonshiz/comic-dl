@@ -8,7 +8,7 @@ from re import search,sub,compile, findall
 from os import path,makedirs
 from sys import exit
 from bs4 import BeautifulSoup
-from downloader.universal import main as FileDownloader
+from downloader.cookies_required import with_referer as FileDownloader
 from cfscrape import create_scraper
 from logging import debug, basicConfig, DEBUG
 
@@ -18,6 +18,7 @@ def single_chapter(url, current_directory, logger):
     scraper = create_scraper()
 
     Page_Source = scraper.get(str(url)).content
+    cookies = scraper.cookies
 
     formatted = BeautifulSoup(Page_Source, "lxml")
     
@@ -98,13 +99,13 @@ def single_chapter(url, current_directory, logger):
                 debug("Error inside Error : %s" % e)
                 File_Name_Final = str(ddl_image[-6:])
         # print(File_Name_Final)
-        FileDownloader(File_Name_Final, Directory_path, ddl_image, logger)
+        FileDownloader(File_Name_Final, Directory_path, cookies, ddl_image, url, logger)
 
     print('\n')
     print("Completed downloading ", Series_Name, ' - ', chapter_number)
 
 
-def whole_series(url, current_directory, logger):
+def whole_series(url, current_directory, logger, sortingOrder):
 
     scraper = create_scraper()
 
@@ -132,13 +133,19 @@ def whole_series(url, current_directory, logger):
 
     print("Total Chapters To Download : ", len(link_list))
 
-    for item in link_list:
-        url = str(item)
-        debug("Chapter Links : %s" % url)
-        single_chapter(url, current_directory, logger)
+    if str(sortingOrder).lower() in ['new', 'desc', 'descending', 'latest']:
+        for item in link_list:
+            url = str(item)
+            debug("Chapter Links : %s" % url)
+            single_chapter(url, current_directory, logger)
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+        for item in link_list[::-1]:
+            url = str(item)
+            debug("Chapter Links : %s" % url)
+            single_chapter(url, current_directory, logger)
 
 
-def kissmanga_Url_Check(input_url, current_directory, logger):
+def kissmanga_Url_Check(input_url, current_directory, logger, sortingOrder):
     if logger == "True":
         basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
 
@@ -168,6 +175,6 @@ def kissmanga_Url_Check(input_url, current_directory, logger):
             match = found.groupdict()
             if match['comic']:
                 url = str(input_url)
-                whole_series(url, current_directory, logger)
+                whole_series(url, current_directory, logger, sortingOrder)
             else:
                 pass

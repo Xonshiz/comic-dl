@@ -65,7 +65,7 @@ def single_chapter(url, current_directory, logger):
     print('\n')
     print("Completed downloading ",Series_Name)
 
-def whole_series(url, current_directory, logger):
+def whole_series(url, current_directory, logger, sortingOrder):
     if not url:
         print("Couldn't get the URL. Please report it on Github Repository.")
     
@@ -86,15 +86,25 @@ def whole_series(url, current_directory, logger):
 
     chapter_text = soup.findAll('div',{'class':'title'})
     debug("Chapter Text : %s" % chapter_text)
-    
+    all_links = []
+
     for link in chapter_text:
         x = link.findAll('a')
         for a in x:
             url = a['href']
             debug("Chapter URL : %s" % url)
-            single_chapter(url, current_directory, logger)
+            all_links.append(url)
+
+    if str(sortingOrder).lower() in ['new','desc','descending','latest']:
+        for chapLink in all_links[::-1]:
+            single_chapter(chapLink, current_directory, logger)
+    elif str(sortingOrder).lower() in ['old','asc','ascending','oldest']:
+        # print("Running this")
+        for chapLink in all_links[::-1]:
+            single_chapter(chapLink, current_directory, logger)
+    print("Finished Downloading")
             
-def yomanga_Url_Check(input_url, current_directory, logger):
+def yomanga_Url_Check(input_url, current_directory, logger, sortingOrder):
     if logger == "True":
         basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
     
@@ -119,7 +129,7 @@ def yomanga_Url_Check(input_url, current_directory, logger):
             match = found.groupdict()
             if match['comic']:
                 url = str(input_url)
-                whole_series(url, current_directory, logger)
+                whole_series(url, current_directory, logger, sortingOrder)
             else:
                 pass
 

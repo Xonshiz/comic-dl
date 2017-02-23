@@ -22,13 +22,14 @@ from sites.kissmanga import kissmanga_Url_Check
 from sites.comic_naver import comic_naver_Url_Check
 from sites.readcomic import readcomic_Url_Check
 from sites.kisscomicus import kissmcomicus_Url_Check
+from sites.mangahere import mangahere_Url_Check
 from downloader import universal,cookies_required
 from urllib.parse import urlparse
 
 
 
 
-def url_checker(input_url, current_directory, User_Name, User_Password, logger):
+def url_checker(input_url, current_directory, User_Name, User_Password, logger, sortingOrder):
 
     if logger == "True":
         logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
@@ -37,29 +38,32 @@ def url_checker(input_url, current_directory, User_Name, User_Password, logger):
     domain = urlparse(input_url).netloc
     logging.debug("Domain : %s" % domain)
 
-    if domain in ['mangafox.me']:
+    if domain in ['mangafox.me', 'www.mangafox.me']:
         mangafox_Url_Check(input_url, current_directory, logger)
 
-    elif domain in ['yomanga.co']:
-        yomanga_Url_Check(input_url, current_directory, logger)
+    elif domain in ['yomanga.co', 'www.yomanga.co']:
+        yomanga_Url_Check(input_url, current_directory, logger, sortingOrder)
 
-    elif domain in ['gomanga.co']:
-        gomanga_Url_Check(input_url, current_directory, logger)
+    elif domain in ['gomanga.co', 'www.gomanga.co']:
+        gomanga_Url_Check(input_url, current_directory, logger, sortingOrder)
 
-    elif domain in ['bato.to']:
+    elif domain in ['bato.to', 'www.bato.to']:
         batoto_Url_Check(input_url, current_directory, User_Name, User_Password, logger)
 
-    elif domain in ['kissmanga.com']:
-        kissmanga_Url_Check(input_url, current_directory, logger)
+    elif domain in ['kissmanga.com', 'www.kissmanga.com']:
+        kissmanga_Url_Check(input_url, current_directory, logger, sortingOrder)
 
-    elif domain in ['comic.naver.com']:
-        comic_naver_Url_Check(input_url, current_directory, logger)
+    elif domain in ['comic.naver.com', 'www.comic.naver.com']:
+        comic_naver_Url_Check(input_url, current_directory, logger, sortingOrder)
 
-    elif domain in ['readcomiconline.to']:
-        readcomic_Url_Check(input_url, current_directory, logger)
+    elif domain in ['readcomiconline.to', 'www.readcomiconline.to']:
+        readcomic_Url_Check(input_url, current_directory, logger, sortingOrder)
 
-    elif domain in ['kisscomic.us']:
-        kissmcomicus_Url_Check(input_url, current_directory, logger)
+    elif domain in ['kisscomic.us', 'www.kisscomic.us']:
+        kissmcomicus_Url_Check(input_url, current_directory, logger, sortingOrder)
+
+    elif domain in ['mangahere.co','www.mangahere.co']:
+        mangahere_Url_Check(input_url, current_directory, logger, sortingOrder)
         
     elif domain in ['']:
         print('You need to specify at least 1 URL. Please run : comic-dl -h')
