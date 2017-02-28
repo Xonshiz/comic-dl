@@ -44,13 +44,13 @@ def single_chapter(url, current_directory, logger):
         volume_number = '0'
 
     try:
-        chapter_number = str(meta_data[3])
+        chapter_number = str(meta_data[3]).replace("Read Online", "").replace(".", "").strip()
 
     except Exception as e:
         debug("Error in Chapter Number : %s\nTrying Something else." % e)
         try:
             # Getting the Volume Number from the page source.
-            chapter_number = str(search('Ch\.(.*)\:', str(Page_Source)).group(1)).strip()
+            chapter_number = str(search('Ch\.(.*)\:', str(Page_Source)).group(1)).replace("Read Online", "").replace(".", "").strip()
         except Exception as e:
             debug("Error in Chapter Number : %s" % e)
             chapter_number = str('0')
@@ -138,7 +138,7 @@ def whole_series(url, current_directory, logger, sortingOrder):
             url = str(item)
             debug("Chapter Links : %s" % url)
             single_chapter(url, current_directory, logger)
-    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
         for item in link_list[::-1]:
             url = str(item)
             debug("Chapter Links : %s" % url)

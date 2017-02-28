@@ -110,7 +110,7 @@ def Whole_Series(url, current_directory, logger, sortingOrder):
     if str(sortingOrder).lower() in ['new', 'desc', 'descending', 'latest']:
         for chapLink in final_links:
             Single_Issue(chapLink, current_directory=current_directory, logger=logger)
-    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
         # print("Running this")
         for chapLink in final_links[::-1]:
             Single_Issue(chapLink, current_directory=current_directory, logger=logger)

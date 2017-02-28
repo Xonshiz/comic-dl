@@ -20,3 +20,4 @@
 - Optimized Imports [2017.02.16]
 - Site support for mangahere.co [2017.02.23]
 - Added `Sorting Order` a.k.a `Download Order` [2017.02.23]
+- Fixed #5 [2017.02.28]

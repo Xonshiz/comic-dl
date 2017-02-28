@@ -80,7 +80,7 @@ def whole_series(url, directory, logger, sortingOrder):
     if str(sortingOrder).lower() in ['new','desc','descending','latest']:
         for chapLink in chapterLinks:
             single_chapter(url=chapLink, directory=directory, logger=logger)
-    elif str(sortingOrder).lower() in ['old','asc','ascending','oldest']:
+    elif str(sortingOrder).lower() in ['old','asc','ascending','oldest', 'a']:
         for chapLink in chapterLinks[::-1]:
             single_chapter(url=chapLink, directory=directory, logger=logger)
     print("Finished Downloading")

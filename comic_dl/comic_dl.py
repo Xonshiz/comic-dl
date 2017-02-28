@@ -51,7 +51,7 @@ def main(argv):
     parser.add_argument('-p','--password',nargs=1,help='Indicates password for a website',default='None')
     parser.add_argument('-u','--username',nargs=1,help='Indicates username for a website',default='None')
     parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.", action="store_true")
-    parser.add_argument("--sorting", nargs=1, help="Sorts the download order.")
+    parser.add_argument("--sorting", nargs=1, help="Sorts the download order.",default='asc')
     
     logger = "False"
     args = parser.parse_args()

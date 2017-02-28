@@ -15,7 +15,15 @@ $RECYCLE.BIN/
 *.msp
 *.exe
 *.pyc
+*.pyz
 *.pypirc
+*.toc
+*.manifest
+*.pkg
+*.zip
+*.xml
+*.jpeg
+*.jpg
 
 # Windows shortcuts
 *.lnk

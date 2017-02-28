@@ -79,7 +79,7 @@ def whole_series(url, directory, logger, sortingOrder):
     if str(sortingOrder).lower() in ['new', 'desc', 'descending', 'latest']:
         for url in chapterLinks:
             single_chapter(url, directory, logger)
-    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest']:
+    elif str(sortingOrder).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
         print("Running This")
         for url in chapterLinks[::-1]:
             single_chapter(url, directory, logger)
