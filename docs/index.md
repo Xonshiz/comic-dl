@@ -1,4 +1,4 @@
-# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Beerpay](https://beerpay.io/Xonshiz/comic-dl/badge.svg?style=beer-square)](https://beerpay.io/Xonshiz/comic-dl)  [![![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
+# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
 
