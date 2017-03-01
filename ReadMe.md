@@ -1,5 +1,5 @@
 [![N|Solid](https://raw.githubusercontent.com/Xonshiz/comic-dl/master/Images/Icon.png)](https://github.com/Xonshiz/comic-dl)
-# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Beerpay](https://beerpay.io/Xonshiz/comic-dl/badge.svg?style=beer-square)](https://beerpay.io/Xonshiz/comic-dl)  [![Beerpay](https://beerpay.io/Xonshiz/comic-dl/make-wish.svg?style=flat-square)](https://beerpay.io/Xonshiz/comic-dl?focus=wish)
+# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
 
@@ -215,7 +215,7 @@ comic.naver.com has korean characters and some OS won't handle those characters.
 # Donations
 You can always send some money over from this :
 
-Paypal : https://www.paypal.me/xonshiz
+Paypal : [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
 Patreon Link : https://www.patreon.com/xonshiz
 
