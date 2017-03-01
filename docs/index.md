@@ -5,8 +5,6 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
 
-<a href='https://pledgie.com/campaigns/33480'><img alt='Click here to lend your support to: Donation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33480.png?skin_name=chrome' border='0' ></a>
-
 ## Table of Content
 
 * [Supported Sites](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/)
