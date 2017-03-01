@@ -222,3 +222,8 @@ You can always send some money over from this :
 </div>
 
 Any amount is appreciated :)
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/Xonshiz/comic-dl/badge.svg?style=beer-square)](https://beerpay.io/Xonshiz/comic-dl)  [![Beerpay](https://beerpay.io/Xonshiz/comic-dl/make-wish.svg?style=flat-square)](https://beerpay.io/Xonshiz/comic-dl?focus=wish)
