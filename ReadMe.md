@@ -6,6 +6,8 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
 
+<a href='https://pledgie.com/campaigns/33480'><img alt='Click here to lend your support to: Donation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33480.png?skin_name=chrome' border='0' ></a>
+
 ## Table of Content
 
 * [Supported Sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md)
@@ -28,6 +30,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Suggesting A Feature](#suggesting-a-feature)
 * [Contributors](https://github.com/Xonshiz/comic-dl/blob/master/Contributors.md)
 * [Notes](#notes)
+* [Donations](#donations)
 
 ## Supported Websites
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
@@ -204,3 +207,10 @@ This should be enough, but it'll be great if you can add more ;)
 
 # Notes
 comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
+
+# Donations
+You can always send some money over from this :
+
+<a href='https://pledgie.com/campaigns/33480'><img alt='Click here to lend your support to: Donation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33480.png?skin_name=chrome' border='0' ></a>
+
+Any amount is appreciated :)
