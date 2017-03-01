@@ -6,12 +6,6 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
 
-<div class="pm-button">
-  <a href="https://www.payumoney.com/paybypayumoney/#/04EE508CD699DDFA8F7E827E1CB98B85">
-    <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/22.png" />
-  </a>
-</div>
-
 ## Table of Content
 
 * [Supported Sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md)
