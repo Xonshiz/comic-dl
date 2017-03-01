@@ -6,7 +6,11 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
 >Advertisments pay for the website servers.
 
-<a href='https://pledgie.com/campaigns/33480'><img alt='Click here to lend your support to: Donation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33480.png?skin_name=chrome' border='0' ></a>
+<div class="pm-button">
+  <a href="https://www.payumoney.com/paybypayumoney/#/04EE508CD699DDFA8F7E827E1CB98B85">
+    <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/22.png" />
+  </a>
+</div>
 
 ## Table of Content
 
@@ -211,6 +215,10 @@ comic.naver.com has korean characters and some OS won't handle those characters.
 # Donations
 You can always send some money over from this :
 
-<a href='https://pledgie.com/campaigns/33480'><img alt='Click here to lend your support to: Donation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33480.png?skin_name=chrome' border='0' ></a>
+<div class="pm-button">
+  <a href="https://www.payumoney.com/paybypayumoney/#/04EE508CD699DDFA8F7E827E1CB98B85">
+    <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/22.png" />
+  </a>
+</div>
 
 Any amount is appreciated :)
