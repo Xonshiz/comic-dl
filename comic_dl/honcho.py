@@ -23,6 +23,7 @@ from sites.comic_naver import comic_naver_Url_Check
 from sites.readcomic import readcomic_Url_Check
 from sites.kisscomicus import kissmcomicus_Url_Check
 from sites.mangahere import mangahere_Url_Check
+from sites.rawsen import raw_sen_Url_Check
 from downloader import universal,cookies_required
 from urllib.parse import urlparse
 
@@ -37,6 +38,7 @@ def url_checker(input_url, current_directory, User_Name, User_Password, logger, 
 
     domain = urlparse(input_url).netloc
     logging.debug("Domain : %s" % domain)
+    # print(domain)
 
     if domain in ['mangafox.me', 'www.mangafox.me']:
         mangafox_Url_Check(input_url, current_directory, logger)
@@ -64,6 +66,9 @@ def url_checker(input_url, current_directory, User_Name, User_Password, logger, 
 
     elif domain in ['mangahere.co','www.mangahere.co']:
         mangahere_Url_Check(input_url, current_directory, logger, sortingOrder)
+
+    elif domain in ['raw.senmanga.com','www.raw.senmanga.com']:
+        raw_sen_Url_Check(input_url, current_directory, logger, sortingOrder)
         
     elif domain in ['']:
         print('You need to specify at least 1 URL. Please run : comic-dl -h')

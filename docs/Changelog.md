@@ -21,3 +21,4 @@
 - Site support for mangahere.co [2017.02.23]
 - Added `Sorting Order` a.k.a `Download Order` [2017.02.23]
 - Fixed #5 [2017.02.28]
+- Site support for raw.senmanga.com [2017.03.06]

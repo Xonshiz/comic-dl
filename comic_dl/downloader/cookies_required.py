@@ -59,7 +59,8 @@ def with_referer(File_Name_Final,Directory_path,tasty_cookies,ddl_image,referer,
 
     if not path.isfile(File_Check_Path): 
         print('[Comic-dl] Downloading : ',File_Name_Final)
-        headers = {'Referer': referer}    
+        headers = {'Referer': referer, 'User-Agent':
+            'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
         response = get(ddl_image, stream=True,cookies=tasty_cookies,headers=headers)
         try:
             with open(File_Name_Final, 'wb') as out_file:
