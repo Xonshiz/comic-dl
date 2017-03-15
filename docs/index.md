@@ -1,4 +1,4 @@
-# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest)
+# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
 
@@ -27,6 +27,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Suggesting A Feature](#suggesting-a-feature)
 * [Contributors](http://comic-dl.readthedocs.io/en/latest/Contributors/)
 * [Notes](#notes)
+* [Donations](#donations)
 
 ## Supported Websites
 You can check the list of supported websites [**`HERE`**](http://comic-dl.readthedocs.io/en/latest/Supported_Sites/).
@@ -203,3 +204,20 @@ This should be enough, but it'll be great if you can add more ;)
 
 # Notes
 comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
+
+# Donations
+You can always send some money over from this :
+
+Paypal : [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
+
+Patreon Link : https://www.patreon.com/xonshiz
+
+PayUMoney :
+
+<div class="pm-button">
+  <a href="https://www.payumoney.com/paybypayumoney/#/04EE508CD699DDFA8F7E827E1CB98B85">
+    <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/22.png" />
+  </a>
+</div>
+
+Any amount is appreciated :)
