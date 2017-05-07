@@ -24,6 +24,7 @@ from sites.readcomic import readcomic_Url_Check
 from sites.kisscomicus import kissmcomicus_Url_Check
 from sites.mangahere import mangahere_Url_Check
 from sites.rawsen import raw_sen_Url_Check
+from sites.omgbeaupeep import omgbeaupeep_Url_Check
 from downloader import universal,cookies_required
 from urllib.parse import urlparse
 
@@ -69,7 +70,10 @@ def url_checker(input_url, current_directory, User_Name, User_Password, logger, 
 
     elif domain in ['raw.senmanga.com','www.raw.senmanga.com']:
         raw_sen_Url_Check(input_url, current_directory, logger, sortingOrder)
-        
+
+    elif domain in ['omgbeaupeep.com','www.omgbeaupeep.com']:
+        omgbeaupeep_Url_Check(input_url, current_directory, logger, sortingOrder)
+
     elif domain in ['']:
         print('You need to specify at least 1 URL. Please run : comic-dl -h')
     else:

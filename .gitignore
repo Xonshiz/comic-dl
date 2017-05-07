@@ -24,6 +24,7 @@ $RECYCLE.BIN/
 *.xml
 *.jpeg
 *.jpg
+*.png
 
 # Windows shortcuts
 *.lnk
