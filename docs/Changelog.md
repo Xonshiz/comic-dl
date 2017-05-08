@@ -23,3 +23,4 @@
 - Fixed #5 [2017.02.28]
 - Site support for raw.senmanga.com [2017.03.06]
 - Site support for omgbeaupeep.com [2017.05.07]
+- Fix for image links in omgbeaupeep.com [2017.05.08]

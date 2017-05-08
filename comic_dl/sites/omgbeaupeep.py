@@ -24,7 +24,7 @@ def single_chapter(url, current_directory, logger):
     series_name = str(splitter[4]).replace("_", " ").title()
     debug("Series Name : %s" % series_name)
     # print(series_name)
-    chapter_number = str(splitter[5])
+    chapter_number = str(splitter[5]).lstrip("0")
     debug("Chapter Number : %s" % chapter_number)
     # print(chapter_number)
 
@@ -46,12 +46,32 @@ def single_chapter(url, current_directory, logger):
     print('{:^80}'.format('=====================================================================\n'))
     print('{:^80}'.format('%s - %s') % (series_name, chapter_number))
     print('{:^80}'.format('=====================================================================\n'))
-
+    
+    """Seems like there is some weird file naming convention going on in this website.
+    If the chapter number is Single Digit, ex : 9, then the image links are like :
+    Page 1 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/009%20-%20Beau%20Peep%20Book%209/Beau-Peep-Book-9-Page-001.jpg
+    Page 10 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/009%20-%20Beau%20Peep%20Book%209/Beau-Peep-Book-9-Page-010.jpg
+    
+    But, if the page number is Double Digit, ex : 10, then the image links are like :
+    Page 1 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/010%20-%20Beau%20Peep%20Book%2010/Beau-Peep-Book-10-Page-01.jpg
+    Page 10 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/010%20-%20Beau%20Peep%20Book%2010/Beau-Peep-Book-10-Page-10.jpg
+    
+    Notice the file names. 001 and 010 for Single digits(Chapter Number) and 01 & 10 for Double digits (Chapter Number).
+    """
     for pageNumber in range(1, lastPage + 1):
-        if len(str(pageNumber)) == 1:
-            pageNumber = "00" + str(pageNumber)
-        elif len(str(pageNumber)) == 2:
-            pageNumber = "0" + str(pageNumber)
+        # print(chapter_number)
+        if len(str(chapter_number)) == 1:
+            if len(str(pageNumber)) == 1:
+                pageNumber = "00" + str(pageNumber)
+            elif len(str(pageNumber)) == 2:
+                pageNumber = "0" + str(pageNumber)
+
+        elif len(str(chapter_number)) == 2:
+            # print(chapter_number)
+            if len(str(pageNumber)) == 1:
+                pageNumber = "0" + str(pageNumber)
+            elif len(str(pageNumber)) == 2:
+                pageNumber = str(pageNumber)
 
         if not path.exists(File_Directory):
             makedirs(File_Directory)
@@ -82,27 +102,3 @@ def omgbeaupeep_Url_Check(input_url, current_directory, logger, sortingOrder):
         url = str(url) + "001"
     # print(url)
     single_chapter(url, current_directory, logger)
-
-    # omgbeaupeep_single_regex = compile("https?://(?P<host>omgbeaupeep.com)/comics/(?P<comic_name>[\d\w-]+)/(?P<chapter_no>[\d]+).(\d|)")
-    # raw_sen_whole_regex = compile("https?://(?P<host>raw.senmanga.com)/(?P<Series_Name_whole>[\d\w-]+)?(|/)$")
-    #
-    # lines = input_url.split('\n')
-    # for line in lines:
-    #     found = search(omgbeaupeep_single_regex, line.replace("www.", ""))
-    #     if found:
-    #         match = found.groupdict()
-    #         if match['chapter_no']:
-    #             url = str(input_url)
-    #             single_chapter(url, current_directory, logger)
-    #
-    #         else:
-    #             pass
-    #
-    #     found = search(raw_sen_whole_regex, line.replace("www.", ""))
-    #     if found:
-    #         match = found.groupdict()
-    #         if match['Series_Name_whole']:
-    #             url = str(input_url)
-    #             whole_series(url, current_directory, logger, sortingOrder)
-    #         else:
-    #             pass
