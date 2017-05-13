@@ -1,4 +1,4 @@
-# List of Supported Websites
+#List of Supported Websites
 
 [PhantomJS] = Denotes that these sites need PhantomJS to be able to download content.
 
