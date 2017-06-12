@@ -59,7 +59,7 @@ Temporary Items
 .apdisk
 
 # Custom Stuff
-.idea
+/idea
 *.log
 *.xml
 *.xml
