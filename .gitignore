@@ -57,3 +57,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Custom Stuff
+.idea
+*.log
+*.xml

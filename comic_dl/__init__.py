@@ -1,2 +1,2 @@
-import sites
-import downloader
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-

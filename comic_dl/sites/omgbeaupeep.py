@@ -1,104 +1,50 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from logging import debug, basicConfig, DEBUG
-from re import search, compile, sub, findall
-from os import path, makedirs
-from cfscrape import create_scraper
-from requests import session
-from downloader.cookies_required import main as FileDownloader
+import globalFunctions
+import re
+import os
+import logging
 
 
-def single_chapter(url, current_directory, logger):
-    headers = {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    }
+class OmgBeauPeep(object):
+    def __init__(self, manga_url, **kwargs):
 
-    sess = session()
-    sess = create_scraper(sess)
-    s = sess.get(url, headers=headers).text.encode("utf-8")
-    tasty_cookies = sess.cookies
+        current_directory = kwargs.get("current_directory")
+        self.logging = kwargs.get("log_flag")
+        self.sorting = kwargs.get("sorting_order")
+        self.comic_name = self.name_cleaner(manga_url)
+        self.single_chapter(manga_url, self.comic_name)
 
-    splitter = str(url).split("/")
-    series_name = str(splitter[4]).replace("_", " ").title()
-    debug("Series Name : %s" % series_name)
-    # print(series_name)
-    chapter_number = str(splitter[5]).lstrip("0")
-    debug("Chapter Number : %s" % chapter_number)
-    # print(chapter_number)
+    def name_cleaner(self, url):
+        initial_name = str(url).split("/")[4].strip()
+        safe_name = re.sub(r"[0-9][a-z][A-Z]\ ", "", str(initial_name))
+        manga_name = str(safe_name.title()).replace("_", " ")
 
-    # http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/001%20-%20Beau%20Peep%20Book%201/Beau-Peep-Book-1-Page-001.jpg
-    imageLink = "http://www.omgbeaupeep.com/comics/mangas/" + str(search(r'"mangas/(.*?)" alt', str(s)).group(1)).replace(" ", "%20")
-    # print(imageLink)
+        return manga_name
 
-    lastPage = int(str(search(r'</select> of (.*?) <a', str(s)).group(1)).strip())
-    # print(lastPage)
+    def single_chapter(self, comic_url, comic_name):
+        chapter_number = str(comic_url).split("/")[5].strip()
 
-    Raw_File_Directory = str(series_name) + '/' + "Chapter " + str(chapter_number)
+        source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
-    File_Directory = sub('[^A-Za-z0-9\-\.\'\#\/ ]+', '',
-                         Raw_File_Directory)  # Fix for "Special Characters" in The series name
+        last_page_number = int(re.search(r"</select> of (\d+) <a", str(source)).group(1))
 
-    Directory_path = path.normpath(File_Directory)
+        file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-    print('\n')
-    print('{:^80}'.format('=====================================================================\n'))
-    print('{:^80}'.format('%s - %s') % (series_name, chapter_number))
-    print('{:^80}'.format('=====================================================================\n'))
-    
-    """Seems like there is some weird file naming convention going on in this website.
-    If the chapter number is Single Digit, ex : 9, then the image links are like :
-    Page 1 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/009%20-%20Beau%20Peep%20Book%209/Beau-Peep-Book-9-Page-001.jpg
-    Page 10 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/009%20-%20Beau%20Peep%20Book%209/Beau-Peep-Book-9-Page-010.jpg
-    
-    But, if the page number is Double Digit, ex : 10, then the image links are like :
-    Page 1 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/010%20-%20Beau%20Peep%20Book%2010/Beau-Peep-Book-10-Page-01.jpg
-    Page 10 = http://www.omgbeaupeep.com/comics/mangas/Beau%20Peep/010%20-%20Beau%20Peep%20Book%2010/Beau-Peep-Book-10-Page-10.jpg
-    
-    Notice the file names. 001 and 010 for Single digits(Chapter Number) and 01 & 10 for Double digits (Chapter Number).
-    """
-    for pageNumber in range(1, lastPage + 1):
-        # print(chapter_number)
-        if len(str(chapter_number)) == 1:
-            if len(str(pageNumber)) == 1:
-                pageNumber = "00" + str(pageNumber)
-            elif len(str(pageNumber)) == 2:
-                pageNumber = "0" + str(pageNumber)
+        directory_path = os.path.realpath(file_directory)
 
-        elif len(str(chapter_number)) == 2:
-            # print(chapter_number)
-            if len(str(pageNumber)) == 1:
-                pageNumber = "0" + str(pageNumber)
-            elif len(str(pageNumber)) == 2:
-                pageNumber = str(pageNumber)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not path.exists(File_Directory):
-            makedirs(File_Directory)
+        if not os.path.exists(file_directory):
+            os.makedirs(file_directory)
 
-        ddl_image = imageLink.replace(".jpg", "").replace(".png", "")[:-len(imageLink.replace(".jpg", "").replace(".png", "").split("-")[-1])] + str(pageNumber) + ".jpg"
-        # tempBreaker = imageLink
-        # print(ddl_image)
-        debug("DDL Image : %s" % ddl_image)
-
-        fileName = str(pageNumber) + ".jpg"
-
-        FileDownloader(fileName, Directory_path, tasty_cookies, ddl_image, logger)
-
-    print('\n')
-    print("Completed downloading ", series_name)
-
-def whole_series(url, current_directory, logger, sortingOrder):
-    print("Nothing for this section on this website.")
-
-def omgbeaupeep_Url_Check(input_url, current_directory, logger, sortingOrder):
-    if logger == "True":
-        basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=DEBUG)
-
-    url = str(input_url).replace("www.", "")
-    # print(url)
-    # print(len(url.split("/")))
-    if len(url.split("/")) < 7:
-        url = str(url) + "001"
-    # print(url)
-    single_chapter(url, current_directory, logger)
+        for x in range(1, last_page_number + 1):
+            chapter_url = str(comic_url) + "/" + str(x)
+            source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url)
+            image_link = "http://www.omgbeaupeep.com/comics/mangas/" + str(
+                re.search(r'"mangas/(.*?)"', str(source_new)).group(1)).replace(" ", "%20")
+            file_name = "0" + str(x) + ".jpg"
+            logging.debug("Chapter Url : %s" % chapter_url)
+            logging.debug("Image Link : %s" % image_link)
+            globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path, log_flag=self.logging)

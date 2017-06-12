@@ -1,80 +1,78 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-"""This python module decides which URL should be assigned to which other module from the site package.
-"""
-
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
-
 from future import standard_library
+
 standard_library.install_aliases()
-
-#import urllib as urllib2
 import logging
-from sites.yomanga import yomanga_Url_Check
-from sites.gomanga import gomanga_Url_Check
-from sites.mangafox import mangafox_Url_Check
-from sites.batoto import batoto_Url_Check
-from sites.kissmanga import kissmanga_Url_Check
-from sites.comic_naver import comic_naver_Url_Check
-from sites.readcomic import readcomic_Url_Check
-from sites.kisscomicus import kissmcomicus_Url_Check
-from sites.mangahere import mangahere_Url_Check
-from sites.rawsen import raw_sen_Url_Check
-from sites.omgbeaupeep import omgbeaupeep_Url_Check
-from downloader import universal,cookies_required
 from urllib.parse import urlparse
+from sites import foolSlide
+from sites import readcomicOnlineto
+from sites import comicNaver
+from sites import mangaHere
+from sites import rawSenManga
+from sites import mangaFox
+from sites import omgBeauPeep
+import globalFunctions
 
 
+class Honcho(object):
+    def checker(self, comic_url, **kwargs):
+        # print(comic_url)
 
+        user_name = kwargs.get("username")
+        password = kwargs.get("password")
+        current_directory = kwargs.get("current_directory")
+        log_flag = kwargs.get("logger")
+        sorting = kwargs.get("sorting_order")
 
-def url_checker(input_url, current_directory, User_Name, User_Password, logger, sortingOrder):
+        if log_flag is True:
+            logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
+            logging.debug("Comic Url : %s" % comic_url)
 
-    if logger == "True":
-        logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
-        logging.debug("Your URL : %s" % input_url)
+        fool_slide = ["yomanga.co", "gomanga.co"]
 
-    domain = urlparse(input_url).netloc
-    logging.debug("Domain : %s" % domain)
-    # print(domain)
+        domain = urlparse(comic_url).netloc
+        logging.debug("Selected Domain : %s" % domain)
 
-    if domain in ['mangafox.me', 'www.mangafox.me']:
-        mangafox_Url_Check(input_url, current_directory, logger)
-
-    elif domain in ['yomanga.co', 'www.yomanga.co']:
-        yomanga_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['gomanga.co', 'www.gomanga.co']:
-        gomanga_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['bato.to', 'www.bato.to']:
-        batoto_Url_Check(input_url, current_directory, User_Name, User_Password, logger)
-
-    elif domain in ['kissmanga.com', 'www.kissmanga.com']:
-        kissmanga_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['comic.naver.com', 'www.comic.naver.com']:
-        comic_naver_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['readcomiconline.to', 'www.readcomiconline.to']:
-        readcomic_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['kisscomic.us', 'www.kisscomic.us']:
-        kissmcomicus_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['mangahere.co','www.mangahere.co']:
-        mangahere_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['raw.senmanga.com','www.raw.senmanga.com']:
-        raw_sen_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['omgbeaupeep.com','www.omgbeaupeep.com']:
-        omgbeaupeep_Url_Check(input_url, current_directory, logger, sortingOrder)
-
-    elif domain in ['']:
-        print('You need to specify at least 1 URL. Please run : comic-dl -h')
-    else:
-        print("%s is unsupported at the moment. Please request on Github repository."%(domain))
+        if domain in fool_slide:
+            foolSlide.FoolSlide(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.readcomiconline.to", "readcomiconline.to"]:
+            readcomicOnlineto.ReadComicOnlineTo(manga_url=comic_url, logger=logging,
+                                                current_directory=current_directory, sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.comic.naver.com", "comic.naver.com"]:
+            comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                  sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.mangahere.co", "mangahere.co"]:
+            mangaHere.MangaHere(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.raw.senmanga.com", "raw.senmanga.com"]:
+            rawSenManga.RawSenaManga(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                     sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.mangafox.me", "mangafox.me"]:
+            mangaFox.MangaFox(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                              sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com"]:
+            omgBeauPeep.OmgBeauPeep(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                    sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.kissmanga.com", "kissmanga.com"]:
+            # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)
+            print("Under Development!")
+            return 0
+        elif domain in ["www.bato.to", "bato.to"]:
+            # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)
+            print("Under Development!")
+            return 0
+        else:
+            print("%s is not supported at the moment. You can request it on the Github repository." % domain)
