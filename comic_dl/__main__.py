@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import comic_dl
+from comic_dl import ComicDL
+# import comic_dl
 import sys
 
 if __name__ == "__main__":
-    comic_dl.ComicDL(sys.argv[1:])
+    ComicDL(sys.argv[1:])

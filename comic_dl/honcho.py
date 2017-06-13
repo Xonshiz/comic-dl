@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import absolute_import
-from future import standard_library
-
-standard_library.install_aliases()
+try:
+    from urllib.parse import urlparse
+except ImportError:
+     from urlparse import urlparse
 import logging
-from urllib.parse import urlparse
 from sites import foolSlide
 from sites import readcomicOnlineto
 from sites import comicNaver
@@ -21,8 +18,7 @@ import globalFunctions
 
 class Honcho(object):
     def checker(self, comic_url, **kwargs):
-        # print(comic_url)
-
+        
         user_name = kwargs.get("username")
         password = kwargs.get("password")
         current_directory = kwargs.get("current_directory")

@@ -63,3 +63,6 @@ Temporary Items
 *.log
 *.xml
 *.xml
+*.iml
+*.spec
+comic_dl/Logo.ico
