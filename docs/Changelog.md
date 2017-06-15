@@ -33,3 +33,4 @@
 - Fix for #18 [2017.06.12]
 - Fix for #21 [2017.06.12]
 - Downloader now prints file size, internet speed [2017.06.12]
+- Added Support for [ac.qq.com](http://ac.qq.com) [2017.06.15]

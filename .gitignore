@@ -66,3 +66,4 @@ Temporary Items
 *.iml
 *.spec
 comic_dl/Logo.ico
+comic_dl/build/__main__/warn__main__.txt

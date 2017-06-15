@@ -13,6 +13,7 @@ from sites import mangaHere
 from sites import rawSenManga
 from sites import mangaFox
 from sites import omgBeauPeep
+from sites import acQQ
 import globalFunctions
 
 
@@ -60,6 +61,10 @@ class Honcho(object):
             return 0
         elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com"]:
             omgBeauPeep.OmgBeauPeep(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                    sorting_order=sorting, log_flag=log_flag)
+            return 0
+        elif domain in ["www.ac.qq.com", "ac.qq.com"]:
+            acQQ.AcQq(manga_url=comic_url, logger=logging, current_directory=current_directory,
                                     sorting_order=sorting, log_flag=log_flag)
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
