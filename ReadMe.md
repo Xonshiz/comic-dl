@@ -109,11 +109,11 @@ The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](
 
 **Linux/Debian** users make sure that this script is executable.just run this command, if you run into problem(s) :
 
-`chmod +x comic-dl.py`
+`chmod +x __main__.py`
 
 and then, execute with this :
 
-`./comic-dl.py`
+`./__main__.py`
 
 ## Python Support
 This script supports both, Python 3 and Python 2.
@@ -162,7 +162,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 *If you're using the Python Script :*
 
-`comic-dl.py -i <URL TO THE COMIC>`
+`__main__.py -i <URL TO THE COMIC>`
 
 URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
@@ -172,7 +172,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 * Now, change the current working directory of the terminal to the one where you've downloaded this repository.
 * Now, in the Terminal, type this :
 
-`comic-dl.py -i <URL TO THE COMIC>`
+`__main__.py -i <URL TO THE COMIC>`
 
 URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
