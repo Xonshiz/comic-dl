@@ -34,7 +34,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ## Dependencies Installation
-This script can run on multiple Operating Systems. So, if you're using the `python` script instead of the `windows binary` of this script, then you'll need to get things ready first. Follow the instructions mentioned below, according to your OS.
+This script can run on multiple Operating Systems. You need `Node.js` in your system's path for this script to work. Download the `Node.Js` from [Node.js official website](https://nodejs.org/en/). Doesn't matter which operating system you're on, this is a must. Follow the instructions mentioned below, according to your OS.
 
 ### Linux/Debian :
 Since most (if not all) Linux/Debian OS come with python pre-installed, you don't have to install python manually. Make sure you're using python >= 2.7.x though.
