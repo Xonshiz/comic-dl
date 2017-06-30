@@ -8,7 +8,7 @@ import logging
 
 
 class ReadComicOnlineTo(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
@@ -23,11 +23,11 @@ class ReadComicOnlineTo(object):
         url_split = str(manga_url).split("/")
 
         if len(url_split) is 5:
-            self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name, sorting=self.sorting)
+            self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory)
         else:
-            self.single_chapter(manga_url, self.comic_name)
+            self.single_chapter(manga_url, self.comic_name, download_directory)
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -36,10 +36,11 @@ class ReadComicOnlineTo(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
@@ -59,7 +60,7 @@ class ReadComicOnlineTo(object):
 
         return manga_name
 
-    def full_series(self, comic_url, comic_name, sorting, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
         series_name_raw = str(comic_url).split("/")[3].strip()
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
@@ -70,12 +71,12 @@ class ReadComicOnlineTo(object):
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 chap_link = "http://readcomiconline.to/Comic/" + chap_link
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name)
+                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 chap_link = "http://readcomiconline.to/Comic/" + chap_link
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name)
+                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory)
 
         print("Finished Downloading")
         return 0

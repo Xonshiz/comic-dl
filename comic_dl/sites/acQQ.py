@@ -9,13 +9,18 @@ Original code for ac.qq.com : https://github.com/abcfy2/getComic/
 """
 
 class AcQq(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
-        # self.single_chapter(manga_url, self.comic_name)
-        self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting)
+        if "/index/" in str(manga_url):
+            self.single_chapter(manga_url, self.comic_name, download_directory)
+        else:
+            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
+                             download_directory=download_directory)
+
+
 
     def name_cleaner(self, url):
         initial_name = re.search(r"id/(\d+)", str(url)).group(1)
@@ -24,7 +29,7 @@ class AcQq(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         chapter_number = re.search(r"cid/(\d+)", str(comic_url)).group(1)
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -45,12 +50,13 @@ class AcQq(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         for image_link in img_list:
             file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
@@ -58,7 +64,7 @@ class AcQq(object):
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 
-    def full_series(self, comic_url, comic_name, sorting, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
         chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
         content_json = json.loads(str(source))
@@ -81,7 +87,7 @@ class AcQq(object):
             for chap_link in all_links:
                 try:
                     logging.debug("chap_link : %s" % chap_link)
-                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name)
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
@@ -91,7 +97,7 @@ class AcQq(object):
             for chap_link in all_links[::-1]:
                 try:
                     logging.debug("chap_link : %s" % chap_link)
-                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name)
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)

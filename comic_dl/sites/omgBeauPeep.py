@@ -8,13 +8,13 @@ import logging
 
 
 class OmgBeauPeep(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
-        self.single_chapter(manga_url, self.comic_name)
+        self.single_chapter(manga_url, self.comic_name, download_directory)
 
     def name_cleaner(self, url):
         initial_name = str(url).split("/")[4].strip()
@@ -23,7 +23,7 @@ class OmgBeauPeep(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         chapter_number = str(comic_url).split("/")[5].strip()
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -32,12 +32,13 @@ class OmgBeauPeep(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         for x in range(1, last_page_number + 1):
             chapter_url = str(comic_url) + "/" + str(x)

@@ -8,7 +8,7 @@ import logging
 
 
 class MangaHere(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
@@ -18,11 +18,11 @@ class MangaHere(object):
         url_split = str(manga_url).split("/")
 
         if len(url_split) is 6:
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting)
+            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory)
         else:
-            self.single_chapter(manga_url, self.comic_name)
+            self.single_chapter(manga_url, self.comic_name, download_directory)
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         # Some chapters have integer values and some have decimal values. We will look for decimal first.
         try:
             chapter_number = re.search(r"c(\d+\.\d+)", str(comic_url)).group(1)
@@ -34,12 +34,13 @@ class MangaHere(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         for chapCount in range(1, int(last_page_number) + 1):
 
@@ -71,7 +72,7 @@ class MangaHere(object):
 
         return anime_name
 
-    def full_series(self, comic_url, comic_name, sorting, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         all_links = re.findall(r"class=\"color_0077\" href=\"(.*?)\"", str(source))
@@ -88,11 +89,11 @@ class MangaHere(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in chapter_links:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name)
+                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in chapter_links[::-1]:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name)
+                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
 
         print("Finished Downloading")
         return 0

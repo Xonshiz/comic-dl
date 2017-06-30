@@ -5,10 +5,11 @@ import globalFunctions
 import re
 import os
 import logging
+import time
 
 
 class MangaFox(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
@@ -17,9 +18,9 @@ class MangaFox(object):
         url_split = str(manga_url).split("/")
 
         if len(url_split) is 6:
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting)
+            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory)
         else:
-            self.single_chapter(manga_url, self.comic_name)
+            self.single_chapter(manga_url, self.comic_name, download_directory)
 
 
     def name_cleaner(self, url):
@@ -29,7 +30,7 @@ class MangaFox(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         current_chapter_volume = str(re.search(r"current_chapter=\"(.*?)\";", str(source)).group(1))
@@ -41,12 +42,13 @@ class MangaFox(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         for file_name in range(current_page_number, last_page_number +1):
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
@@ -66,7 +68,7 @@ class MangaFox(object):
 
         return 0
 
-    def full_series(self, comic_url, comic_name, sorting, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
@@ -78,7 +80,9 @@ class MangaFox(object):
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name)
+                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
+                print("Waiting For 5 Seconds...")
+                time.sleep(5) # Test wait for the issue #23
 
         print("Finished Downloading")
         return 0

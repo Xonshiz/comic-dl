@@ -138,6 +138,7 @@ Currently, the script supports these arguments :
 -p,--password                          Indicates password for a website.
 -v,--verbose                           Enables Verbose logging.
 --sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
+-dd,--download-directory               Specifies custom download location for the comics/manga.
 ```
 #### Note :
 Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.

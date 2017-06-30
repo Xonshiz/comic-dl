@@ -8,7 +8,7 @@ import logging
 
 
 class RawSenaManga(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
@@ -16,9 +16,9 @@ class RawSenaManga(object):
         url_split = str(manga_url).split("/")
 
         if len(url_split) is 5:
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting)
+            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory)
         else:
-            self.single_chapter(manga_url, self.comic_name)
+            self.single_chapter(manga_url, self.comic_name, download_directory)
 
     def name_cleaner(self, url):
         initial_name = str(url).split("/")[3].strip()
@@ -27,7 +27,7 @@ class RawSenaManga(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         chapter_number = str(comic_url).split("/")[4].strip()
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -41,12 +41,13 @@ class RawSenaManga(object):
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
-        directory_path = os.path.realpath(file_directory)
+        # directory_path = os.path.realpath(file_directory)
+        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        if not os.path.exists(file_directory):
-            os.makedirs(file_directory)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         for x in range(0, last_page_number + 1):
             if x is 0:
@@ -61,7 +62,7 @@ class RawSenaManga(object):
                                                              cookies=cookies_main, log_flag=self.logging)
         return 0
 
-    def full_series(self, comic_url, comic_name, sorting, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
         series_name_raw = str(comic_url).split("/")[3].strip()
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         # a href="/Flying-Witch-Ishizuka-Chihiro/34/1"
@@ -74,10 +75,10 @@ class RawSenaManga(object):
             for link in all_links:
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name)
+                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for link in all_links[::-1]:
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name)
+                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory)

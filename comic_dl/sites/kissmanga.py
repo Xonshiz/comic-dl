@@ -7,7 +7,7 @@ import os
 
 
 class KissManga(object):
-    def __init__(self, manga_url, **kwargs):
+    def __init__(self, manga_url, download_directory, **kwargs):
         print("Currently Under Development")
         # current_directory = kwargs.get("current_directory")
         # self.logging = kwargs.get("logger")
@@ -23,7 +23,7 @@ class KissManga(object):
 
         return anime_name
 
-    def single_chapter(self, comic_url, comic_name):
+    def single_chapter(self, comic_url, comic_name, download_directory):
         chapter_number = re.search("(\d+)", str(comic_url)).group(1)
         # print(chapter_number)
 
