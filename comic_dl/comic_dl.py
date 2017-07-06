@@ -19,6 +19,7 @@ class ComicDL(object):
         parser.add_argument('--version', action='store_true', help='Shows version and exits.')
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
         parser.add_argument('-dd', '--download-directory', nargs=1, help='Decides the download directory of the comics/manga.')
+        parser.add_argument('-rn', '--range', nargs=1, help='Specifies the range of chapters to download.', default='All')
 
         required_args = parser.add_argument_group('Required Arguments :')
         required_args.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
@@ -56,10 +57,12 @@ class ComicDL(object):
                 args.sorting = ["ascending"]
             if not args.download_directory:
                 args.download_directory = [os.getcwd()]
+            if type(args.range) == list:
+                args.range = args.range[0]
 
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
-                                    sorting_order=args.sorting[0], logger=logger, download_directory=args.download_directory[0])
+                                    sorting_order=args.sorting[0], logger=logger, download_directory=args.download_directory[0], chapter_range=args.range)
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)

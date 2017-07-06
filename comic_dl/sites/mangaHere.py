@@ -8,7 +8,7 @@ import logging
 
 
 class MangaHere(object):
-    def __init__(self, manga_url, download_directory, **kwargs):
+    def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
@@ -18,7 +18,7 @@ class MangaHere(object):
         url_split = str(manga_url).split("/")
 
         if len(url_split) is 6:
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory)
+            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory)
 
@@ -72,7 +72,7 @@ class MangaHere(object):
 
         return anime_name
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range,**kwargs):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         all_links = re.findall(r"class=\"color_0077\" href=\"(.*?)\"", str(source))
@@ -86,6 +86,17 @@ class MangaHere(object):
                 pass
 
         logging.debug("All Links : %s" % all_links)
+
+        # Uh, so the logic is that remove all the unnecessary chapters beforehand and then pass the list for further operations.
+        if chapter_range != "All":
+            # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
+            starting = int(str(chapter_range).split("-")[0]) - 1
+            ending = int(str(chapter_range).split("-")[1])
+            indexes = [x for x in range(starting, ending)]
+            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last, it is to reverse the list again, becasue I'm reverting it again at the end.
+            chapter_links = [chapter_links[::-1][x] for x in indexes][::-1]
+        else:
+            chapter_links = chapter_links
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in chapter_links:

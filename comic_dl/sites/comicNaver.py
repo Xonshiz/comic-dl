@@ -8,14 +8,14 @@ import logging
 
 
 class ComicNaver(object):
-    def __init__(self, manga_url, download_directory, **kwargs):
+    def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
 
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
         if "list.nhn" in manga_url:
-            self.full_series(manga_url, self.comic_name, self.sorting, download_directory)
+            self.full_series(manga_url, self.comic_name, self.sorting, download_directory, chapter_range=chapter_range)
 
         elif "detail.nhn" in manga_url:
             self.single_chapter(manga_url, self.comic_name, download_directory)
@@ -53,7 +53,7 @@ class ComicNaver(object):
             file_name = "0" + str(image_list.index(link)) + ".jpg"  # 0 for #18 (Leading 0s)
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path, log_flag=self.logging)
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, **kwargs):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         # print(source)
 
@@ -65,6 +65,17 @@ class ComicNaver(object):
             chapter_url = "http://comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s" % (comic_name, x)
             all_links.append(chapter_url)
         logging.debug("All Links : %s" % all_links)
+
+        # Uh, so the logic is that remove all the unnecessary chapters beforehand and then pass the list for further operations.
+        if chapter_range != "All":
+            # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
+            starting = int(str(chapter_range).split("-")[0]) - 1
+            ending = int(str(chapter_range).split("-")[1])
+            indexes = [x for x in range(starting, ending)]
+            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last, it is to reverse the list again, becasue I'm reverting it again at the end.
+            all_links = [all_links[::-1][x] for x in indexes][::-1]
+        else:
+            all_links = all_links
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

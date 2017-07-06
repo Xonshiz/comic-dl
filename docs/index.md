@@ -139,9 +139,12 @@ Currently, the script supports these arguments :
 -v,--verbose                           Enables Verbose logging.
 --sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
 -dd,--download-directory               Specifies custom download location for the comics/manga.
+-rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
 ```
 #### Note :
-Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
+1.) Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
+
+2.) Since omgbeaupeep is uh... well, you just need to pass the absolute chapter numbers in the range section for that. For eg : Check out [Richie Rich](http://www.omgbeaupeep.com/comics/Richie_Rich/647/). If you want to download first 600 episodes, you would pass : --range 001-600. Just check the URLs for those chapters and pass accordingly.
 
 ## Youtube Tutorial
 [![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)](https://www.youtube.com/watch?v=TmQYhLHEZxA)

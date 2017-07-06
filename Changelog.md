@@ -36,3 +36,4 @@
 - Added Support for [ac.qq.com](http://ac.qq.com) [2017.06.15]
 - Fix for #23 [2017.06.30]
 - Custom Download Location Support Added (#20) [2017.06.30]
+- Support to download only selected chapters (range) [2017.07.06]

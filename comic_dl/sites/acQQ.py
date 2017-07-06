@@ -9,7 +9,7 @@ Original code for ac.qq.com : https://github.com/abcfy2/getComic/
 """
 
 class AcQq(object):
-    def __init__(self, manga_url, download_directory, **kwargs):
+    def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
@@ -18,7 +18,7 @@ class AcQq(object):
             self.single_chapter(manga_url, self.comic_name, download_directory)
         else:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
-                             download_directory=download_directory)
+                             download_directory=download_directory, chapter_range=chapter_range)
 
 
 
@@ -64,7 +64,7 @@ class AcQq(object):
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, **kwargs):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, **kwargs):
         chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
         content_json = json.loads(str(source))
@@ -82,6 +82,15 @@ class AcQq(object):
             all_links.append(chapter_url)
 
         logging.debug("all_links : %s" % all_links)
+        if chapter_range != "All":
+            # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
+            starting = int(str(chapter_range).split("-")[0]) - 1
+            ending = int(str(chapter_range).split("-")[1])
+            indexes = [x for x in range(starting, ending)]
+            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last, it is to reverse the list again, becasue I'm reverting it again at the end.
+            all_links = [all_links[::-1][x] for x in indexes][::-1]
+        else:
+            all_links = all_links
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
