@@ -37,5 +37,5 @@
 - Fix for #23 [2017.06.30]
 - Custom Download Location Support Added (#20) [2017.06.30]
 - Support to download only selected chapters (range) [2017.07.06]
-- Fix for #32 [2017.07.06]
+- Fix for #32 [2017.07.07]
 - Support for converting downloaded images into pdf [2017.07.07]
