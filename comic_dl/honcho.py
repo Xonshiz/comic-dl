@@ -4,7 +4,7 @@
 try:
     from urllib.parse import urlparse
 except ImportError:
-     from urlparse import urlparse
+    from urlparse import urlparse
 import logging
 from sites import foolSlide
 from sites import readcomicOnlineto
@@ -19,7 +19,7 @@ import globalFunctions
 
 class Honcho(object):
     def checker(self, comic_url, download_directory, chapter_range, **kwargs):
-        
+
         user_name = kwargs.get("username")
         password = kwargs.get("password")
         current_directory = kwargs.get("current_directory")
@@ -37,35 +37,51 @@ class Honcho(object):
 
         if domain in fool_slide:
             foolSlide.FoolSlide(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.readcomiconline.to", "readcomiconline.to"]:
             readcomicOnlineto.ReadComicOnlineTo(manga_url=comic_url, logger=logging,
-                                                current_directory=current_directory, sorting_order=sorting, log_flag=log_flag, download_directory=download_directory)
+                                                current_directory=current_directory, sorting_order=sorting,
+                                                log_flag=log_flag, download_directory=download_directory,
+                                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                                delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.comic.naver.com", "comic.naver.com"]:
             comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                  sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                                  sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                  chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                  delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.mangahere.co", "mangahere.co"]:
             mangaHere.MangaHere(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.raw.senmanga.com", "raw.senmanga.com"]:
             rawSenManga.RawSenaManga(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                     sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                                     sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                     chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                     delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.mangafox.me", "mangafox.me"]:
             mangaFox.MangaFox(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                              sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                              sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                              chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                              delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com"]:
             omgBeauPeep.OmgBeauPeep(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                    delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.ac.qq.com", "ac.qq.com"]:
             acQQ.AcQq(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory, chapter_range=chapter_range)
+                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                      chapter_range=chapter_range)
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
             # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)

@@ -8,19 +8,22 @@ import logging
 Original code for ac.qq.com : https://github.com/abcfy2/getComic/
 """
 
+
 class AcQq(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
+        conversion = kwargs.get("conversion")
+        delete_files = kwargs.get("delete_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
         if "/index/" in str(manga_url):
-            self.single_chapter(manga_url, self.comic_name, download_directory)
+            self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
+                                delete_files=delete_files)
         else:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
-                             download_directory=download_directory, chapter_range=chapter_range)
-
-
+                             download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
+                             delete_files=delete_files)
 
     def name_cleaner(self, url):
         initial_name = re.search(r"id/(\d+)", str(url)).group(1)
@@ -29,7 +32,7 @@ class AcQq(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name, download_directory):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
         chapter_number = re.search(r"cid/(\d+)", str(comic_url)).group(1)
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -64,7 +67,12 @@ class AcQq(object):
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, **kwargs):
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+                                                     chapter_number)
+
+        return 0
+
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
         chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
         content_json = json.loads(str(source))
@@ -96,7 +104,9 @@ class AcQq(object):
             for chap_link in all_links:
                 try:
                     logging.debug("chap_link : %s" % chap_link)
-                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                                        download_directory=download_directory, conversion=conversion,
+                                        delete_files=delete_files)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
@@ -106,7 +116,9 @@ class AcQq(object):
             for chap_link in all_links[::-1]:
                 try:
                     logging.debug("chap_link : %s" % chap_link)
-                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, download_directory=download_directory)
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                                        download_directory=download_directory, conversion=conversion,
+                                        delete_files=delete_files)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
@@ -114,7 +126,6 @@ class AcQq(object):
 
         print("Finished Downloading")
         return 0
-
 
     def __decode_base64_data(self, base64data):
         base64DecodeChars = [- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,

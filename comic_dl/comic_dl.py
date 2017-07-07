@@ -20,6 +20,8 @@ class ComicDL(object):
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
         parser.add_argument('-dd', '--download-directory', nargs=1, help='Decides the download directory of the comics/manga.')
         parser.add_argument('-rn', '--range', nargs=1, help='Specifies the range of chapters to download.', default='All')
+        parser.add_argument('--convert', nargs=1, help='Tells the script to convert the downloaded Images to PDF or anything else.',default='None')
+        parser.add_argument('--keep', nargs=1, help='Tells the script whether to keep the files after conversion or not.', default='True')
 
         required_args = parser.add_argument_group('Required Arguments :')
         required_args.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
@@ -59,10 +61,14 @@ class ComicDL(object):
                 args.download_directory = [os.getcwd()]
             if type(args.range) == list:
                 args.range = args.range[0]
+            if not args.convert:
+                args.convert = ["None"]
+            if not args.keep:
+                args.keep = ["True"]
 
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
-                                    sorting_order=args.sorting[0], logger=logger, download_directory=args.download_directory[0], chapter_range=args.range)
+                                    sorting_order=args.sorting[0], logger=logger, download_directory=args.download_directory[0], chapter_range=args.range, conversion=args.convert[0], delete_files=args.keep[0])
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)

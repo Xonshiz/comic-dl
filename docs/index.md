@@ -140,6 +140,8 @@ Currently, the script supports these arguments :
 --sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
 -dd,--download-directory               Specifies custom download location for the comics/manga.
 -rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
+--conversion						   Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf) (Default : No) [By default, script will not convert anything.]
+--keep   							   Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
 ```
 #### Note :
 1.) Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.

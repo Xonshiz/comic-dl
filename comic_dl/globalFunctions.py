@@ -9,6 +9,8 @@ import os
 import shutil
 import sys
 import logging
+import glob
+import img2pdf
 
 
 class GlobalFunctions(object):
@@ -32,7 +34,7 @@ class GlobalFunctions(object):
             page_source = BeautifulSoup(connection.text.encode("utf-8"), "html.parser")
             connection_cookies = sess.cookies
 
-            return (page_source, connection_cookies)
+            return page_source, connection_cookies
 
     def downloader(self, image_ddl, file_name, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
@@ -98,3 +100,34 @@ class GlobalFunctions(object):
             print('{:^80}'.format("Manga Name : %s" % anime_name))
             print('{:^80}'.format("Chapter Number - %s" % episode_number))
             print('{:^80}'.format('=====================================================================\n'))
+
+    def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
+        if str(conversion).lower().strip() in ['pdf']:
+            # Such kind of lambda functions and breaking is dangerous...
+            im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
+                                                              key=lambda x: int(
+                                                                  str((x.split('.')[0])).split("\\")[-1]))]
+            pdf_file_name = "{0} - Ch {1}.pdf".format(comic_name, chapter_number)
+            try:
+                with open(str(directory_path) + "/" + str(pdf_file_name), "wb") as f:
+                    f.write(img2pdf.convert(im_files))
+                    print("Converted the file to pdf...")
+            except Exception as FileWriteError:
+                print("Coudn't write the pdf file...")
+                print(FileWriteError)
+                # Let's not delete the files if the conversion failed...
+                delete_files = "No"
+                pass
+        else:
+            print("Seems like that conversion isn't supported yet. Please report it on the repository...")
+            pass
+
+        if str(delete_files).lower().strip() in ['no', 'false', 'delete']:
+            for image_files in glob.glob(str(directory_path) + "/" + "*.jpg"):
+                try:
+                    os.remove(image_files)
+                except Exception as FileDeleteError:
+                    print("Couldn't delete the image file...")
+                    print(FileDeleteError)
+                    pass
+            print("Deleted the files...")
