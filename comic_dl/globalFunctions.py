@@ -118,6 +118,8 @@ class GlobalFunctions(object):
                 # Let's not delete the files if the conversion failed...
                 delete_files = "No"
                 pass
+        elif str(conversion) is None:
+            pass
         else:
             print("Seems like that conversion isn't supported yet. Please report it on the repository...")
             pass

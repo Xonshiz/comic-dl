@@ -39,3 +39,4 @@
 - Support to download only selected chapters (range) [2017.07.06]
 - Fix for #32 [2017.07.07]
 - Support for converting downloaded images into pdf #17 [2017.07.07]
+- Fix for #33 [2017.07.07]
