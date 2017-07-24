@@ -40,3 +40,6 @@
 - Fix for #32 [2017.07.07]
 - Support for converting downloaded images into pdf #17 [2017.07.07]
 - Fix for #33 [2017.07.07]
+- Fix for #34 [2017.07.24]
+- Fix for #36 [2017.07.24]
+- Fix for #37 [2017.07.24]

@@ -102,6 +102,7 @@ class GlobalFunctions(object):
             print('{:^80}'.format('=====================================================================\n'))
 
     def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
+
         if str(conversion).lower().strip() in ['pdf']:
             # Such kind of lambda functions and breaking is dangerous...
             im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
@@ -118,7 +119,14 @@ class GlobalFunctions(object):
                 # Let's not delete the files if the conversion failed...
                 delete_files = "No"
                 pass
-        elif str(conversion) is None:
+            try:
+                self.conversion_cleaner(file_path=str(directory_path) + "/" + str(pdf_file_name))
+            except Exception as FileMoveError:
+                print("Could not move the pdf file.")
+                print(FileMoveError)
+                pass
+
+        elif str(conversion) == "None":
             pass
         else:
             print("Seems like that conversion isn't supported yet. Please report it on the repository...")
@@ -133,3 +141,23 @@ class GlobalFunctions(object):
                     print(FileDeleteError)
                     pass
             print("Deleted the files...")
+
+    def conversion_cleaner(self, file_path):
+        print("Cleaning Up...")
+        path_breaker = str(file_path).split("/")
+
+        path_breaker.pop()
+        old_path = '/'.join(path_breaker)
+
+        path_breaker = str(old_path).split("\\")
+        path_breaker.pop()
+        new_path = str('/'.join(path_breaker)) + "/"
+
+        try:
+            shutil.move(file_path, new_path)
+            shutil.rmtree(old_path)
+        except Exception as FileDeleteError:
+            print("Couldn't move the file or delete the directory.")
+            print(FileDeleteError)
+            pass
+

@@ -34,7 +34,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 You can check the list of supported websites [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ## Dependencies Installation
-This script can run on multiple Operating Systems. You need `Node.js` in your system's path for this script to work. Download the `Node.Js` from [Node.js official website](https://nodejs.org/en/). Doesn't matter which operating system you're on, this is a must. Follow the instructions mentioned below, according to your OS.
+This script can run on multiple Operating Systems. You need `Node.js` in your system's path for this script to work (You need this on each and every Operating System, even on WINDOWS :/). Download the `Node.Js` from [Node.js official website](https://nodejs.org/en/). Doesn't matter which operating system you're on, this is a must. Follow the instructions mentioned below, according to your OS.
 
 ### Linux/Debian :
 Since most (if not all) Linux/Debian OS come with python pre-installed, you don't have to install python manually. Make sure you're using python >= 2.7.x though.
@@ -78,7 +78,7 @@ phantomjs --version
 ```
 
 ### Windows :
-If you're on windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything. But, if for some weird reason you want to use Python script instead, then follow these steps :
+If you're on windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything, except Node.js. But, if for some weird reason you want to use Python script instead, then follow these steps :
 
 * Install Python > 2.7.6. Download the desired installer from [here](https://www.python.org/downloads/).
 * [Add it in the system path](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path) (if not already added).
@@ -90,6 +90,8 @@ pip install -r requirements.txt
 ```
 * It should install the required external libraries.
 * Download PhantomJS : http://phantomjs.org/download.html
+
+Now, install Node.Js as well and make sure it's in your path.
 
 Well, if everything came up good without any error(s), then you're good to go!
 
@@ -140,7 +142,7 @@ Currently, the script supports these arguments :
 --sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
 -dd,--download-directory               Specifies custom download location for the comics/manga.
 -rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
---conversion						   Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf) (Default : No) [By default, script will not convert anything.]
+--convert						       Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf) (Default : No) [By default, script will not convert anything.]
 --keep   							   Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
 ```
 #### Note :
@@ -164,7 +166,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 
 *If you're using the windows binary :*
 
-`comic-dl.exe -i <URL TO THE COMIC>`
+`comic_dl.exe -i <URL TO THE COMIC>`
 
 *If you're using the Python Script :*
 

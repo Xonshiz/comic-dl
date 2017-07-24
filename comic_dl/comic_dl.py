@@ -20,11 +20,10 @@ class ComicDL(object):
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
         parser.add_argument('-dd', '--download-directory', nargs=1, help='Decides the download directory of the comics/manga.')
         parser.add_argument('-rn', '--range', nargs=1, help='Specifies the range of chapters to download.', default='All')
-        parser.add_argument('--convert', nargs=1, help='Tells the script to convert the downloaded Images to PDF or anything else.',default='None')
+        parser.add_argument('--convert', nargs=1, help='Tells the script to convert the downloaded Images to PDF or anything else.')
         parser.add_argument('--keep', nargs=1, help='Tells the script whether to keep the files after conversion or not.', default='True')
 
-        required_args = parser.add_argument_group('Required Arguments :')
-        required_args.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
+        parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
 
         parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.",
                             action="store_true")
