@@ -49,10 +49,22 @@ class ReadComicOnlineTo(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
+        image_len = len(image_list)
         for link in image_list:
             link = link.replace("\\", "")
             # file_name = str(link).split("/")[-1].strip()
-            file_name = "0" + str(image_list.index(link)) + ".jpg"
+            #file_name = "0" + str(image_list.index(link)) + ".jpg"
+
+            if len(str(image_list.index(link))) < len(str(image_len)):
+                number_of_zeroes = len(str(image_len)) - len(str(image_list.index(link)))
+                # If a chapter has only 9 images, we need to avoid 0*0 case.
+                if len(str(number_of_zeroes)) == 0:
+                    file_name = str(image_list.index(link)) + ".jpg"
+                else:
+                    file_name = "0" * int(number_of_zeroes) + str(image_list.index(link)) + ".jpg"
+            else:
+                file_name = str(image_list.index(link)) + ".jpg"
+
             logging.debug("Image Link : %s" % link)
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path)
 

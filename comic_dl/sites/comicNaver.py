@@ -54,7 +54,16 @@ class ComicNaver(object):
         for link in image_list:
             # link = link.replace("\\", "")
             # file_name = str(link).split("/")[-1].strip()
-            file_name = "0" + str(image_list.index(link)) + ".jpg"  # 0 for #18 (Leading 0s)
+            file_name = "0" + str(image_list.index(link)) + ".jpg"
+            if len(str(file_name)) < len(str(image_list[-1])):
+                number_of_zeroes = len(str(image_list[-1])) - len(str(file_name))
+                # If a chapter has only 9 images, we need to avoid 0*0 case.
+                if len(str(number_of_zeroes)) == 0:
+                    file_name = str(image_list.index(link)) + ".jpg"
+                else:
+                    file_name = "0" * int(number_of_zeroes) + str(image_list.index(link)) + ".jpg"
+            else:
+                file_name = str(image_list.index(link)) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 

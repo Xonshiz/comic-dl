@@ -47,9 +47,20 @@ class FoolSlide(object):
 
         for link in img_links:
             link = link.replace("\\", "")
-            file_name = "0" + str(link).split("/")[-1].strip()
-            globalFunctions.GlobalFunctions().downloader(link, file_name, chapter_url, directory_path,
-                                                         log_flag=self.logging)
+            #file_name = "0" + str(link).split("/")[-1].strip()
+            file_count = str(str(link).split("/")[-1]).strip().replace(".jpg", "").replace(".png", "")
+            print("File Count : {0}".format(file_count))
+            if len(str(file_count)) < len(str(img_links[-1])):
+                number_of_zeroes = len(str(img_links[-1])) - len(str(file_count))
+                # If a chapter has only 9 images, we need to avoid 0*0 case.
+                if len(str(number_of_zeroes)) == 0:
+                    file_name = str(img_links.index(link)) + ".jpg"
+                else:
+                    file_name = "0" * int(number_of_zeroes) + str(img_links.index(link)) + ".jpg"
+            else:
+                file_name = str(img_links.index(link)) + ".jpg"
+            # globalFunctions.GlobalFunctions().downloader(link, file_name, chapter_url, directory_path,
+            #                                              log_flag=self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)

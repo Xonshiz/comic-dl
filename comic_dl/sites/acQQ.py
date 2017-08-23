@@ -63,6 +63,15 @@ class AcQq(object):
 
         for image_link in img_list:
             file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+            if len(str(file_name)) < len(str(img_list[-1])):
+                number_of_zeroes = len(str(img_list[-1])) - len(str(file_name))
+                # If a chapter has only 9 images, we need to avoid 0*0 case.
+                if len(str(number_of_zeroes)) == 0:
+                    file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+                else:
+                    file_name = "0" * int(number_of_zeroes) + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+            else:
+                file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
             logging.debug("image_link : %s" % image_link)
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)

@@ -54,6 +54,7 @@ class MangaFox(object):
             os.makedirs(directory_path)
 
         for file_name in range(current_page_number, last_page_number + 1):
+            # print("Actual file_name : {0}".format(file_name))
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
             chapter_url = "http://mangafox.me/manga/" + str(series_code) + "/" + str(
                 current_chapter_volume) + "/%s.html" % str(file_name)
@@ -66,8 +67,16 @@ class MangaFox(object):
                 x = link.findAll('img')
                 for a in x:
                     image_link = a['src']
-
-                    file_name = "0" + str(file_name) + ".jpg"
+                    # Fix for 30 (File Naming 0's)
+                    if len(str(file_name)) < len(str(last_page_number)):
+                        number_of_zeroes = len(str(last_page_number)) - len(str(file_name))
+                        # If a chapter has only 9 images, we need to avoid 0*0 case.
+                        if len(str(number_of_zeroes)) == 0:
+                            file_name = str(file_name) + ".jpg"
+                        else:
+                            file_name = "0"*int(number_of_zeroes) + str(file_name) + ".jpg"
+                    else:
+                        file_name = str(file_name) + ".jpg"
                     logging.debug("Image Link : %s" % image_link)
                     globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                                  log_flag=self.logging)
