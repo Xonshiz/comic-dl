@@ -56,6 +56,7 @@ class MangaHere(object):
                                                                                         cookies=cookies_main)
 
             image_link_finder = source_new.findAll('section', {'class': 'read_img'})
+
             for link in image_link_finder:
                 x = link.findAll('img')
                 for a in x:
@@ -64,7 +65,17 @@ class MangaHere(object):
                     if image_link in ['http://www.mangahere.co/media/images/loading.gif']:
                         pass
                     else:
-                        file_name = "0" + str(chapCount) + ".jpg"
+                        # file_name = "0" + str(chapCount) + ".jpg"
+                        if len(str(chapCount)) < len(str(last_page_number)):
+                            number_of_zeroes = len(str(last_page_number)) - len(str(chapCount))
+                            # If a chapter has only 9 images, we need to avoid 0*0 case.
+                            if len(str(number_of_zeroes)) == 0:
+                                file_name = str(chapCount) + ".jpg"
+                            else:
+                                file_name = "0" * int(number_of_zeroes) + str(chapCount) + ".jpg"
+                        else:
+                            file_name = str(chapCount) + ".jpg"
+
                         logging.debug("Image Link : %s" % image_link)
                         globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                                      log_flag=self.logging)
