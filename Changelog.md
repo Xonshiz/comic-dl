@@ -45,3 +45,4 @@
 - Fix for #37 [2017.07.24]
 - Fix for #30 [2017.08.23]
 - Fix for #30 (mangahere.co) [2017.08.23]
+- Added support for CBZ file creation (#28) [2017.08.24]

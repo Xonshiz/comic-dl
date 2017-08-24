@@ -126,6 +126,31 @@ class GlobalFunctions(object):
                 print(FileMoveError)
                 pass
 
+        elif str(conversion).lower().strip() in ['cbz']:
+            # Such kind of lambda functions and breaking is dangerous...
+
+            main_directory = str(directory_path).split('\\')
+            main_directory.pop()
+            cbz_directory = str('\\'.join(main_directory)) + '\\'
+
+            cbz_file_name = str(cbz_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
+
+            try:
+                shutil.make_archive(cbz_file_name, 'zip', directory_path)
+                os.rename(str(cbz_file_name) + ".zip", str(cbz_file_name).replace(".zip", ".cbz"))
+            except Exception as CBZError:
+                print("Coudn't write the cbz file...")
+                print(CBZError)
+                # Let's not delete the files if the conversion failed...
+                delete_files = "No"
+                pass
+            try:
+                self.conversion_cleaner(file_path=str(directory_path))
+            except Exception as FileMoveError:
+                print("Could not move the pdf file.")
+                print(FileMoveError)
+                pass
+
         elif str(conversion) == "None":
             pass
         else:
@@ -160,4 +185,3 @@ class GlobalFunctions(object):
             print("Couldn't move the file or delete the directory.")
             print(FileDeleteError)
             pass
-
