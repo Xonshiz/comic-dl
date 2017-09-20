@@ -161,7 +161,7 @@ Follow the instructions according to your OS :
 ### Windows
 After you've saved this script in a directory/folder, you need to open `command prompt` and browse to that directory and then execute the script. Let's do it step by step :
 * Open the folder where you've downloaded the files of this repository.
-* Hold down the **`SHIFT`** key and while holding down the SHIFT key, **`RIGHT CLICK`** and select `Open Command Prompy Here` from the options that show up.
+* Hold down the **`SHIFT`** key and while holding down the SHIFT key, **`RIGHT CLICK`** and select `Open Command Prompt Here` from the options that show up.
 * Now, in the command prompt, type this :
 
 *If you're using the windows binary :*
