@@ -46,3 +46,4 @@
 - Fix for #30 [2017.08.23]
 - Fix for #30 (mangahere.co) [2017.08.23]
 - Added support for CBZ file creation (#28) [2017.08.24]
+- Added Support for [STRIP-UTOPIJA](http://striputopija.blogspot.in/) (#19) [2017.09.20]

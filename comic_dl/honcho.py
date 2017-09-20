@@ -14,6 +14,7 @@ from sites import rawSenManga
 from sites import mangaFox
 from sites import omgBeauPeep
 from sites import acQQ
+from sites import stripUtopia
 import globalFunctions
 
 
@@ -80,6 +81,11 @@ class Honcho(object):
             return 0
         elif domain in ["www.ac.qq.com", "ac.qq.com"]:
             acQQ.AcQq(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                      chapter_range=chapter_range)
+            return 0
+        elif domain in ["www.striputopija.blogspot.in", "striputopija.blogspot.in"]:
+            stripUtopia.StripUtopia(manga_url=comic_url, logger=logging, current_directory=current_directory,
                       sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                       chapter_range=chapter_range)
             return 0
