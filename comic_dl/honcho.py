@@ -47,7 +47,7 @@ class Honcho(object):
                                                 current_directory=current_directory, sorting_order=sorting,
                                                 log_flag=log_flag, download_directory=download_directory,
                                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                                delete_files=kwargs.get("delete_files"))
+                                                delete_files=kwargs.get("delete_files"), image_quality=kwargs.get("image_quality"))
             return 0
         elif domain in ["www.comic.naver.com", "comic.naver.com"]:
             comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,

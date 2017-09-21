@@ -15,20 +15,22 @@ class ReadComicOnlineTo(object):
         delete_files = kwargs.get("delete_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
+        self.image_quality = kwargs.get("image_quality")
         self.comic_name = self.name_cleaner(manga_url)
 
-        if "&readType=0" in manga_url:
-            manga_url = str(manga_url).replace("&readType=0", "&readType=1")  # All Images in one page!
-        elif "&readType=1" not in manga_url:
-            manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
+
 
         url_split = str(manga_url).split("/")
 
-        if len(url_split) is 5:
+        if len(url_split) in [5, 6]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
                              conversion=conversion, delete_files=delete_files)
         else:
+            if "&readType=0" in manga_url:
+                manga_url = str(manga_url).replace("&readType=0", "&readType=1")  # All Images in one page!
+            elif "&readType=1" not in manga_url:
+                manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)
 
@@ -50,6 +52,8 @@ class ReadComicOnlineTo(object):
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
         image_len = len(image_list)
+        if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
+            print("Downloading In Low Quality...")
         for link in image_list:
             link = link.replace("\\", "")
             # file_name = str(link).split("/")[-1].strip()
@@ -66,6 +70,10 @@ class ReadComicOnlineTo(object):
                 file_name = str(image_list.index(link)) + ".jpg"
 
             logging.debug("Image Link : %s" % link)
+            link = link.replace("=s1600", "=s0") # Change low quality to best.
+
+            if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
+                link = link.replace("=s0", "=s1600")
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,

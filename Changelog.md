@@ -47,3 +47,5 @@
 - Fix for #30 (mangahere.co) [2017.08.23]
 - Added support for CBZ file creation (#28) [2017.08.24]
 - Added Support for [STRIP-UTOPIJA](http://striputopija.blogspot.in/) (#19) [2017.09.20]
+- Fixed Major Bug in ReadComicOnline.to "Full Series" download section [2017.09.21]
+- Added support for choosing image quality in ReadComicOnline.to (#42) [2017.09.21]
