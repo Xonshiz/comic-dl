@@ -15,3 +15,4 @@
 * [raw.senmanga](http://raw.senmanga.com/)
 * [omgbeaupeep.com](http://www.omgbeaupeep.com/)
 * [ac.qq.com](http://ac.qq.com)
+* [striputopija.blogspot.si](http://striputopija.blogspot.si/)

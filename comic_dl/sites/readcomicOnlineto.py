@@ -22,7 +22,8 @@ class ReadComicOnlineTo(object):
 
         url_split = str(manga_url).split("/")
 
-        if len(url_split) in [5, 6]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
+        if len(url_split) in [5]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
+            # Removing "6" from here, because it caused #47
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
                              conversion=conversion, delete_files=delete_files)
@@ -40,6 +41,7 @@ class ReadComicOnlineTo(object):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         image_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
+
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
