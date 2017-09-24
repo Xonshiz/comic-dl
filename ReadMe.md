@@ -123,7 +123,9 @@ This script supports both, Python 3 and Python 2.
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
 
-You need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+You need to download and install [Node.js](https://nodejs.org/en/) and make sure it is in your Windows path (watch out for the tick box during install). 
+
+You also need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 If you already have it, then you can download this binary and start using the script right off the bat :
 * `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/latest)
