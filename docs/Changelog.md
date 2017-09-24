@@ -50,3 +50,4 @@
 - Fixed Major Bug in ReadComicOnline.to "Full Series" download section [2017.09.21]
 - Added support for choosing image quality in ReadComicOnline.to (#42) [2017.09.21]
 - Fix for #47 [2017.09.24]
+- Fix for #[42](https://github.com/Xonshiz/comic-dl/issues/42#issuecomment-331693291) [2017.09.24]
