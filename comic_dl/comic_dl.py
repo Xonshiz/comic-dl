@@ -66,8 +66,8 @@ class ComicDL(object):
                 args.convert = ["None"]
             if not args.keep:
                 args.keep = ["True"]
-            if not args.keep:
-                args.keep = ["Best"]
+            if not args.quality:
+                args.quality = ["Best"]
 
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
