@@ -147,7 +147,7 @@ class GlobalFunctions(object):
             try:
                 self.conversion_cleaner(file_path=str(directory_path))
             except Exception as FileMoveError:
-                print("Could not move the pdf file.")
+                print("Could not move the cbz file.")
                 print(FileMoveError)
                 pass
 
