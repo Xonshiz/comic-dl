@@ -136,7 +136,7 @@ class GlobalFunctions(object):
             cbz_file_name = str(cbz_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
 
             try:
-                shutil.make_archive(cbz_file_name, 'zip', directory_path)
+                shutil.make_archive(cbz_file_name, 'zip', directory_path, directory_path)
                 os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
             except Exception as CBZError:
                 print("Coudn't write the cbz file...")
@@ -145,7 +145,7 @@ class GlobalFunctions(object):
                 delete_files = "No"
                 pass
             try:
-                self.conversion_cleaner(file_path=str(directory_path))
+                self.conversion_cleaner(file_path=str(cbz_file_name)+".cbz")
             except Exception as FileMoveError:
                 print("Could not move the cbz file.")
                 print(FileMoveError)
