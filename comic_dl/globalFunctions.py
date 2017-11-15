@@ -107,7 +107,7 @@ class GlobalFunctions(object):
             # Such kind of lambda functions and breaking is dangerous...
             im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
                                                               key=lambda x: int(
-                                                                  str((x.split('.')[0])).split("\\")[-1]))]
+                                                                  str((x.split('.')[0])).split(os.sep)[-1]))]
             pdf_file_name = "{0} - Ch {1}.pdf".format(comic_name, chapter_number)
             try:
                 with open(str(directory_path) + "/" + str(pdf_file_name), "wb") as f:
@@ -129,15 +129,15 @@ class GlobalFunctions(object):
         elif str(conversion).lower().strip() in ['cbz']:
             # Such kind of lambda functions and breaking is dangerous...
 
-            main_directory = str(directory_path).split('\\')
+            main_directory = str(directory_path).split(os.sep)
             main_directory.pop()
-            cbz_directory = str('\\'.join(main_directory)) + '\\'
+            cbz_directory = str(os.sep.join(main_directory)) + os.sep
 
             cbz_file_name = str(cbz_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
 
             try:
-                shutil.make_archive(cbz_file_name, 'zip', directory_path)
-                os.rename(str(cbz_file_name) + ".zip", str(cbz_file_name).replace(".zip", ".cbz"))
+                shutil.make_archive(cbz_file_name, 'zip', directory_path, directory_path)
+                os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
             except Exception as CBZError:
                 print("Coudn't write the cbz file...")
                 print(CBZError)
@@ -145,9 +145,9 @@ class GlobalFunctions(object):
                 delete_files = "No"
                 pass
             try:
-                self.conversion_cleaner(file_path=str(directory_path))
+                self.conversion_cleaner(file_path=str(cbz_file_name)+".cbz")
             except Exception as FileMoveError:
-                print("Could not move the pdf file.")
+                print("Could not move the cbz file.")
                 print(FileMoveError)
                 pass
 
@@ -174,7 +174,7 @@ class GlobalFunctions(object):
         path_breaker.pop()
         old_path = '/'.join(path_breaker)
 
-        path_breaker = str(old_path).split("\\")
+        path_breaker = str(old_path).split(os.sep)
         path_breaker.pop()
         new_path = str('/'.join(path_breaker)) + "/"
 
