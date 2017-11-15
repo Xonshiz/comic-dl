@@ -144,8 +144,17 @@ class GlobalFunctions(object):
                 # Let's not delete the files if the conversion failed...
                 delete_files = "No"
                 pass
+            generatedFilePath = os.path.join(
+                directory_path, cbz_file_name.split(os.sep).pop() + ".cbz")
             try:
-                self.conversion_cleaner(file_path=str(cbz_file_name)+".cbz")
+                shutil.move(os.path.join(cbz_directory, cbz_file_name +
+                                         ".cbz"), generatedFilePath)
+            except Exception as FileDeleteError:
+                print("Couldn't move the file or delete the directory.")
+                print(FileDeleteError)
+                pass
+            try:
+                self.conversion_cleaner(file_path=str(generatedFilePath))
             except Exception as FileMoveError:
                 print("Could not move the cbz file.")
                 print(FileMoveError)
