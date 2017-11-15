@@ -137,7 +137,7 @@ class GlobalFunctions(object):
 
             try:
                 shutil.make_archive(cbz_file_name, 'zip', directory_path)
-                os.rename(str(cbz_file_name) + ".zip", str(cbz_file_name).replace(".zip", ".cbz"))
+                os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
             except Exception as CBZError:
                 print("Coudn't write the cbz file...")
                 print(CBZError)
