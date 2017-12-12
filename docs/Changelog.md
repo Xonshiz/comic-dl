@@ -51,3 +51,8 @@
 - Added support for choosing image quality in ReadComicOnline.to (#42) [2017.09.21]
 - Fix for #47 [2017.09.24]
 - Fix for #[42](https://github.com/Xonshiz/comic-dl/issues/42#issuecomment-331693291) [2017.09.24]
+- Updated ReadMe.md do add missing Node.js step for Windows binary users [2017.09.24] - @DavidFarrell [#48]
+- Fix For #51 [2017.11.15] - @dsanchezseco [#52]
+- Fix for #53 [2017.11.15] - @dsanchezseco [#54]
+- Fix conversion filepath of cbz format [2017.11.15] - @dsanchezseco [#55]
+- Fix For #50 [2017.11.26] - @Tyroc [#56]

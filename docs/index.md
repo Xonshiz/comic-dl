@@ -123,7 +123,9 @@ This script supports both, Python 3 and Python 2.
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
 
-You need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+You need to download and install [Node.js](https://nodejs.org/en/) and make sure it is in your Windows path (watch out for the tick box during install). 
+
+You also need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 If you already have it, then you can download this binary and start using the script right off the bat :
 * `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/latest)
@@ -139,12 +141,12 @@ Currently, the script supports these arguments :
 -u,--username                          Indicates username for a website.
 -p,--password                          Indicates password for a website.
 -v,--verbose                           Enables Verbose logging.
---sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
+--sorting                              Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
 -dd,--download-directory               Specifies custom download location for the comics/manga.
 -rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
---convert						       Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
---keep   							   Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
---quality   						   Tells the script about the image quality you want to download. (Supported Values : low/bad/worst/mobile/cancer) [By default, images will be downloaded in Highest Quality Available. No need to provide any option.]
+--convert                              Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
+--keep                                 Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
+--quality                              Tells the script about the image quality you want to download. (Supported Values : low/bad/worst/mobile/cancer) [By default, images will be downloaded in Highest Quality Available. No need to provide any option.]
 ```
 #### Note :
 1.) Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
