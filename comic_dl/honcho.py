@@ -13,6 +13,7 @@ from sites import mangaHere
 from sites import rawSenManga
 from sites import mangaFox
 from sites import omgBeauPeep
+from sites import mangaReader
 from sites import acQQ
 from sites import stripUtopia
 import globalFunctions
@@ -88,6 +89,12 @@ class Honcho(object):
             stripUtopia.StripUtopia(manga_url=comic_url, logger=logging, current_directory=current_directory,
                       sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                       chapter_range=chapter_range)
+            return 0
+        elif domain in ["www.mangareader.net", "mangareader.net"]:
+            mangaReader.MangaReader(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                    delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
             # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)
