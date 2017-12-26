@@ -58,3 +58,4 @@
 - Fix For #50 [2017.11.26] - @Tyroc [#56]
 - Added Support for [MangaReader.net](http://mangareader.net/) (#43) [2017.12.22]
 - Added Support for [readcomicbooksonline.net](http://readcomicbooksonline.net/) (#57) [2017.12.26]
+- Fix For #60 [2017.12.26]

@@ -178,14 +178,14 @@ class GlobalFunctions(object):
 
     def conversion_cleaner(self, file_path):
         print("Cleaning Up...")
-        path_breaker = str(file_path).split("/")
+        path_breaker = str(file_path).split(os.sep)
 
         path_breaker.pop()
-        old_path = '/'.join(path_breaker)
+        old_path = os.sep.join(path_breaker)
 
         path_breaker = str(old_path).split(os.sep)
         path_breaker.pop()
-        new_path = str('/'.join(path_breaker)) + "/"
+        new_path = str(os.sep.join(path_breaker)) + os.sep
 
         try:
             shutil.move(file_path, new_path)
