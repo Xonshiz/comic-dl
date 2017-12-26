@@ -24,6 +24,7 @@ class ReadComicOnlineTo(object):
 
         if len(url_split) in [5]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
             # Removing "6" from here, because it caused #47
+            print("Downloading Full!")
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
                              conversion=conversion, delete_files=delete_files)
@@ -104,7 +105,7 @@ class ReadComicOnlineTo(object):
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).isdecimal():
+            if str(chapter_range).split("-")[1].decode().isdecimal():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)

@@ -106,7 +106,7 @@ class FoolSlide(object):
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).isdecimal():
+            if (str(chapter_range).split("-")[1]).decode().isdecimal():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
