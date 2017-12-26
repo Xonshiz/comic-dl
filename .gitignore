@@ -70,3 +70,4 @@ comic_dl/build/__main__/warn__main__.txt
 *.old
 *.pdf
 *.old2
+comic_dl/build/__main__/xref-__main__.html
