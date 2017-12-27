@@ -57,33 +57,9 @@ class MangaReader():
         chapter_number = int(str(comic_url).split("/")[4])
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
-        """While inspecting this website, I found something cool. We don't have to traverse each and every page to
-        get the next image link. They're incrementing the image file number by "6". For Example :
-        Manga Name : http://www.mangareader.net/shingeki-no-kyojin/100
-        1st Image : http://i998.mangareader.net/shingeki-no-kyojin/100/shingeki-no-kyojin-10120141.jpg
-        2nd Image : http://i998.mangareader.net/shingeki-no-kyojin/100/shingeki-no-kyojin-10120147.jpg
-        3rd Image : http://i999.mangareader.net/shingeki-no-kyojin/100/shingeki-no-kyojin-10120153.jpg
-        4th Image : http://i999.mangareader.net/shingeki-no-kyojin/100/shingeki-no-kyojin-10120159.jpg
-        
-        Check the increment of 6.
-        """
-        # Total number of pages in a chapter.
+        # # Total number of pages in a chapter.
         total_pages = int(str(re.search(r'</select> of (.*?)</div>', str(source)).group(1)).strip())
-
-        img_list = []
-        image_link = ""
-
-        img_holder_div = source.find_all('div', {'id': 'imgholder'})
-
-        for single_node in img_holder_div:
-            x = single_node.findAll('img')
-            for a in x:
-                image_link = str(a['src']).strip()
-        # print(image_link)
-        img_list.append(str(image_link).strip())
-        for image_count in range(1, total_pages):
-            image_link = self.link_builder(image_link)
-            img_list.append(image_link)
+        # print("Total Pages : {0}".format(total_pages))
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
@@ -94,13 +70,25 @@ class MangaReader():
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
 
-        for image_link in img_list:
-            globalFunctions.GlobalFunctions().downloader(image_link, str(int(img_list.index(image_link)) + 1) + ".jpg",
-                                                         comic_url, directory_path,
-                                                         log_flag=self.logging)
+        for page_number in range(1, total_pages + 1):
+            # print(page_number)
+            # Ex URL : http://www.mangareader.net/boku-no-hero-academia/1/Page_Number
+            next_url = str(comic_url) + "/" + str(page_number)
+            # print("Next URL : {0}".format(next_url))
+            # Let's use the cookies we established in the main connection and maintain the session.
+            next_source, next_cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=next_url,
+                                                                                          cookies=cookies)
+            img_holder_div = next_source.find_all('div', {'id': 'imgholder'})
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
-                                                     chapter_number)
+            for single_node in img_holder_div:
+                x = single_node.findAll('img')
+                for a in x:
+                    image_link = str(a['src']).strip()
+                    # print("Image Link : {0}".format(image_link))
+                    globalFunctions.GlobalFunctions().downloader(image_link, str(page_number) + ".jpg",
+                                                                 comic_url, directory_path, log_flag=self.logging)
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
+                                                     comic_name, chapter_number)
 
     def link_builder(self, link):
         file_name = str(link.replace(".jpg", "")).split("-")[-1]
