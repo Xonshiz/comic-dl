@@ -60,3 +60,4 @@
 - Added Support for [readcomicbooksonline.net](http://readcomicbooksonline.net/) (#57) [2017.12.26]
 - Fix For #60 [2017.12.26]
 - Fix For #61 [2017.12.26]
+- Added Support for [readcomics.website](http://www.readcomics.website/) (#63) [2017.12.27]

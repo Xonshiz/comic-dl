@@ -17,6 +17,7 @@ from sites import mangaReader
 from sites import acQQ
 from sites import stripUtopia
 from sites import readComicBooksOnline
+from sites import readComicsWebsite
 import globalFunctions
 
 
@@ -37,6 +38,10 @@ class Honcho(object):
 
         domain = urlparse(comic_url).netloc
         logging.debug("Selected Domain : %s" % domain)
+
+        # Remove the "/" from ending to make checking URL for Full Series or Single Chapter easier.
+        if comic_url[-1] == "/":
+            comic_url = comic_url[:-1]
 
         if domain in fool_slide:
             foolSlide.FoolSlide(manga_url=comic_url, logger=logging, current_directory=current_directory,
@@ -99,6 +104,12 @@ class Honcho(object):
             return 0
         elif domain in ["www.readcomicbooksonline.net", "readcomicbooksonline.net"]:
             readComicBooksOnline.ReadComicBooksOnline(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                    delete_files=kwargs.get("delete_files"))
+            return 0
+        elif domain in ["www.readcomics.website", "readcomics.website"]:
+            readComicsWebsite.ReadComicsWebsite(manga_url=comic_url, logger=logging, current_directory=current_directory,
                                     sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                                     chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                     delete_files=kwargs.get("delete_files"))
