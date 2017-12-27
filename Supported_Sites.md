@@ -2,7 +2,7 @@
 
 [PhantomJS] = Denotes that these sites need PhantomJS to be able to download content.
 
-* [Mangafox](http://mangafox.me/)
+* [Mangafox.me](http://mangafox.me/) or [Mangafox.la](http://mangafox.la/)
 * [YoManga](http://yomanga.co/)
 * [GoManga](http://gomanga.co/)
 

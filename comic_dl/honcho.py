@@ -74,7 +74,7 @@ class Honcho(object):
                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                      delete_files=kwargs.get("delete_files"))
             return 0
-        elif domain in ["www.mangafox.me", "mangafox.me"]:
+        elif domain in ["www.mangafox.me", "mangafox.me", "www.mangafox.la", "mangafox.la"]:
             mangaFox.MangaFox(manga_url=comic_url, logger=logging, current_directory=current_directory,
                               sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                               chapter_range=chapter_range, conversion=kwargs.get("conversion"),
