@@ -5,7 +5,8 @@ import cfscrape
 import requests
 import json
 import sys
-import mangaChapterDownload
+#import mangaChapterDownload
+from .mangaChapterDownload import *
 
 
 class MangaChapters():
@@ -71,10 +72,8 @@ class MangaChapters():
                     final_chapter_dict = self.chapters
 
                 for chapter in final_chapter_dict:
-                    mangaChapterDownload.MangaChapterDownload(page_id=final_chapter_dict[chapter],
-                                                              download_directory=download_directory,
-                                                              manga_name=str(self.manga_name),
-                                                              chapter_number=str(chapter))
+                    MangaChapterDownload(page_id=final_chapter_dict[chapter], download_directory=download_directory,
+                                         manga_name=str(self.manga_name), chapter_number=str(chapter))
 
                 print("Finished Downloading")
                 sys.exit()
