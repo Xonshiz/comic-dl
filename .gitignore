@@ -60,6 +60,7 @@ Temporary Items
 
 # Custom Stuff
 /idea
+/dist
 *.log
 *.xml
 *.xml

@@ -10,6 +10,9 @@ import honcho
 import os
 import time
 import manga_eden
+from manga_eden import mangaChapters
+from manga_eden import mangaChapterDownload
+from manga_eden import mangaSearch
 
 
 class ComicDL(object):
@@ -78,7 +81,7 @@ class ComicDL(object):
 
         if args.search:
             start_time = time.time()
-            manga_eden.mangaSearch.MangaSearch(search_string=str(args.search[0]),
+            mangaSearch.MangaSearch(search_string=str(args.search[0]),
                                                manga_language=args.manga_language[0], skip_cache=args.skip_cache[0])
 
             end_time = time.time()
@@ -107,7 +110,7 @@ class ComicDL(object):
                 args.download_directory = [os.getcwd()]
             start_time = time.time()
 
-            manga_eden.mangaChapters.MangaChapters(chapter_id=args.chapter_id[0],
+            mangaChapters.MangaChapters(chapter_id=args.chapter_id[0],
                                                    download_directory=args.download_directory[0],
                                                    conversion=args.convert[0], delete_files=args.keep[0],
                                                    chapter_range=args.range, sorting_order=args.sorting[0],
@@ -128,7 +131,7 @@ class ComicDL(object):
             if not args.download_directory:
                 args.download_directory = [os.getcwd()]
             start_time = time.time()
-            manga_eden.mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
+            mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
                                                                  download_directory=args.download_directory[0],
                                                                  log_flag=logger, conversion=args.convert[0],
                                                                  delete_files=args.keep[0])
