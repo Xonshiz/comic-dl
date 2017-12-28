@@ -72,3 +72,4 @@ comic_dl/build/__main__/warn__main__.txt
 *.old2
 comic_dl/build/__main__/xref-__main__.html
 *.xml___jb_tmp___
+comic_dl/Manga_Eden_Data.json

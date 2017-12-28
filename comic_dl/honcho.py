@@ -54,7 +54,8 @@ class Honcho(object):
                                                 current_directory=current_directory, sorting_order=sorting,
                                                 log_flag=log_flag, download_directory=download_directory,
                                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                                delete_files=kwargs.get("delete_files"), image_quality=kwargs.get("image_quality"))
+                                                delete_files=kwargs.get("delete_files"),
+                                                image_quality=kwargs.get("image_quality"))
             return 0
         elif domain in ["www.comic.naver.com", "comic.naver.com"]:
             comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,
@@ -103,23 +104,27 @@ class Honcho(object):
                                     delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.readcomicbooksonline.net", "readcomicbooksonline.net"]:
-            readComicBooksOnline.ReadComicBooksOnline(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                    delete_files=kwargs.get("delete_files"))
+            readComicBooksOnline.ReadComicBooksOnline(manga_url=comic_url, logger=logging,
+                                                      current_directory=current_directory, sorting_order=sorting,
+                                                      log_flag=log_flag, download_directory=download_directory,
+                                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                                      delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.readcomics.website", "readcomics.website"]:
-            readComicsWebsite.ReadComicsWebsite(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                    delete_files=kwargs.get("delete_files"))
+            readComicsWebsite.ReadComicsWebsite(manga_url=comic_url, logger=logging,
+                                                current_directory=current_directory, sorting_order=sorting,
+                                                log_flag=log_flag, download_directory=download_directory,
+                                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                                delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
-            # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)
+            # kissManga.KissManga(manga_url = comic_url, logger = logging,
+            #  current_directory = current_directory, sorting_order = sorting)
             print("Under Development!")
             return 0
         elif domain in ["www.bato.to", "bato.to"]:
-            # kissManga.KissManga(manga_url = comic_url, logger = logging, current_directory = current_directory, sorting_order = sorting)
+            # kissManga.KissManga(manga_url = comic_url, logger = logging,
+            #  current_directory = current_directory, sorting_order = sorting)
             print("Under Development!")
             return 0
         else:
