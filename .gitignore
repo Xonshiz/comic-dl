@@ -74,3 +74,16 @@ comic_dl/build/__main__/warn__main__.txt
 comic_dl/build/__main__/xref-__main__.html
 *.xml___jb_tmp___
 comic_dl/Manga_Eden_Data.json
+*.mri
+comic_dl/dist/decryptor.py
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/decode.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/demux.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/encode.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/mux.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/mux_types.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/include/webp/types.h
+comic_dl/dist/libwebp-0.6.1-windows-x64/Readme-mux.txt
+comic_dl/dist/libwebp-0.6.1-windows-x64/Readme.txt
+comic_dl/dist/libwebp-0.6.1-windows-x64/test.webp
+comic_dl/dist/libwebp-0.6.1-windows-x64/test_ref.ppm
+comic_dl/dist/out.webp

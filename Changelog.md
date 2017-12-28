@@ -65,3 +65,4 @@
 - Fix For #66 [2017.12.27]
 - Added MangaFox.la (mangafox.me redirects to .la now) [2017.12.27]
 - Added Feature to Search and Download Manga from MangaEden [2017.12.28]
+- Fix for #64 [2017.12.28]

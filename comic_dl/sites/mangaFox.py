@@ -19,7 +19,7 @@ class MangaFox(object):
         self.comic_name = self.name_cleaner(manga_url)
         url_split = str(manga_url).split("/")
 
-        if len(url_split) is 6:
+        if len(url_split) is 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
                              delete_files=delete_files)
@@ -56,7 +56,7 @@ class MangaFox(object):
         for file_name in range(current_page_number, last_page_number + 1):
             # print("Actual file_name : {0}".format(file_name))
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
-            chapter_url = "http://mangafox.me/manga/" + str(series_code) + "/" + str(
+            chapter_url = "http://mangafox.la/manga/" + str(series_code) + "/" + str(
                 current_chapter_volume) + "/%s.html" % str(file_name)
             logging.debug("Chapter Url : %s" % chapter_url)
 
@@ -87,9 +87,15 @@ class MangaFox(object):
         return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+        # http://mangafox.la/rss/gentleman_devil.xml
+        # Parsing RSS would be faster than parsing the whole page.
+        rss_url = str(comic_url).replace("/manga/", "/rss/") + ".xml"
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=rss_url)
 
-        all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
+        #all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
+        all_links_temp = re.findall(r"<link/>(.*?).html", str(source))
+        all_links = ["http:" + str(link) + ".html" for link in all_links_temp]
+
         logging.debug("All Links : %s" % all_links)
 
         # Uh, so the logic is that remove all the unnecessary chapters beforehand and then pass the list for further operations.
