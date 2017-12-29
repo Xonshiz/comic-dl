@@ -8,3 +8,5 @@
 4.) [**`@Tyroc`**](https://github.com/Tyroc) :- Fix For #50
 
 5.) [**`@DavidFarrell`**](https://github.com/DavidFarrell) :- [Updated ReadMe.md do add missing Node.js step for Windows binary users](https://github.com/Xonshiz/comic-dl/pull/48)
+
+6.) [**`@dradzenglor`**](https://www.reddit.com/user/dradzenglor) :- [Decrypting WebP Image Files For MangaRock.com](https://www.reddit.com/r/codes/comments/7mdx70/need_help_decrypting_this_string/)

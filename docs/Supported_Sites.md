@@ -19,3 +19,4 @@
 * [mangareader.net](http://www.mangareader.net/)
 * [readcomicbooksonline.net](http://readcomicbooksonline.net/)
 * [readcomics.website](http://www.readcomics.website/)
+* [mangarock.com](https://mangarock.com/)
