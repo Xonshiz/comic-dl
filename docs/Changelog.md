@@ -1,4 +1,4 @@
-#Changelog
+# Changelog
 
 - Site support for bato.to [2016.11.15]
 - Bug fix in comic-dl.py and added docs for readthedocs & updated readme [2016.11.20]
@@ -66,4 +66,4 @@
 - Added MangaFox.la (mangafox.me redirects to .la now) [2017.12.27]
 - Added Feature to Search and Download Manga from MangaEden [2017.12.28]
 - Fix for #64 [2017.12.28]
-- Fix for #62 [2017.12.29]
+- Fix for [MangaRock.com](https://mangarock.com) #62 [2017.12.29]
