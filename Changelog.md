@@ -67,3 +67,4 @@
 - Added Feature to Search and Download Manga from MangaEden [2017.12.28]
 - Fix for #64 [2017.12.28]
 - Fix for #62 [2017.12.29]
+- Added Support for [Bato.to](http://bato.to/) [2017.12.31] [No PhantomJS Needed Now]

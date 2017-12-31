@@ -19,10 +19,48 @@ from sites import stripUtopia
 from sites import readComicBooksOnline
 from sites import readComicsWebsite
 from sites import mangaRock
+from sites import batoto
 import globalFunctions
 
 
 class Honcho(object):
+
+    def comic_language_resolver(self, language_code):
+        # Will return the Language Name corresponding to the language code.
+        language_dict = {
+            '0': 'English',
+            '1': 'Italian',
+            '2': 'Spanish',
+            '3': 'French',
+            '4': 'German',
+            '5': 'Portuguese',
+            '6': 'Turkish',
+            '7': 'Indonesian',
+            '8': 'Greek',
+            '9': 'Filipino',
+            '10': 'Polish',
+            '11': 'Thai',
+            '12': 'Malay',
+            '13 ': 'Hungarian',
+            '14': 'Romanian',
+            '15': ' Arabic',
+            '16': 'Hebrew',
+            '17': 'Russian',
+            '18': 'Vietnamese',
+            '19': 'Dutch',
+            '20': 'Bengali',
+            '21': 'Persian',
+            '22': 'Czech',
+            '23': 'Brazilian',
+            '24': 'Bulgarian',
+            '25': 'Danish',
+            '26': 'Esperanto',
+            '27': 'Swedish',
+            '28': 'Lithuanian',
+            '29': 'Other'
+        }
+        return language_dict[language_code]
+
     def checker(self, comic_url, download_directory, chapter_range, **kwargs):
 
         user_name = kwargs.get("username")
@@ -30,6 +68,7 @@ class Honcho(object):
         current_directory = kwargs.get("current_directory")
         log_flag = kwargs.get("logger")
         sorting = kwargs.get("sorting_order")
+        comic_language = kwargs.get("comic_language")
 
         if log_flag is True:
             logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
@@ -95,8 +134,8 @@ class Honcho(object):
             return 0
         elif domain in ["www.striputopija.blogspot.in", "striputopija.blogspot.in"]:
             stripUtopia.StripUtopia(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                      chapter_range=chapter_range)
+                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                    chapter_range=chapter_range)
             return 0
         elif domain in ["www.mangareader.net", "mangareader.net"]:
             mangaReader.MangaReader(manga_url=comic_url, logger=logging, current_directory=current_directory,
@@ -130,9 +169,11 @@ class Honcho(object):
             print("Under Development!")
             return 0
         elif domain in ["www.bato.to", "bato.to"]:
-            # kissManga.KissManga(manga_url = comic_url, logger = logging,
-            #  current_directory = current_directory, sorting_order = sorting)
-            print("Under Development!")
+            batoto.Batoto(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                          sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                          chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                          delete_files=kwargs.get("delete_files"), username=user_name, password=password,
+                          comic_language=self.comic_language_resolver(comic_language))
             return 0
         else:
             print("%s is not supported at the moment. You can request it on the Github repository." % domain)

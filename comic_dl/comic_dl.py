@@ -53,6 +53,14 @@ class ComicDL(object):
                                                             " search function.",
                             action="store_true")
 
+        parser.add_argument('-p', '--password', nargs=1,
+                            help='Takes Password used to log into a website, along with a username/email.',
+                            default=['None'])
+
+        parser.add_argument('-u', '--username', nargs=1,
+                            help='Takes username/email used to log into a website, along with a password.',
+                            default=['None'])
+
         parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.",
                             action="store_true")
         logger = False
@@ -82,7 +90,7 @@ class ComicDL(object):
         if args.search:
             start_time = time.time()
             mangaSearch.MangaSearch(search_string=str(args.search[0]),
-                                               manga_language=args.manga_language[0], skip_cache=args.skip_cache[0])
+                                    manga_language=args.manga_language[0], skip_cache=args.skip_cache[0])
 
             end_time = time.time()
             total_time = end_time - start_time
@@ -110,11 +118,10 @@ class ComicDL(object):
                 args.download_directory = [os.getcwd()]
             start_time = time.time()
 
-            mangaChapters.MangaChapters(chapter_id=args.chapter_id[0],
-                                                   download_directory=args.download_directory[0],
-                                                   conversion=args.convert[0], delete_files=args.keep[0],
-                                                   chapter_range=args.range, sorting_order=args.sorting[0],
-                                                   force_download=force_download)
+            mangaChapters.MangaChapters(chapter_id=args.chapter_id[0], download_directory=args.download_directory[0],
+                                        conversion=args.convert[0], delete_files=args.keep[0],
+                                        chapter_range=args.range, sorting_order=args.sorting[0],
+                                        force_download=force_download)
 
             end_time = time.time()
             total_time = end_time - start_time
@@ -166,7 +173,9 @@ class ComicDL(object):
                                     sorting_order=args.sorting[0], logger=logger,
                                     download_directory=args.download_directory[0],
                                     chapter_range=args.range, conversion=args.convert[0],
-                                    delete_files=args.keep[0], image_quality=args.quality[0])
+                                    delete_files=args.keep[0], image_quality=args.quality[0],
+                                    username=args.username[0], password=args.password[0],
+                                    comic_language=args.manga_language[0])
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)

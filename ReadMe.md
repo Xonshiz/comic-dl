@@ -1,5 +1,5 @@
 [![N|Solid](https://raw.githubusercontent.com/Xonshiz/comic-dl/master/Images/Icon.png)](https://github.com/Xonshiz/comic-dl)
-# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
+# Comic-DL | [![Build Status](https://travis-ci.org/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.org/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)  | [![GitHub release](https://img.shields.io/github/release/xonshiz/comic-dl.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases/latest) | [![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases)
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. You can search Manga from this tool as well. Idea from [youtube-dl](https://github.com/rg3/youtube-dl)
 
@@ -19,6 +19,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 * [Python Support](#python-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
+* [Language Codes](#language-codes)
 * [Using The Search](#using-the-search)
 * [Youtube Tutorial](https://www.youtube.com/watch?v=TmQYhLHEZxA)
 * [Usage](#usage)
@@ -157,6 +158,45 @@ Currently, the script supports these arguments :
 -fd, --force-download                  Forces download of chapters, when using comic-dl's search function.
 -pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
 ```
+
+## Language Codes:
+These codes correspond to the languages. So, just pass in these language codes, to download Manga/Comic in that language (only supported by few sites).
+
+Language Code --> Language
+--------------------------
+```
+0 --> English
+1 --> Italian
+2 --> Spanish
+3 --> French
+4 --> German
+5 --> Portuguese
+6 --> Turkish
+7 --> Indonesian
+8 --> Greek
+9 --> Filipino
+10 --> Polish
+11 --> Thai
+12 --> Malay
+13  --> Hungarian
+14 --> Romanian
+15 -->  Arabic
+16 --> Hebrew
+17 --> Russian
+18 --> Vietnamese
+19 --> Dutch
+20 --> Bengali
+21 --> Persian
+22 --> Czech
+23 --> Brazilian
+24 --> Bulgarian
+25 --> Danish
+26 --> Esperanto
+27 --> Swedish
+28 --> Lithuanian
+29 --> Other 
+```
+
 #### Note :
 1.) Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
 
@@ -309,7 +349,13 @@ If you're here to make suggestions, please follow the basic syntax to post a req
 This should be enough, but it'll be great if you can add more ;)
 
 # Notes
-comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
+* comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
+
+* Bato.to requires you to "log in" to read some chapters. So, to be on a safe side, provide the username/password combination to the script via "-p" and "-u" arguments.
+
+* Bato.to also has comics for various languages. You need to pass the language code via "-ml" argument. Read the [Language Codes](#language-codes) section to find out the language codes.
+
+* Bato.to only supports custom language downloads in "Batch" mode.
 
 # Donations
 You can always send some money over from this :

@@ -15,15 +15,16 @@ import img2pdf
 
 class GlobalFunctions(object):
     def page_downloader(self, manga_url, **kwargs):
-        headers = {
-            'User-Agent':
-                'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-            'Accept-Encoding': 'gzip, deflate'
-        }
+        headers = kwargs.get("headers")
+        if not headers:
+            headers = {
+                'User-Agent':
+                    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                'Accept-Encoding': 'gzip, deflate'
+            }
 
         sess = requests.session()
         sess = cfscrape.create_scraper(sess)
-
         connection = sess.get(manga_url, headers=headers, cookies=kwargs.get("cookies"))
         if connection.status_code != 200:
             print("Whoops! Seems like I can't connect to website.")
