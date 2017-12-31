@@ -85,8 +85,8 @@ class StripUtopia(object):
                 ending = len(all_links)
 
             indexes = [x for x in range(starting, ending)]
-            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last, it is to reverse the list again, becasue I'm reverting it again at the end.
-            all_links = [all_links[::-1][x] for x in indexes][::-1]
+
+            all_links = [all_links[x] for x in indexes][::-1]
         else:
             pass
 
