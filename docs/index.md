@@ -364,12 +364,4 @@ Paypal : [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https
 
 Patreon Link : https://www.patreon.com/xonshiz
 
-PayUMoney :
-
-<div class="pm-button">
-  <a href="https://www.payumoney.com/paybypayumoney/#/04EE508CD699DDFA8F7E827E1CB98B85">
-    <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/22.png" />
-  </a>
-</div>
-
 Any amount is appreciated :)
