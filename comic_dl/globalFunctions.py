@@ -103,62 +103,52 @@ class GlobalFunctions(object):
             print('{:^80}'.format('=====================================================================\n'))
 
     def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
+        # Because I named the variables terribly wrong and I'm too lazy to fix shit everywhere.
+        # So, let's do this -_-
+        keep_files = delete_files
+
+        main_directory = str(directory_path).split(os.sep)
+        main_directory.pop()
+        converted_file_directory = str(os.sep.join(main_directory)) + os.sep
 
         if str(conversion).lower().strip() in ['pdf']:
             # Such kind of lambda functions and breaking is dangerous...
             im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
                                                               key=lambda x: int(
                                                                   str((x.split('.')[0])).split(os.sep)[-1]))]
-            pdf_file_name = "{0} - Ch {1}.pdf".format(comic_name, chapter_number)
+            pdf_file_name = str(converted_file_directory) + "{0} - Ch {1}.pdf".format(comic_name, chapter_number)
             try:
-                with open(str(directory_path) + "/" + str(pdf_file_name), "wb") as f:
+                with open(pdf_file_name, "wb") as f:
                     f.write(img2pdf.convert(im_files))
                     print("Converted the file to pdf...")
             except Exception as FileWriteError:
-                print("Coudn't write the pdf file...")
+                print("Couldn't write the pdf file...")
                 print(FileWriteError)
                 # Let's not delete the files if the conversion failed...
-                delete_files = "No"
-                pass
-            try:
-                self.conversion_cleaner(file_path=str(directory_path) + "/" + str(pdf_file_name))
-            except Exception as FileMoveError:
-                print("Could not move the pdf file.")
-                print(FileMoveError)
+                keep_files = "False"
                 pass
 
         elif str(conversion).lower().strip() in ['cbz']:
-            # Such kind of lambda functions and breaking is dangerous...
 
-            main_directory = str(directory_path).split(os.sep)
-            main_directory.pop()
-            cbz_directory = str(os.sep.join(main_directory)) + os.sep
-
-            cbz_file_name = str(cbz_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
+            cbz_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
 
             try:
                 shutil.make_archive(cbz_file_name, 'zip', directory_path, directory_path)
                 os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
             except Exception as CBZError:
-                print("Coudn't write the cbz file...")
+                print("Couldn't write the cbz file...")
                 print(CBZError)
                 # Let's not delete the files if the conversion failed...
-                delete_files = "No"
+                keep_files = "False"
                 pass
             generated_file_path = os.path.join(
                 directory_path, cbz_file_name.split(os.sep).pop() + ".cbz")
             try:
-                shutil.move(os.path.join(cbz_directory, cbz_file_name +
+                shutil.move(os.path.join(converted_file_directory, cbz_file_name +
                                          ".cbz"), generated_file_path)
             except Exception as FileDeleteError:
                 print("Couldn't move the file or delete the directory.")
                 print(FileDeleteError)
-                pass
-            try:
-                self.conversion_cleaner(file_path=str(generated_file_path))
-            except Exception as FileMoveError:
-                print("Could not move the cbz file.")
-                print(FileMoveError)
                 pass
 
         elif str(conversion) == "None":
@@ -167,31 +157,11 @@ class GlobalFunctions(object):
             print("Seems like that conversion isn't supported yet. Please report it on the repository...")
             pass
 
-        if str(delete_files).lower().strip() in ['no', 'false', 'delete']:
-            for image_files in glob.glob(str(directory_path) + "/" + "*.jpg"):
-                try:
-                    os.remove(image_files)
-                except Exception as FileDeleteError:
-                    print("Couldn't delete the image file...")
-                    print(FileDeleteError)
-                    pass
+        if str(keep_files).lower().strip() in ['no', 'false', 'delete']:
+            try:
+                shutil.rmtree(path=directory_path, ignore_errors=True)
+            except Exception as DirectoryDeleteError:
+                print("Couldn't move the file or delete the directory.")
+                print(DirectoryDeleteError)
+                pass
             print("Deleted the files...")
-
-    def conversion_cleaner(self, file_path):
-        print("Cleaning Up...")
-        path_breaker = str(file_path).split(os.sep)
-
-        path_breaker.pop()
-        old_path = os.sep.join(path_breaker)
-
-        path_breaker = str(old_path).split(os.sep)
-        path_breaker.pop()
-        new_path = str(os.sep.join(path_breaker)) + os.sep
-
-        try:
-            shutil.move(file_path, new_path)
-            shutil.rmtree(old_path)
-        except Exception as FileDeleteError:
-            print("Couldn't move the file or delete the directory.")
-            print(FileDeleteError)
-            pass

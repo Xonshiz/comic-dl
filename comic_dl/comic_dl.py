@@ -29,7 +29,7 @@ class ComicDL(object):
         parser.add_argument('--convert', nargs=1,
                             help='Tells the script to convert the downloaded Images to PDF or anything else.')
         parser.add_argument('--keep', nargs=1,
-                            help='Tells the script whether to keep the files after conversion or not.', default='True')
+                            help='Tells the script whether to keep the files after conversion or not.', default=['False'])
         parser.add_argument('--quality', nargs=1,
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 

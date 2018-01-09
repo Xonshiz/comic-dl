@@ -69,3 +69,5 @@
 - Fix for [MangaRock.com](https://mangarock.com) #62 [2017.12.29]
 - Added Support for [Bato.to](http://bato.to/) [2017.12.31] [No PhantomJS Needed Now]
 - Fix for #69 [2017.12.31]
+- Fix for 72 [2018.01.09]
+- Removed un-necessary code [2018.01.09]
