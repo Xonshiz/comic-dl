@@ -17,4 +17,4 @@ script:
 - python __main__.py --version
 notifications:
   email:
-    - xonshiz@psychoticelites.com    
+    - xonshiz@psychoticelites.com
