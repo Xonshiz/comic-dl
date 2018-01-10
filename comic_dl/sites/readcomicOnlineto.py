@@ -96,16 +96,12 @@ class ReadComicOnlineTo(object):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         link_regex = "<a href=\"/" + str(series_name_raw) + "/(.*?)\""
-        all_links = list(re.findall(link_regex, str(source)))
-        # print("All Links : {0}".format(all_links))
-
         """Readcomiconline.to shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
-        the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
-        This is a fix for issues like #74.
+           the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
+           This is a fix for issues like #74.
         """
-        all_links = [rev_link for rev_link in reversed(all_links)]
-
-        # print("Reversed All Links : {0}".format(all_links))
+        all_links = [rev_link for rev_link in reversed(list(re.findall(link_regex, str(source))))]
+        # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
 
