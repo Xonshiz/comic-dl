@@ -141,18 +141,10 @@ class GlobalFunctions(object):
                 # Let's not delete the files if the conversion failed...
                 keep_files = "False"
                 pass
-            generated_file_path = os.path.join(
-                directory_path, cbz_file_name.split(os.sep).pop() + ".cbz")
-            try:
-                shutil.move(os.path.join(converted_file_directory, cbz_file_name +
-                                         ".cbz"), generated_file_path)
-            except Exception as FileDeleteError:
-                print("Couldn't move the file or delete the directory.")
-                print(FileDeleteError)
-                pass
 
         elif str(conversion) == "None":
             pass
+
         else:
             print("Seems like that conversion isn't supported yet. Please report it on the repository...")
             pass
