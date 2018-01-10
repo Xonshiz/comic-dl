@@ -72,3 +72,4 @@
 - Fix for 72 [2018.01.09]
 - Removed un-necessary code [2018.01.09]
 - Fix for 73 [2018.01.10]
+- Fix for 74 [2018.01.10]
