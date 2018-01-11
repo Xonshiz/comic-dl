@@ -21,6 +21,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 * [List of Arguments](#list-of-arguments)
 * [Language Codes](#language-codes)
 * [Using The Search](#using-the-search)
+* [Making The Configuration File](#making-the-configuration-file)
 * [Youtube Tutorial](https://www.youtube.com/watch?v=TmQYhLHEZxA)
 * [Usage](#usage)
     * [Windows](#windows)
@@ -275,6 +276,39 @@ Our example command for One Piece, chapter 2 would be : `comic_dl.exe --page-id 
 #### Note:
 * If you download the chapter separately, you will need to provide the `Manga Name` and `Chapter Number` yourself. Because MangaEden's API doesn't list those values in their JSON reply (weird).
 
+## Making The Configuration File
+Config file, a.k.a configuration file can be used to set few  default parameters like default download location, conversion type etc. You can pass the `--config-make` argument to make a config file. The tool will ask your various questions, you just have to type in your reply. If you don't want to set a certain value, just leave it empty and press "ENTER".
+
+Windows : 
+`comic_dl.exe --config-make`
+
+Python (Linux/Mac) : 
+`__main__.py --config-make`
+
+Tool will ask you which kind of conversion you want to provide on your downloads, by default. Just type in what you would type in with the arguments (cbz, pdf). If you don't want to perform any conversion, leave it empty and press enter.
+Next it'll ask you for "default download location". Just paste the location where you want to download all the stuff by default. If you leave this empty and press enter, then the script will download the stuff is its own directory.
+Next question would be "whether you want to add urls to download from". This feature is a support for #70 .  If you want the script to download some manga/comic (from whatever latest chapter you have till the latest chapter that website has), then you're gonna have to type "Yes".
+It'll ask you for URL. Just pass in the URL to the details page of that comic/manga (The link you put in to download all the chapters of a comic/manga). Then, it'll ask for that Manga/Comic directory. You will have to paste the directory of that Manga/Comic main directory.
+
+For Example :
+I want to download [Gentleman Devil](http://mangafox.la/manga/gentleman_devil/) periodically. So, In the URL, I'll paste `http://mangafox.la/manga/gentleman_devil/` and for the directory, I will paste the address to that Manga's folder, i.e., `C:\Users\Xonshiz\Documents\GitHub\comic-dl\comic_dl\comic_downloads\Gentleman Devil`.
+
+After pressing enter, it'll ask you again, whether you want to add more URLs. If you want to, then type in "Yes" and repeat the above procedure of giving url and path. If you don't want to add anymore, then just enter "No" and press Enter.
+
+Next time you want to add more Manga/Comic in auto-download, then just fire up `--config-make` command and press "ENTER", if you don't want to change the previous values of "Conversion" and "default download location".
+
+This config file is made in the script's directory and is named as `comic_dl_config.config`. So, don't delete this file, if you don't want to repeat this process again.
+
+This feature is still experimental and will definitely have a lot of bugs. I'll try to fix them later.
+
+### How To Auto Download Chapters
+Make sure you have a valid config file first. After that, you can just pass `--auto-download` argument to download the new chapters.
+
+Windows : 
+`comic_dl.exe --auto-download`
+
+Python (Linux/Mac) : 
+`__main__.py --auto-download`
 
 ## Youtube Tutorial
 [![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)](https://www.youtube.com/watch?v=TmQYhLHEZxA)
