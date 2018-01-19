@@ -74,4 +74,5 @@
 - Fix for 73 [2018.01.10]
 - Fix for 74 [2018.01.10]
 - By default, script will not delete the file [2018.01.19]
-- Fix for 79 [2018.01.19]
+- Fix for #79 [2018.01.19]
+- Fix for #80 [2018.01.19]

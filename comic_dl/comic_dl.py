@@ -85,6 +85,7 @@ class ComicDL(object):
                                                                platform.version()
                                                                ))
             logging.debug("Python Version : %s (%s)" % (platform.python_version(), platform.architecture()[0]))
+            logging.debug("Script Version : {0}".format(__version__))
             logger = True
 
         if args.search:
