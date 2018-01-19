@@ -150,7 +150,8 @@ class ComicDL(object):
             print("Total Time Taken To Download : %s" % total_time)
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
-
+        #TODO: new flags( config creator and downloader)
+        #TODO: and all that(bellow) goes here
         if args.input is None:
             if not str(args.search).strip():
                 print("I need an Input URL to download from.")
@@ -168,7 +169,9 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality:
                 args.quality = ["Best"]
-
+            #TODO: config generator
+            #TODO: config reader that --v
+            #TODO: call this function with each element of the config file 
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,
