@@ -9,7 +9,6 @@ import platform
 import honcho
 import os
 import time
-import json
 import manga_eden
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
@@ -30,8 +29,7 @@ class ComicDL(object):
         parser.add_argument('--convert', nargs=1,
                             help='Tells the script to convert the downloaded Images to PDF or anything else.')
         parser.add_argument('--keep', nargs=1,
-                            help='Tells the script whether to keep the files after conversion or not.',
-                            default=['True'])
+                            help='Tells the script whether to keep the files after conversion or not.', default=['False'])
         parser.add_argument('--quality', nargs=1,
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
@@ -65,14 +63,7 @@ class ComicDL(object):
 
         parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.",
                             action="store_true")
-        parser.add_argument("--config-make", help="Prints important debugging messages on screen.",
-                            action="store_true")
-
-        parser.add_argument("--auto-download", help="Prints important debugging messages on screen.",
-                            action="store_true")
-
         logger = False
-        chapters_to_update = {}
 
         args = parser.parse_args()
 
@@ -95,78 +86,6 @@ class ComicDL(object):
                                                                ))
             logging.debug("Python Version : %s (%s)" % (platform.python_version(), platform.architecture()[0]))
             logger = True
-
-        if args.config_make:
-            print("\n***Making Config File***\n")
-
-            config_data = {}
-            chapters_dict = {}
-            chapters_to_update_list = []
-            cache_conversion_type = None
-            cache_default_download = None
-            more_chapter = True
-
-            try:
-                config_data = self.config_reader()
-                cache_conversion_type = config_data["conversion_type"]
-                cache_default_download = config_data["default_download_location"]
-                chapters_dict = config_data["chapter_update"][0]
-            except Exception as NoConfigFile:
-                pass
-
-            """Since Python 2 takes string inputs from raw_input and python 3 has input() method for every input,
-            let's overwrite the input() for python 2. This will ensure that this code works on both, P2 and P3.
-            """
-            input = None
-            try:
-                input = raw_input
-            except NameError:
-                print("Cannot take input")
-                pass
-
-            conversion_type = input("In which format do you want to convert? (Leave blank, if not intended) : ")
-            # If user doesn't want to convert, save "none" instead.
-            config_data["conversion_type"] = ("None" if not cache_conversion_type else cache_conversion_type) if not conversion_type else str(conversion_type).strip().lower()
-
-            # If no default download given, then use the current working directory as default.
-            default_download = input("Default Download Location : ")
-            config_data["default_download_location"] = (str(os.path.abspath(os.getcwd())) if not cache_default_download
-                                                        else cache_default_download) if not default_download else str(
-                os.path.abspath(default_download)).strip().lower()
-
-            query_prompt = input("Do you want to add Manga/Comic in the update list? : ")
-
-            if str(query_prompt).strip().lower() in ['true', 'yes', 'y']:
-                more_chapter = True
-            else:
-                more_chapter = False
-
-            while more_chapter:
-                chapter_url = input("Enter URL of the chapter : ")
-                download_directory = input("Enter download directory (Leave blank, if default needed) : ")
-                chapters_dict[str(chapter_url).strip()] = config_data[
-                    "default_download_location"] if not download_directory else download_directory
-
-                query_prompt = input("Do you want to add more? : ")
-                if str(query_prompt).strip().lower() in ['true', 'yes', 'y']:
-                    more_chapter = True
-                else:
-                    more_chapter = False
-
-            chapters_to_update_list.append(chapters_dict)
-
-            config_data["chapter_update"] = chapters_to_update_list
-
-            try:
-                with open("comic_dl_config.config", "wb")  as config_file:
-                    config_file.write(json.dumps(config_data))
-                print("Successfully Wrote The Config File...")
-            except Exception as WriteError:
-                print("Couldn't write the config file. Additionally, this error was thrown : ")
-                print(WriteError)
-                pass
-
-            sys.exit(0)  # No need to move forward. Make  the config file and be done with it.
 
         if args.search:
             start_time = time.time()
@@ -220,9 +139,9 @@ class ComicDL(object):
                 args.download_directory = [os.getcwd()]
             start_time = time.time()
             mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
-                                                      download_directory=args.download_directory[0],
-                                                      log_flag=logger, conversion=args.convert[0],
-                                                      delete_files=args.keep[0])
+                                                                 download_directory=args.download_directory[0],
+                                                                 log_flag=logger, conversion=args.convert[0],
+                                                                 delete_files=args.keep[0])
 
             end_time = time.time()
             total_time = end_time - start_time
@@ -231,54 +150,7 @@ class ComicDL(object):
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
 
-        """This section right here reads the cache file"""
-        try:
-            args.convert, args.download_directory, chapters_to_update = self.cache()
-            # print("Download Directory : {0}".format(args.download_directory[0]))
-        except Exception as NoCache:
-            pass
-
-        if args.auto_download:
-            if not args.sorting:
-                args.sorting = ["ascending"]
-            if not args.download_directory:
-                args.download_directory = [os.getcwd()]
-            if type(args.range) == list:
-                args.range = args.range[0]
-            if not args.convert:
-                args.convert = ["None"]
-            if not args.keep:
-                args.keep = ["True"]
-            if not args.quality:
-                args.quality = ["Best"]
-            for key in chapters_to_update:
-                comic_url = key
-                directory_address = chapters_to_update[key]
-                # print(directory_address)
-                downloaded_chapters = []
-                for chapter_number in sorted(os.listdir(directory_address)):
-                    for number in chapter_number.split():
-                        if number.isdigit():
-                            downloaded_chapters.append(int(number))
-                        else:
-                            pass
-                last_downloaded_chapter = sorted(downloaded_chapters)[-1]
-                args.range = [str(last_downloaded_chapter) + "-a"]
-
-                start_time = time.time()
-                honcho.Honcho().checker(comic_url=str(comic_url).strip(), current_directory=os.getcwd(),
-                                        sorting_order=args.sorting[0], logger=logger,
-                                        download_directory=args.download_directory[0],
-                                        chapter_range=args.range[0], conversion=args.convert[0],
-                                        delete_files=args.keep[0], image_quality=args.quality[0],
-                                        username=args.username[0], password=args.password[0],
-                                        comic_language=args.manga_language[0])
-                end_time = time.time()
-                total_time = end_time - start_time
-                print("Total Time Taken To Complete : %s" % total_time)
-                sys.exit()
-
-        if not args.input:
+        if args.input is None:
             if not str(args.search).strip():
                 print("I need an Input URL to download from.")
                 print("Run the script with --help to see more information.")
@@ -309,21 +181,6 @@ class ComicDL(object):
             print("Total Time Taken To Complete : %s" % total_time)
             sys.exit()
 
-    def cache(self):
-        try:
-            config_data = self.config_reader()
-            cache_conversion_type = [''.join(str(config_data["conversion_type"]))]
-            cache_default_download = [''.join(str(config_data["default_download_location"]))]
-            chapters_dict = config_data["chapter_update"][0]
-
-            return cache_conversion_type,  cache_default_download, chapters_dict
-        except Exception as NoConfigFile:
-            pass
-
     @staticmethod
     def version():
         print("Current Version : %s" % __version__)
-
-    def config_reader(self):
-        with open("comic_dl_config.config", "rb") as  config_file:
-            return json.loads(config_file.readline())
