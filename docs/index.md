@@ -109,7 +109,7 @@ After downloading and installing these, you need to add PIP & Python in your pat
 
 ## Installation
 After installing and setting up all the dependencies in your Operating System, you're good to go and use this script.
-The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](https://github.com/Xonshiz/comic-dl/archive/master.zip) and put it somewhere in your system. Move over the `comic_dl` folder.
+The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](https://github.com/Xonshiz/comic-dl/archive/master.zip) and put it somewhere in your system. Move over to the `comic_dl` folder.
 
 **Windows users**, it's better to not place it places where it requires administrator privileges. Good example would be `C:\Windows`. This goes for both, the Python script and the windows binary file (.exe).
 
