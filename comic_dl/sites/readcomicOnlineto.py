@@ -24,7 +24,6 @@ class ReadComicOnlineTo(object):
 
         if len(url_split) in [5]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
             # Removing "6" from here, because it caused #47
-            print("Downloading Full!")
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
                              conversion=conversion, delete_files=delete_files)
@@ -37,6 +36,7 @@ class ReadComicOnlineTo(object):
                                 delete_files=delete_files)
 
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    	# print("Received Comic Url : {0}".format(comic_url))
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -101,6 +101,7 @@ class ReadComicOnlineTo(object):
            This is a fix for issues like #74.
         """
         all_links = [rev_link for rev_link in reversed(list(re.findall(link_regex, str(source))))]
+        all_links.pop() # RCO changed their source and added one more link that matches the regex. I need to change this regex anyway, but, this is a quick fix.
         # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
