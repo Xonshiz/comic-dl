@@ -1,0 +1,23 @@
+{
+  "download_directory": "dire",
+  "sorting_order": "ascending",
+  "conversion": "cbz",
+  "image_quality": "Best",
+  "keep": "True",
+  "comics": [
+    {
+      "url": "http://readcomiconline.to/Comic/Deadpool-2016",
+      "next": 38,
+      "username": "None",
+      "password": "None",
+      "comic_language": "0"
+    },
+    {
+      "url": "http://www.readcomics.website/comic/superman-2016",
+      "next": 60,
+      "username": "None",
+      "password": "None",
+      "comic_language": "0"
+    }
+  ]
+}
