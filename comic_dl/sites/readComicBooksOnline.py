@@ -104,17 +104,23 @@ class ReadComicBooksOnline():
         if not all_links:
             print("Couldn't Find the chapter list")
             return 1
-        all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
+        # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
+                try:
+                	self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                except Exception as e:
+                	pass
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
+                try:
+                	self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                except Exception as e:
+                	pass
 
         print("Finished Downloading")
         return 0
