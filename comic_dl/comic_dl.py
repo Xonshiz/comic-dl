@@ -22,6 +22,8 @@ class ComicDL(object):
 
         parser.add_argument('--version', action='store_true', help='Shows version and exits.')
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
+        parser.add_argument('-a', '--auto', action='store_true', help='Download new chapters automatically (needs config file!)')
+        parser.add_argument('-c', '--config', action='store_true', help='Generates config file for autodownload function')
         parser.add_argument('-dd', '--download-directory', nargs=1,
                             help='Decides the download directory of the comics/manga.')
         parser.add_argument('-rn', '--range', nargs=1,
@@ -150,8 +152,17 @@ class ComicDL(object):
             print("Total Time Taken To Download : %s" % total_time)
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
-        #TODO: new flags( config creator and downloader)
-        #TODO: and all that(bellow) goes here
+
+        if args.auto:
+            #TODO: read config file and call with each line the honcho(bellow) 
+            print("auto")
+            sys.exit()
+
+        #TODO: config generator
+        if args.config:
+            print("config")
+            sys.exit()
+
         if args.input is None:
             if not str(args.search).strip():
                 print("I need an Input URL to download from.")
@@ -169,9 +180,6 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality:
                 args.quality = ["Best"]
-            #TODO: config generator
-            #TODO: config reader that --v
-            #TODO: call this function with each element of the config file 
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,
