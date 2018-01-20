@@ -10,6 +10,7 @@ import honcho
 import os
 import time
 import manga_eden
+import json
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
@@ -154,8 +155,31 @@ class ComicDL(object):
             sys.exit()
 
         if args.auto:
-            #TODO: read config file and call with each line the honcho(bellow) 
+            #read config file and call with each line the honcho(bellow)
             print("auto")
+            data = json.load(open('config.json'))
+            
+            #common args
+            sorting_order = data["sorting_order"]
+            download_directory = data["download_directory"]
+            conversion = data["conversion"]
+            delete_files = data["keep"]
+            image_quality = data["image_quality"]
+            for el in data["comics"]:
+                download_range = str(el["next"])+"-z" #next chapter to download, if it's greater than available don't download anything 
+                start_time = time.time()
+                honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
+                                        sorting_order=sorting_order, logger=logger,
+                                        download_directory=download_directory,
+                                        chapter_range=download_range, conversion=conversion,
+                                        delete_files=delete_files, image_quality=image_quality,
+                                        username=el["username"], password=el["password"],
+                                        comic_language=el["comic_language"])
+                end_time = time.time()
+                total_time = end_time - start_time
+                print("Total Time Taken To Complete : %s" % total_time)
+                #TODO: update with last issue downloaded. should return number?
+
             sys.exit()
 
         #TODO: config generator
