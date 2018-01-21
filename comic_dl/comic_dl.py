@@ -14,6 +14,7 @@ import json
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
+from shutil import copyfile
 
 
 class ComicDL(object):
@@ -155,9 +156,9 @@ class ComicDL(object):
             sys.exit()
 
         if args.auto:
-            #read config file and call with each line the honcho(bellow)
-            print("auto")
-            data = json.load(open('config.json'))
+            #read config file and download each item of list
+            copyfile('config.json', 'config.json.lock')
+            data = json.load(open('config.json.lock'))
             
             #common args
             sorting_order = data["sorting_order"]
@@ -165,8 +166,9 @@ class ComicDL(object):
             conversion = data["conversion"]
             delete_files = data["keep"]
             image_quality = data["image_quality"]
-            for el in data["comics"]:
-                download_range = str(el["next"])+"-z" #next chapter to download, if it's greater than available don't download anything 
+            for elKey in data["comics"]:
+                el = data["comics"][elKey]
+                download_range = str(el["next"])+"-__EnD__" #next chapter to download, if it's greater than available don't download anything 
                 start_time = time.time()
                 honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
                                         sorting_order=sorting_order, logger=logger,
@@ -179,7 +181,7 @@ class ComicDL(object):
                 total_time = end_time - start_time
                 print("Total Time Taken To Complete : %s" % total_time)
                 #TODO: update with last issue downloaded. should return number?
-
+            os.remove('config.json.lock')
             sys.exit()
 
         #TODO: config generator

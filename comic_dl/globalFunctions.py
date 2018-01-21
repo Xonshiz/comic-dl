@@ -10,6 +10,7 @@ import shutil
 import sys
 import logging
 import glob
+import json
 import img2pdf
 
 
@@ -157,3 +158,9 @@ class GlobalFunctions(object):
                 print(DirectoryDeleteError)
                 pass
             print("Deleted the files...")
+    
+    def saveNewRange(self, comicUrl, nextChapterIndex):
+        #edit config.json to update nextChapter value
+        data = json.load(open('config.json.lock'))
+        data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex
+        json.dump(data, open('config.json', 'w'))
