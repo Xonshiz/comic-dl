@@ -120,6 +120,9 @@ class MangaReader():
             # [::-1] in sub_list in beginning to start this from the 1st episode and at the last,
             # it is to reverse the list again, because I'm reverting it again at the end.
             all_links = [all_links[x] for x in indexes][::-1]
+            #if chapter range contains "__EnD__" write new value to config.json
+            if chapter_range.split("-")[1] == "__EnD__":
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
 
