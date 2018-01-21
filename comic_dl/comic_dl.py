@@ -185,7 +185,7 @@ class ComicDL(object):
 
         #TODO: config generator
         if args.config:
-            print("config")
+            print("config coming soon sorry! Check config.json.example file to generate it manually by now")
             sys.exit()
 
         if args.input is None:
