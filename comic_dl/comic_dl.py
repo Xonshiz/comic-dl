@@ -10,9 +10,11 @@ import honcho
 import os
 import time
 import manga_eden
+import json
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
+from shutil import copyfile
 
 
 class ComicDL(object):
@@ -22,6 +24,8 @@ class ComicDL(object):
 
         parser.add_argument('--version', action='store_true', help='Shows version and exits.')
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
+        parser.add_argument('-a', '--auto', action='store_true', help='Download new chapters automatically (needs config file!)')
+        parser.add_argument('-c', '--config', action='store_true', help='Generates config file for autodownload function')
         parser.add_argument('-dd', '--download-directory', nargs=1,
                             help='Decides the download directory of the comics/manga.')
         parser.add_argument('-rn', '--range', nargs=1,
@@ -151,6 +155,41 @@ class ComicDL(object):
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
 
+        if args.auto:
+            # @dsanchezseco
+            #read config file and download each item of list
+            copyfile('config.json', 'config.json.lock')
+            data = json.load(open('config.json.lock'))
+            #TODO: update next chapter for missing sites
+            #common args
+            sorting_order = data["sorting_order"]
+            download_directory = data["download_directory"]
+            conversion = data["conversion"]
+            delete_files = data["keep"]
+            image_quality = data["image_quality"]
+            for elKey in data["comics"]:
+                el = data["comics"][elKey]
+                download_range = str(el["next"])+"-__EnD__" #next chapter to download, if it's greater than available don't download anything 
+                start_time = time.time()
+                honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
+                                        sorting_order=sorting_order, logger=logger,
+                                        download_directory=download_directory,
+                                        chapter_range=download_range, conversion=conversion,
+                                        delete_files=delete_files, image_quality=image_quality,
+                                        username=el["username"], password=el["password"],
+                                        comic_language=el["comic_language"])
+                end_time = time.time()
+                total_time = end_time - start_time
+                print("Total Time Taken To Complete : %s" % total_time)
+            os.remove('config.json.lock')
+            sys.exit()
+
+        #TODO: config generator
+        if args.config:
+            # @dsanchezseco
+            print("config coming soon sorry! Check config.json.example file to generate it manually by now")
+            sys.exit()
+
         if args.input is None:
             if not str(args.search).strip():
                 print("I need an Input URL to download from.")
@@ -168,7 +207,6 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality:
                 args.quality = ["Best"]
-
             start_time = time.time()
             honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,

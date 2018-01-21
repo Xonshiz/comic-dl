@@ -121,6 +121,9 @@ class MangaHere(object):
             indexes = [x for x in range(starting, ending)]
 
             chapter_links = [chapter_links[x] for x in indexes][::-1]
+            #if chapter range contains "__EnD__" write new value to config.json
+            if chapter_range.split("-")[1] == "__EnD__":
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             chapter_links = chapter_links
 

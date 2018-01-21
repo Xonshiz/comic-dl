@@ -120,9 +120,12 @@ class ReadComicOnlineTo(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
+            #if chapter range contains "__EnD__" write new value to config.json
+            if chapter_range.split("-")[1] == "__EnD__":
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
-
+        
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 chap_link = "http://readcomiconline.to/Comic/" + chap_link
@@ -137,3 +140,4 @@ class ReadComicOnlineTo(object):
 
         print("Finished Downloading")
         return 0
+        

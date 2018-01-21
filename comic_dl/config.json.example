@@ -1,0 +1,24 @@
+{
+    "download_directory": "dire", 
+    "comics": {
+        "http://readcomiconline.to/Comic/Deadpool-2016": {
+            "url": "http://readcomiconline.to/Comic/Deadpool-2016", 
+            "username": "None", 
+            "comic_language": "0", 
+            "password": "None", 
+            "next": 39
+        },
+        "http://readcomicbooksonline.net/reader/Deadpool_Vs_Old_Man_Logan": {
+            "url": "http://readcomicbooksonline.net/reader/Deadpool_Vs_Old_Man_Logan", 
+            "username": "None", 
+            "comic_language": "0", 
+            "password": "None", 
+            "next": 0
+        }
+    }, 
+    "conversion": "cbz", 
+    "keep": "True", 
+    "sorting_order": 
+    "ascending", 
+    "image_quality": "Best"
+}
