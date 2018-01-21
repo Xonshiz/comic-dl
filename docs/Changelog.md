@@ -76,3 +76,4 @@
 - By default, script will not delete the file [2018.01.19]
 - Fix for #79 [2018.01.19]
 - Fix for #80 [2018.01.19]
+- Fix for #90 [2018.01.20]
