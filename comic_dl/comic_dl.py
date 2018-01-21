@@ -180,7 +180,6 @@ class ComicDL(object):
                 end_time = time.time()
                 total_time = end_time - start_time
                 print("Total Time Taken To Complete : %s" % total_time)
-                #TODO: update with last issue downloaded. should return number?
             os.remove('config.json.lock')
             sys.exit()
 
