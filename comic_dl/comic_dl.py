@@ -156,6 +156,7 @@ class ComicDL(object):
             sys.exit()
 
         if args.auto:
+            # @dsanchezseco
             #read config file and download each item of list
             copyfile('config.json', 'config.json.lock')
             data = json.load(open('config.json.lock'))
@@ -185,6 +186,7 @@ class ComicDL(object):
 
         #TODO: config generator
         if args.config:
+            # @dsanchezseco
             print("config coming soon sorry! Check config.json.example file to generate it manually by now")
             sys.exit()
 

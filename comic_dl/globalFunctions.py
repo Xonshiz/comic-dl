@@ -160,6 +160,7 @@ class GlobalFunctions(object):
             print("Deleted the files...")
     
     def saveNewRange(self, comicUrl, nextChapterIndex):
+        # @dsanchezseco
         #edit config.json to update nextChapter value
         data = json.load(open('config.json.lock'))
         data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex

@@ -25,6 +25,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 * [Usage](#usage)
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
+* [Auto Download](#auto-download)
 * [Features](#features)
 * [Changelog](https://github.com/Xonshiz/comic-dl/blob/master/Changelog.md)
 * [Opening An Issue/Requesting A Site](#opening-an-issuerequesting-a-site)
@@ -141,11 +142,12 @@ Currently, the script supports these arguments :
 -h, --help                             Prints the basic help menu of the script and exits.
 -i,--input                             Defines the input link to the comic/manga.
 -V,--version                           Prints the VERSION and exits.
--a,--about                             Prints ABOUT and USAGE of the script and exits.
 -u,--username                          Indicates username for a website.
 -p,--password                          Indicates password for a website.
 -v,--verbose                           Enables Verbose logging.
 --sorting							   Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
+-a, --auto                             Download new chapters automatically (needs config file!)
+-c, --config                           Generates config file for autodownload function
 -dd,--download-directory               Specifies custom download location for the comics/manga.
 -rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
 --convert						       Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
@@ -309,6 +311,17 @@ After you've saved this script in a directory/folder, you need to open `command 
 `__main__.py -i <URL TO THE COMIC>`
 
 URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
+
+## Auto Download
+You can autodownload the new chapters of your favorite comics by creating a config file in json format(currently is a manual process see `config.json.example`).
+
+To generate the config file run the comand below and follow the instructions
+```__main__.py --config```
+
+Once the config file is generated you can download automatically the new chapters available for your selected comics by running the command bellow. The command will automatically update the config file to the lastest chapter downloaded, so in the next run it'll download just the new ones. 
+```__main__.py --auto```
+
+_Note: It's not necesary to keep the comic files to download the next chapters._
 
 ## Features
 This is a very basic and small sript, so at the moment it only have a few features.
