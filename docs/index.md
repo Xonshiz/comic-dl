@@ -313,7 +313,7 @@ After you've saved this script in a directory/folder, you need to open `command 
 URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ## Auto Download
-You can autodownload the new chapters of your favorite comics by creating a config file in json format(currently is a manual process see `(config.json.example)[https://github.com/Xonshiz/comic-dl/blob/master/comic_dl/config.json.example]`).
+You can autodownload the new chapters of your favorite comics by creating a config file in json format(currently is a manual process see (config.json.example)[https://github.com/Xonshiz/comic-dl/blob/master/comic_dl/config.json.example]).
 
 To generate the config file run the comand below and follow the instructions
 ```__main__.py --config```
