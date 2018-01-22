@@ -5,6 +5,7 @@ import globalFunctions
 import re
 import os
 import logging
+from bs4 import BeautifulSoup
 
 
 class ReadComicOnlineTo(object):
@@ -18,11 +19,9 @@ class ReadComicOnlineTo(object):
         self.image_quality = kwargs.get("image_quality")
         self.comic_name = self.name_cleaner(manga_url)
 
-
-
         url_split = str(manga_url).split("/")
 
-        if len(url_split) in [5]: # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
+        if len(url_split) in [5]:  # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
             # Removing "6" from here, because it caused #47
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
@@ -36,13 +35,12 @@ class ReadComicOnlineTo(object):
                                 delete_files=delete_files)
 
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
-    	# print("Received Comic Url : {0}".format(comic_url))
+        # print("Received Comic Url : {0}".format(comic_url))
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         image_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
-
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
 
@@ -60,7 +58,7 @@ class ReadComicOnlineTo(object):
         for link in image_list:
             link = link.replace("\\", "")
             # file_name = str(link).split("/")[-1].strip()
-            #file_name = "0" + str(image_list.index(link)) + ".jpg"
+            # file_name = "0" + str(image_list.index(link)) + ".jpg"
 
             if len(str(image_list.index(link))) < len(str(image_len)):
                 number_of_zeroes = len(str(image_len)) - len(str(image_list.index(link)))
@@ -73,7 +71,7 @@ class ReadComicOnlineTo(object):
                 file_name = str(image_list.index(link)) + ".jpg"
 
             logging.debug("Image Link : %s" % link)
-            link = link.replace("=s1600", "=s0").replace("/s1600", "/s0") # Change low quality to best.
+            link = link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 link = link.replace("=s0", "=s1600").replace("/s0", "/s1600")
@@ -92,16 +90,24 @@ class ReadComicOnlineTo(object):
         return manga_name
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
-        series_name_raw = str(comic_url).split("/")[3].strip()
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
-        link_regex = "<a href=\"/" + str(series_name_raw) + "/(.*?)\""
+        all_links = []
+
+        listing_table = source.find_all("table", {"class": "listing"})
+        # print(listing_table)
+
+        for elements in listing_table:
+            x = elements.findAll('a')
+            for a in x:
+                all_links.append(str(a['href']).strip())
+
         """Readcomiconline.to shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
            the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
            This is a fix for issues like #74.
         """
-        all_links = [rev_link for rev_link in reversed(list(re.findall(link_regex, str(source))))]
-        all_links.pop() # RCO changed their source and added one more link that matches the regex. I need to change this regex anyway, but, this is a quick fix.
+        all_links.reverse()
+
         # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
@@ -120,24 +126,23 @@ class ReadComicOnlineTo(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            #if chapter range contains "__EnD__" write new value to config.json
+            # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
-        
+
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                chap_link = "http://readcomiconline.to/Comic/" + chap_link
+                chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                chap_link = "http://readcomiconline.to/Comic/" + chap_link
+                chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
 
         print("Finished Downloading")
         return 0
-        

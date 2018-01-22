@@ -77,3 +77,6 @@
 - Fix for #79 [2018.01.19]
 - Fix for #80 [2018.01.19]
 - Fix for #90 [2018.01.20]
+- Support for Auto Download Included [2018.01.21] (@dsanchezseco)
+- Error Log creation to be done in the desired download directory now. [2018.01.22]
+- Fix for #89 [2018.01.22]

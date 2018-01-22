@@ -27,7 +27,7 @@ class ComicDL(object):
         parser.add_argument('-a', '--auto', action='store_true', help='Download new chapters automatically (needs config file!)')
         parser.add_argument('-c', '--config', action='store_true', help='Generates config file for autodownload function')
         parser.add_argument('-dd', '--download-directory', nargs=1,
-                            help='Decides the download directory of the comics/manga.')
+                            help='Decides the download directory of the comics/manga.', default=os.getcwd())
         parser.add_argument('-rn', '--range', nargs=1,
                             help='Specifies the range of chapters to download.', default='All')
         parser.add_argument('--convert', nargs=1,
@@ -80,9 +80,11 @@ class ComicDL(object):
             try:
                 os.remove("Error_Log.log")
             except Exception as VerboseError:
-                print(VerboseError)
+                # print(VerboseError)
                 pass
-            logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error_Log.log", level=logging.DEBUG)
+                logging.basicConfig(format='%(levelname)s: %(message)s',
+                                    filename=str(args.download_directory[0]) + str(os.sep) + "Error_Log.log",
+                                    level=logging.DEBUG)
             logging.debug("Arguments Provided : %s" % args)
             logging.debug("Operating System : %s - %s - %s" % (platform.system(),
                                                                platform.release(),
