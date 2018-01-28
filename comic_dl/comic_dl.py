@@ -24,16 +24,19 @@ class ComicDL(object):
 
         parser.add_argument('--version', action='store_true', help='Shows version and exits.')
         parser.add_argument('-s', '--sorting', nargs=1, help='Decides downloading order of chapters.')
-        parser.add_argument('-a', '--auto', action='store_true', help='Download new chapters automatically (needs config file!)')
-        parser.add_argument('-c', '--config', action='store_true', help='Generates config file for autodownload function')
+        parser.add_argument('-a', '--auto', action='store_true',
+                            help='Download new chapters automatically (needs config file!)')
+        parser.add_argument('-c', '--config', action='store_true',
+                            help='Generates config file for autodownload function')
         parser.add_argument('-dd', '--download-directory', nargs=1,
-                            help='Decides the download directory of the comics/manga.', default=os.getcwd())
+                            help='Decides the download directory of the comics/manga.', default=[os.getcwd()])
         parser.add_argument('-rn', '--range', nargs=1,
                             help='Specifies the range of chapters to download.', default='All')
         parser.add_argument('--convert', nargs=1,
                             help='Tells the script to convert the downloaded Images to PDF or anything else.')
         parser.add_argument('--keep', nargs=1,
-                            help='Tells the script whether to keep the files after conversion or not.', default=['True'])
+                            help='Tells the script whether to keep the files after conversion or not.',
+                            default=['True'])
         parser.add_argument('--quality', nargs=1,
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
@@ -79,6 +82,8 @@ class ComicDL(object):
             print("\n***Starting the script in Verbose Mode***\n")
             try:
                 os.remove("Error_Log.log")
+                # with open(str(args.download_directory[0]) + str(os.sep) + "Error_Log.log", "w") as wf:
+                #     wf.write("Writing...")
             except Exception as VerboseError:
                 # print(VerboseError)
                 pass
@@ -146,9 +151,9 @@ class ComicDL(object):
                 args.download_directory = [os.getcwd()]
             start_time = time.time()
             mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
-                                                                 download_directory=args.download_directory[0],
-                                                                 log_flag=logger, conversion=args.convert[0],
-                                                                 delete_files=args.keep[0])
+                                                      download_directory=args.download_directory[0],
+                                                      log_flag=logger, conversion=args.convert[0],
+                                                      delete_files=args.keep[0])
 
             end_time = time.time()
             total_time = end_time - start_time
@@ -159,11 +164,11 @@ class ComicDL(object):
 
         if args.auto:
             # @dsanchezseco
-            #read config file and download each item of list
+            # read config file and download each item of list
             copyfile('config.json', 'config.json.lock')
             data = json.load(open('config.json.lock'))
-            #TODO: update next chapter for missing sites
-            #common args
+            # TODO: update next chapter for missing sites
+            # common args
             sorting_order = data["sorting_order"]
             download_directory = data["download_directory"]
             conversion = data["conversion"]
@@ -171,7 +176,8 @@ class ComicDL(object):
             image_quality = data["image_quality"]
             for elKey in data["comics"]:
                 el = data["comics"][elKey]
-                download_range = str(el["next"])+"-__EnD__" #next chapter to download, if it's greater than available don't download anything 
+                # next chapter to download, if it's greater than available don't download anything
+                download_range = str(el["next"]) + "-__EnD__"
                 start_time = time.time()
                 honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
                                         sorting_order=sorting_order, logger=logger,
@@ -186,7 +192,7 @@ class ComicDL(object):
             os.remove('config.json.lock')
             sys.exit()
 
-        #TODO: config generator
+        # TODO: config generator
         if args.config:
             # @dsanchezseco
             print("config coming soon sorry! Check config.json.example file to generate it manually by now")
@@ -209,8 +215,10 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality:
                 args.quality = ["Best"]
+            # user_input = unicode(args.input[0], encoding='latin-1')
+            user_input = args.input[0]
             start_time = time.time()
-            honcho.Honcho().checker(comic_url=str(args.input[0]).strip(), current_directory=os.getcwd(),
+            honcho.Honcho().checker(comic_url=user_input, current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,
                                     download_directory=args.download_directory[0],
                                     chapter_range=args.range, conversion=args.convert[0],
@@ -221,6 +229,27 @@ class ComicDL(object):
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)
             sys.exit()
+
+    # def string_formatter(self, my_string):
+    #     temp = ""
+    #     for char in my_string:
+    #         print("Temp right now : {0}".format(char))
+    #         # temp = temp + str(char).replace(char, self.to_utf_8(char))
+    #         temp = temp + str(char).replace(char, self.to_utf_8(char))
+    #
+    #     print("Temp is : {0}".format(temp))
+    #
+    #
+    # def to_utf_8(self, char):
+    #     print("Received Key : {0}".format(char))
+    #     char_dict = {
+    #         'ë': '%C3%AB'
+    #     }
+    #     try:
+    #         return char_dict[char]
+    #     except KeyError:
+    #         return char
+
 
     @staticmethod
     def version():

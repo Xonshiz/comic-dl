@@ -16,6 +16,8 @@ import img2pdf
 
 class GlobalFunctions(object):
     def page_downloader(self, manga_url, **kwargs):
+        # manga_url = str(manga_url).decode('unicode_escape').encode('utf-8')
+        # print("Manga URL : {0}".format(manga_url))
         headers = kwargs.get("headers")
         if not headers:
             headers = {
@@ -26,7 +28,10 @@ class GlobalFunctions(object):
 
         sess = requests.session()
         sess = cfscrape.create_scraper(sess)
+        connection = None
+
         connection = sess.get(manga_url, headers=headers, cookies=kwargs.get("cookies"))
+
         if connection.status_code != 200:
             print("Whoops! Seems like I can't connect to website.")
             print("It's showing : %s" % connection)

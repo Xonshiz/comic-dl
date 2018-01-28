@@ -370,6 +370,8 @@ This should be enough, but it'll be great if you can add more ;)
 
 * Bato.to only supports custom language downloads in "Batch" mode.
 
+* URLs with special characters are tricky to work with, because of "Character Encoding". If you wish to download such a comic/manga, you will need to use Python 3 (If on  python) and also, you need to set your terminal's character encoding to "utf-8" or "latin-1". #95 is the same issue.
+
 # Donations
 You can always send some money over from this :
 

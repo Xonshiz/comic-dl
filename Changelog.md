@@ -80,3 +80,5 @@
 - Support for Auto Download Included [2018.01.21] (@dsanchezseco)
 - Error Log creation to be done in the desired download directory now. [2018.01.22]
 - Fix for #89 [2018.01.22]
+- Fix for #93 [2018.01.28]
+- Fix for #94 [2018.01.28]
