@@ -8,8 +8,8 @@
             "password": "None", 
             "next": 39
         },
-        "http://readcomicbooksonline.net/reader/Deadpool_Vs_Old_Man_Logan": {
-            "url": "http://readcomicbooksonline.net/reader/Deadpool_Vs_Old_Man_Logan", 
+        "http://readcomicbooksonline.net/deadpool-vs-old-man-logan": {
+            "url": "http://readcomicbooksonline.net/deadpool-vs-old-man-logan", 
             "username": "None", 
             "comic_language": "0", 
             "password": "None", 
@@ -18,7 +18,6 @@
     }, 
     "conversion": "cbz", 
     "keep": "True", 
-    "sorting_order": 
-    "ascending", 
+    "sorting_order": "ascending", 
     "image_quality": "Best"
 }
