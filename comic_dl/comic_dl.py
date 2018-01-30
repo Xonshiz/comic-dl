@@ -11,6 +11,7 @@ import os
 import time
 import manga_eden
 import json
+import configGenerator
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
@@ -192,10 +193,10 @@ class ComicDL(object):
             os.remove('config.json.lock')
             sys.exit()
 
-        # TODO: config generator
+        # config generator
         if args.config:
             # @dsanchezseco
-            print("config coming soon sorry! Check config.json.example file to generate it manually by now")
+            configGenerator.configGenerator()
             sys.exit()
 
         if args.input is None:
