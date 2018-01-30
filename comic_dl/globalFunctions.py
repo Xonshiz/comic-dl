@@ -169,4 +169,4 @@ class GlobalFunctions(object):
         #edit config.json to update nextChapter value
         data = json.load(open('config.json'))
         data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex
-        json.dump(data, open('config.json', 'w'))
+        json.dump(data, open('config.json', 'w'), indent=4)
