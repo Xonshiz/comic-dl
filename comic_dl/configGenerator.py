@@ -89,9 +89,44 @@ class configGenerator(object):
     def editConfig(self):
         print "TODO edit!"
     
-     def removeItems(self):
-        print "TODO remove!"
-    
+    def removeItems(self):
+        data = json.load(open('config.json'))
+        comics = data["comics"]
+        
+        if comics == {}:
+            print "No comics!"
+            print "Add comics first!!"
+            return
+
+        while True:
+            print "Select series to remove from pull list"
+            options = {}
+            index = 0
+            # gen list to choose
+            for key, value in comics.items():
+                options[index] = key
+                print str(index)+". "+key+" (next chapter:"+str(value["next"])+")"
+                index = index + 1
+            
+            if not 0 in options:
+                print "No more options, bye!"
+                break
+            
+            print
+            choice = raw_input("leave blank to finish >> ")
+            if not choice:
+                break
+            if not int(choice) in options:
+                os.system("clear")                
+                print "Bad choice, try again!"
+                continue
+            
+            del comics[options[int(choice)]]
+            os.system("clear")            
+        
+        data["comics"] = comics
+        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
+
     def genComicsObject(self):
         comics = {}
         while True:
