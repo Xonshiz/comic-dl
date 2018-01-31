@@ -7,17 +7,17 @@ CONFIG_FILE="config.json"
 
 class configGenerator(object):
     def __init__(self):
-        print "Welcome to the Pull List Config Generator!"
-        print ""
+        print("Welcome to the Pull List Config Generator!")
+        print("")
 
         if os.path.isfile(CONFIG_FILE):
             while True:
-                print "Previous config found! Do you wanna..."
-                print "1. Add new items to pull list?"
-                print "2. Remove item from pull list?"
-                print "3. Edit config file?"
-                print "\n0. Quit"
-                choice = raw_input(" >>  ")
+                print("Previous config found! Do you wanna...")
+                print("1. Add new items to pull list?")
+                print("2. Remove item from pull list?")
+                print("3. Edit config file?")
+                print("\n0. Quit")
+                choice = input(" >>  ")
                 print
                 
                 os.system('clear')
@@ -35,29 +35,29 @@ class configGenerator(object):
                     os.system("clear")
                 else:
                     os.system("clear")
-                    print "That functionality doesn't exist yet, bye!"
-            print "Done!"
-            print "May the F=m*a be with you!"
+                    print("That functionality doesn't exist yet, bye!")
+            print("Done!")
+            print("May the F=m*a be with you!")
         else:
-            print "No config file found! Let's create a new one..."
+            print("No config file found! Let's create a new one...")
             self.create()
     
     def create(self):
         data = {}
         # common attributes for comics
-        print "Note: to use the default values just hit INTRO"
+        print("Note: to use the default values just hit INTRO")
         print
 
-        print "download directory (default '<here>/comics')"
-        data['download_directory'] = raw_input(" >> ")
-        print "sorting order (default 'ascending')"
-        data["sorting_order"] = raw_input("[ ascending | descending ] >> ")
-        print "conversion (default 'none')"
-        data["conversion"] = raw_input("[ cbz | pdf ] >> ")
-        print "keep images after conversion (default 'True', forced 'True' if no conversion)"
-        data["keep"] = raw_input("[ True | False ] >> ")
-        print "image quality (default 'Best')"
-        data["image_quality"] = raw_input("[ Best | Low ] >> ")
+        print("download directory (default '<here>/comics')")
+        data['download_directory'] = input(" >> ")
+        print("sorting order (default 'ascending')")
+        data["sorting_order"] = input("[ ascending | descending ] >> ")
+        print("conversion (default 'none')")
+        data["conversion"] = input("[ cbz | pdf ] >> ")
+        print("keep images after conversion (default 'True', forced 'True' if no conversion)")
+        data["keep"] = input("[ True | False ] >> ")
+        print("image quality (default 'Best')")
+        data["image_quality"] = input("[ Best | Low ] >> ")
 
         # check mandatories and defaults
         if not data["sorting_order"]:
@@ -75,8 +75,8 @@ class configGenerator(object):
 
         # add comics
         os.system('clear')
-        print "Now the comics :)"
-        print "Remember to use the series link not the chapter/issue!"
+        print("Now the comics :)")
+        print("Remember to use the series link not the chapter/issue!")
 
         data["comics"] = self.genComicsObject()
         os.system('clear')
@@ -98,24 +98,24 @@ class configGenerator(object):
     def editConfig(self):
         data = json.load(open('config.json'))
         while True:
-            print "Select field to edit"
+            print("Select field to edit")
             options = {}
             index = 0
             # gen list to choose
             for key, value in data.items():
                 options[index] = key
                 if not "comics" == key:
-                    print str(index)+". "+key+" (actual value: "+data[key]+")"
+                    print(str(index)+". "+key+" (actual value: "+data[key]+")")
                     index = index + 1
             print
-            choice = raw_input("leave blank to finish >> ")
+            choice = input("leave blank to finish >> ")
             if not choice:
                 break
             if not int(choice) in options:
                 os.system("clear")                
-                print "Bad choice, try again!"
+                print("Bad choice, try again!")
                 continue
-            data[options[int(choice)]] = raw_input("Editing '"+options[int(choice)]+"': "+ data[options[int(choice)]]+" >> ")
+            data[options[int(choice)]] = input("Editing '"+options[int(choice)]+"': "+ data[options[int(choice)]]+" >> ")
             os.system("clear")                
             
         json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
@@ -126,31 +126,31 @@ class configGenerator(object):
         comics = data["comics"]
         
         if comics == {}:
-            print "No comics!"
-            print "Add comics first!!"
+            print("No comics!")
+            print("Add comics first!!")
             return
 
         while True:
-            print "Select series to remove from pull list"
+            print("Select series to remove from pull list")
             options = {}
             index = 0
             # gen list to choose
             for key, value in comics.items():
                 options[index] = key
-                print str(index)+". "+key+" (next chapter: "+str(value["next"])+")"
+                print(str(index)+". "+key+" (next chapter: "+str(value["next"])+")")
                 index = index + 1
             
             if not 0 in options:
-                print "No more options, bye!"
+                print("No more options, bye!")
                 break
 
             print
-            choice = raw_input("leave blank to finish >> ")
+            choice = input("leave blank to finish >> ")
             if not choice:
                 break
             if not int(choice) in options:
                 os.system("clear")                
-                print "Bad choice, try again!"
+                print("Bad choice, try again!")
                 continue
             
             del comics[options[int(choice)]]
@@ -163,18 +163,18 @@ class configGenerator(object):
         comics = {}
         while True:
             comic = {}
-            print "Series link for comics (leave empty to finish)"
-            comic["url"] = raw_input(" >> ")
+            print("Series link for comics (leave empty to finish)")
+            comic["url"] = input(" >> ")
             if not comic["url"]:
                 break
-            print "Next chapter to download (default 0)"
-            comic["next"] = raw_input(" >> ")
-            print "Page login username (leave blank if not needed)"
-            comic["username"] = raw_input(" >> ")
-            print "Page login password (leave blank if not needed)"
-            comic["password"] = raw_input(" >> ")
-            print "Comic language (default 0)"
-            comic["comic_language"] = raw_input(" >> ")
+            print("Next chapter to download (default 0)")
+            comic["next"] = input(" >> ")
+            print("Page login username (leave blank if not needed)")
+            comic["username"] = input(" >> ")
+            print("Page login password (leave blank if not needed)")
+            comic["password"] = input(" >> ")
+            print("Comic language (default 0)")
+            comic["comic_language"] = input(" >> ")
 
             if not comic["next"]:
                 comic["next"] = 0
