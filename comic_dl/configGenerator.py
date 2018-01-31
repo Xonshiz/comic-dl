@@ -11,26 +11,33 @@ class configGenerator(object):
         print ""
 
         if os.path.isfile(CONFIG_FILE):
-            print "Previous config found! Do you wanna..."
-            print "1. Add new items to pull list?"
-            print "2. Remove item from pull list?"
-            print "3. Edit config file?"
-            print "\n0. Quit"
-            choice = raw_input(" >>  ")
-            print
-            
-            os.system('clear')
+            while True:
+                print "Previous config found! Do you wanna..."
+                print "1. Add new items to pull list?"
+                print "2. Remove item from pull list?"
+                print "3. Edit config file?"
+                print "\n0. Quit"
+                choice = raw_input(" >>  ")
+                print
+                
+                os.system('clear')
 
-            if "1" == choice:
-                self.addItems()
-            elif "2" == choice:
-                self.removeItems()
-            elif "3" == choice:
-                self.editConfig()
-            elif not choice or choice == "0":
-                print "May the F=m*a be with you!"
-            else:
-                print "That functionality doesn't exist yet, bye!"
+                if not choice or "0" == choice:
+                    break
+                elif "1" == choice:
+                    self.addItems()
+                    os.system("clear")                    
+                elif "2" == choice:
+                    self.removeItems()
+                    os.system("clear")
+                elif "3" == choice:
+                    self.editConfig()
+                    os.system("clear")
+                else:
+                    os.system("clear")
+                    print "That functionality doesn't exist yet, bye!"
+            print "Done!"
+            print "May the F=m*a be with you!"
         else:
             print "No config file found! Let's create a new one..."
             self.create()
