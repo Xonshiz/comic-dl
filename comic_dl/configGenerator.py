@@ -13,7 +13,8 @@ class configGenerator(object):
         if os.path.isfile(CONFIG_FILE):
             print "Previous config found! Do you wanna..."
             print "1. Add new items to pull list?"
-            print "2. Edit config file?"
+            print "2. Remove item from pull list?"
+            print "3. Edit config file?"
             print "\n0. Quit"
             choice = raw_input(" >>  ")
             print
@@ -23,6 +24,8 @@ class configGenerator(object):
             if "1" == choice:
                 self.addItems()
             if "2" == choice:
+                self.removeItems()
+            if "3" == choice:
                 self.editConfig()
             if not choice or choice == "0":
                 print "May the F=m*a be with you!"
@@ -85,6 +88,9 @@ class configGenerator(object):
     
     def editConfig(self):
         print "TODO edit!"
+    
+     def removeItems(self):
+        print "TODO remove!"
     
     def genComicsObject(self):
         comics = {}
