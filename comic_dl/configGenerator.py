@@ -33,7 +33,7 @@ class configGenerator(object):
         data["sorting_order"] = raw_input("[ ascending | descending ] >> ")
         print "conversion (default 'none')"
         data["conversion"] = raw_input("[ cbz | pdf ] >> ")
-        print "keep images after conversion (default 'True')"
+        print "keep images after conversion (default 'True', forced 'True' if no conversion)"
         data["keep"] = raw_input("[ True | False ] >> ")
         print "image quality (default 'Best')"
         data["image_quality"] = raw_input("[ Best | Low ] >> ")
@@ -42,15 +42,51 @@ class configGenerator(object):
         if not data["sorting_order"]:
             data["sorting_order"] = "ascending"
         if not data['download_directory']:
-            data['download_directory'] = os.path.join(os.getcwd(), "comics")
+            data['download_directory'] = "comics"
+        if not data["keep"]:
+            data["keep"] = "True"
         if not data["conversion"]:
             data["conversion"] = "None"
-        if not data["keep"]:
             data["keep"] = "True"
         if not data["image_quality"]:
             data["image_quality"] = "Best"
 
+
         # TODO: add comics
+        os.system('clear')
+        print "Now the comics :)"
+        print "Remember to use the series link not the chapter/issue!"
+
+        data["comics"] = {}
+        while True:
+            comic = {}
+            print "Series link for comics (leave empty to finish)"
+            comic["url"] = raw_input(" >> ")
+            if not comic["url"]:
+                break
+            print "Next chapter to download (default 0)"
+            comic["next"] = raw_input(" >> ")
+            print "Page login username (leave blank if not needed)"
+            comic["username"] = raw_input(" >> ")
+            print "Page login password (leave blank if not needed)"
+            comic["password"] = raw_input(" >> ")
+            print "Comic language (default 0)"
+            comic["comic_language"] = raw_input(" >> ")
+
+            if not comic["next"]:
+                comic["next"] = 0
+            else:
+                comic["next"] = int(comic["next"])
+            if not comic["username"]:
+                comic["username"] = "None"
+            if not comic["password"]:
+                comic["password"] = "None"
+            if not comic["comic_language"]:
+                comic["comic_language"] = "0"  
+
+            data["comics"][comic["url"]] = comic
+            os.system('clear')
+
 
         # write config file
         json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
@@ -62,7 +98,7 @@ class configGenerator(object):
 # data["comics"]
 # el = data["comics"][elKey]
 # el["next"]
-# el["url"].strip()
+# el["url"]
 # el["username"]
 # el["password"],
 # el["comic_language"]
