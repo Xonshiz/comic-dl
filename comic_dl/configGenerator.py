@@ -17,6 +17,9 @@ class configGenerator(object):
             print "\n0. Quit"
             choice = raw_input(" >>  ")
             print
+            
+            os.system('clear')
+
             if "1" == choice:
                 self.addItems()
             if "2" == choice:
@@ -63,36 +66,8 @@ class configGenerator(object):
         print "Now the comics :)"
         print "Remember to use the series link not the chapter/issue!"
 
-        data["comics"] = {}
-        while True:
-            comic = {}
-            print "Series link for comics (leave empty to finish)"
-            comic["url"] = raw_input(" >> ")
-            if not comic["url"]:
-                break
-            print "Next chapter to download (default 0)"
-            comic["next"] = raw_input(" >> ")
-            print "Page login username (leave blank if not needed)"
-            comic["username"] = raw_input(" >> ")
-            print "Page login password (leave blank if not needed)"
-            comic["password"] = raw_input(" >> ")
-            print "Comic language (default 0)"
-            comic["comic_language"] = raw_input(" >> ")
-
-            if not comic["next"]:
-                comic["next"] = 0
-            else:
-                comic["next"] = int(comic["next"])
-            if not comic["username"]:
-                comic["username"] = "None"
-            if not comic["password"]:
-                comic["password"] = "None"
-            if not comic["comic_language"]:
-                comic["comic_language"] = "0"  
-
-            data["comics"][comic["url"]] = comic
-            os.system('clear')
-
+        data["comics"] = self.genComicsObject()
+        os.system('clear')
 
         # write config file
         json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
@@ -102,6 +77,17 @@ class configGenerator(object):
     def addItems(self):
         data = json.load(open('config.json'))
 
+        data["comics"].update(self.genComicsObject())
+
+        # write config file
+        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
+        return
+    
+    def editConfig(self):
+        print "TODO edit!"
+    
+    def genComicsObject(self):
+        comics = {}
         while True:
             comic = {}
             print "Series link for comics (leave empty to finish)"
@@ -126,15 +112,9 @@ class configGenerator(object):
             if not comic["password"]:
                 comic["password"] = "None"
             if not comic["comic_language"]:
-                comic["comic_language"] = "0"  
+                comic["comic_language"] = "0"
 
-            data["comics"][comic["url"]] = comic
+            comics[comic["url"]] = comic
             os.system('clear')
 
-
-        # write config file
-        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
-        return
-    
-    def editConfig(self):
-        print "TODO edit!"
+        return comics
