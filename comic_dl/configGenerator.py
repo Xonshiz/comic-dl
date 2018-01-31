@@ -16,7 +16,13 @@ class configGenerator(object):
             print "2. Edit config file?"
             print "\n0. Quit"
             choice = raw_input(" >>  ")
-            print "TODO!"
+            print
+            if "1" == choice:
+                self.addItems()
+            if "2" == choice:
+                self.editConfig()
+            if not choice or choice == "0":
+                print "May the F=m*a be with you!"
         else:
             print "No config file found! Let's create a new one..."
             self.create()
@@ -92,3 +98,43 @@ class configGenerator(object):
         json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
 
         return
+
+    def addItems(self):
+        data = json.load(open('config.json'))
+
+        while True:
+            comic = {}
+            print "Series link for comics (leave empty to finish)"
+            comic["url"] = raw_input(" >> ")
+            if not comic["url"]:
+                break
+            print "Next chapter to download (default 0)"
+            comic["next"] = raw_input(" >> ")
+            print "Page login username (leave blank if not needed)"
+            comic["username"] = raw_input(" >> ")
+            print "Page login password (leave blank if not needed)"
+            comic["password"] = raw_input(" >> ")
+            print "Comic language (default 0)"
+            comic["comic_language"] = raw_input(" >> ")
+
+            if not comic["next"]:
+                comic["next"] = 0
+            else:
+                comic["next"] = int(comic["next"])
+            if not comic["username"]:
+                comic["username"] = "None"
+            if not comic["password"]:
+                comic["password"] = "None"
+            if not comic["comic_language"]:
+                comic["comic_language"] = "0"  
+
+            data["comics"][comic["url"]] = comic
+            os.system('clear')
+
+
+        # write config file
+        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
+        return
+    
+    def editConfig(self):
+        print "TODO edit!"
