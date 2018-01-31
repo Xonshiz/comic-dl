@@ -23,14 +23,14 @@ class configGenerator(object):
 
             if "1" == choice:
                 self.addItems()
-            if "2" == choice:
+            elif "2" == choice:
                 self.removeItems()
-            if "3" == choice:
+            elif "3" == choice:
                 self.editConfig()
-            if not choice or choice == "0":
+            elif not choice or choice == "0":
                 print "May the F=m*a be with you!"
             else:
-                print "That option doesn't exist yet, bye!"
+                print "That functionality doesn't exist yet, bye!"
         else:
             print "No config file found! Let's create a new one..."
             self.create()
@@ -89,8 +89,31 @@ class configGenerator(object):
         return
     
     def editConfig(self):
-        print "TODO edit!"
-    
+        data = json.load(open('config.json'))
+        while True:
+            print "Select field to edit"
+            options = {}
+            index = 0
+            # gen list to choose
+            for key, value in data.items():
+                options[index] = key
+                if not "comics" == key:
+                    print str(index)+". "+key+" (actual value: "+data[key]+")"
+                    index = index + 1
+            print
+            choice = raw_input("leave blank to finish >> ")
+            if not choice:
+                break
+            if not int(choice) in options:
+                os.system("clear")                
+                print "Bad choice, try again!"
+                continue
+            data[options[int(choice)]] = raw_input("Editing '"+options[int(choice)]+"': "+ data[options[int(choice)]]+" >> ")
+            os.system("clear")                
+            
+        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
+        return
+
     def removeItems(self):
         data = json.load(open('config.json'))
         comics = data["comics"]
@@ -107,7 +130,7 @@ class configGenerator(object):
             # gen list to choose
             for key, value in comics.items():
                 options[index] = key
-                print str(index)+". "+key+" (next chapter:"+str(value["next"])+")"
+                print str(index)+". "+key+" (next chapter: "+str(value["next"])+")"
                 index = index + 1
             
             if not 0 in options:
