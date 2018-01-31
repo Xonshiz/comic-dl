@@ -52,7 +52,7 @@ class configGenerator(object):
             data["image_quality"] = "Best"
 
 
-        # TODO: add comics
+        # add comics
         os.system('clear')
         print "Now the comics :)"
         print "Remember to use the series link not the chapter/issue!"
@@ -92,13 +92,3 @@ class configGenerator(object):
         json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
 
         return
-        
-
-
-# data["comics"]
-# el = data["comics"][elKey]
-# el["next"]
-# el["url"]
-# el["username"]
-# el["password"],
-# el["comic_language"]
