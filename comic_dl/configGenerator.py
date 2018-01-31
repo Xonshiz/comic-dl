@@ -29,6 +29,8 @@ class configGenerator(object):
                 self.editConfig()
             if not choice or choice == "0":
                 print "May the F=m*a be with you!"
+            else:
+                print "That option doesn't exist yet, bye!"
         else:
             print "No config file found! Let's create a new one..."
             self.create()
@@ -111,7 +113,7 @@ class configGenerator(object):
             if not 0 in options:
                 print "No more options, bye!"
                 break
-            
+
             print
             choice = raw_input("leave blank to finish >> ")
             if not choice:
