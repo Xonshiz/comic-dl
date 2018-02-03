@@ -82,3 +82,5 @@
 - Fix for #89 [2018.01.22]
 - Fix for #93 [2018.01.28]
 - Fix for #94 [2018.01.28]
+- Fix for #99 [2018.02.01] (@dsanchezseco)
+- Fix for #103 [2018.02.01] (@dsanchezseco)
