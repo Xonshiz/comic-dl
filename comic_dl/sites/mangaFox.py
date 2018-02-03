@@ -111,7 +111,7 @@ class MangaFox(object):
 
             indexes = [x for x in range(starting, ending)]
 
-            all_links = [all_links[x] for x in indexes][::-1]
+            all_links = [all_links[len(all_links) - 1 - x] for x in indexes][::-1]
             # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
@@ -120,7 +120,8 @@ class MangaFox(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name, conversion=conversion,
+                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                                    download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
