@@ -48,7 +48,7 @@ class MangaFox(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=last_page_number)
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
@@ -92,7 +92,7 @@ class MangaFox(object):
         rss_url = str(comic_url).replace("/manga/", "/rss/") + ".xml"
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=rss_url)
 
-        #all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
+        # all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
         all_links_temp = re.findall(r"<link/>(.*?).html", str(source))
         all_links = ["http:" + str(link) + ".html" for link in all_links_temp]
 
@@ -104,7 +104,7 @@ class MangaFox(object):
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
@@ -112,7 +112,7 @@ class MangaFox(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            #if chapter range contains "__EnD__" write new value to config.json
+            # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:

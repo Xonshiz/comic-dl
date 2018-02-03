@@ -43,7 +43,7 @@ class FoolSlide(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_links))
         print("Img Links : {0}".format(img_links))
         print("LEN Img Links : {0}".format(str(len(img_links))))
 
@@ -98,7 +98,7 @@ class FoolSlide(object):
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)

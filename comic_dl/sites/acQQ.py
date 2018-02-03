@@ -59,22 +59,17 @@ class AcQq(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        for image_link in img_list:
-            file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
-            if len(str(file_name)) < len(str(img_list[-1])):
-                number_of_zeroes = len(str(img_list[-1])) - len(str(file_name))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
-            else:
-                file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+        # for num, image_link in enumerate(img_list):
+        #     print(num)
+
+        for num, image_link in enumerate(img_list):
+            # file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+            file_name = str(num) + '.' + str(image_link).split(".")[-1]
             logging.debug("image_link : %s" % image_link)
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
@@ -106,15 +101,16 @@ class AcQq(object):
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
 
             indexes = [x for x in range(starting, ending)]
-            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last, it is to reverse the list again, becasue I'm reverting it again at the end.
+            # [::-1] in sub_list in beginning to start this from the 1st episode and at the last,
+            #  it is to reverse the list again, becasue I'm reverting it again at the end.
             all_links = [all_links[x] for x in indexes][::-1]
-            #if chapter range contains "__EnD__" write new value to config.json
+            # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:

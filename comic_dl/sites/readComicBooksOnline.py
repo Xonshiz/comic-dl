@@ -68,7 +68,7 @@ class ReadComicBooksOnline():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
         for image_link in img_list:
             globalFunctions.GlobalFunctions().downloader(image_link, str(int(img_list.index(image_link)) + 1) + ".jpg",
@@ -91,7 +91,7 @@ class ReadComicBooksOnline():
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
@@ -99,9 +99,9 @@ class ReadComicBooksOnline():
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            #if chapter range contains "__EnD__" write new value to config.json
+            # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
         if not all_links:
@@ -112,18 +112,20 @@ class ReadComicBooksOnline():
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 try:
-                	self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                    self.single_chapter(comic_url=chap_link, comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, delete_files=delete_files)
                 except Exception as e:
-                	pass
+                    pass
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 try:
-                	self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                    self.single_chapter(comic_url=chap_link, comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, delete_files=delete_files)
                 except Exception as e:
-                	pass
+                    pass
 
         print("Finished Downloading")
         return 0

@@ -77,7 +77,7 @@ class MangaRock():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
 
         for image_link in json_parse["data"]:
             file_name = str(json_parse["data"].index(image_link)) + ".mri"
@@ -101,7 +101,7 @@ class MangaRock():
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0])
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = str(json_parse["data"]["total_chapters"])

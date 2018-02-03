@@ -68,7 +68,7 @@ class MangaReader():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
 
         for page_number in range(1, total_pages + 1):
             # print(page_number)
@@ -111,7 +111,7 @@ class MangaReader():
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1
 
-            if (str(chapter_range).split("-")[1]).decode().isdecimal():
+            if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
@@ -120,7 +120,7 @@ class MangaReader():
             # [::-1] in sub_list in beginning to start this from the 1st episode and at the last,
             # it is to reverse the list again, because I'm reverting it again at the end.
             all_links = [all_links[x] for x in indexes][::-1]
-            #if chapter range contains "__EnD__" write new value to config.json
+            # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:

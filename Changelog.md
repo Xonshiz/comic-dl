@@ -84,3 +84,7 @@
 - Fix for #94 [2018.01.28]
 - Fix for #99 [2018.02.01] (@dsanchezseco)
 - Fix for #103 [2018.02.01] (@dsanchezseco)
+- Fix for #105 [2018.02.03]
+- Fix for #102 [2018.02.03]
+- Fix for #98 [2018.02.03]
+- Code Formatting [2018.02.03]
