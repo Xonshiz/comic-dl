@@ -1,6 +1,7 @@
 # @dsanchezseco
 import os
 import json
+from builtins import input
 
 
 CONFIG_FILE="config.json"
@@ -49,7 +50,7 @@ class configGenerator(object):
         print
 
         print("download directory (default '<here>/comics')")
-        data['download_directory'] = input(" >> ")
+        data["download_directory"] = input(" >> ")
         print("sorting order (default 'ascending')")
         data["sorting_order"] = input("[ ascending | descending ] >> ")
         print("conversion (default 'none')")
@@ -62,8 +63,8 @@ class configGenerator(object):
         # check mandatories and defaults
         if not data["sorting_order"]:
             data["sorting_order"] = "ascending"
-        if not data['download_directory']:
-            data['download_directory'] = "comics"
+        if not data["download_directory"]:
+            data["download_directory"] = "comics"
         if not data["keep"]:
             data["keep"] = "True"
         if not data["conversion"]:

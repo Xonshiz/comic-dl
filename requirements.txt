@@ -4,3 +4,4 @@ cfscrape
 clint
 img2pdf
 enum34
+future
