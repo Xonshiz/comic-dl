@@ -42,7 +42,7 @@ class OmgBeauPeep(object):
         last_page_number = int(re.search(r"</select> of (\d+) <a", str(source)).group(1))
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-
+        file_directory = file_directory.replace(":", "-")
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 

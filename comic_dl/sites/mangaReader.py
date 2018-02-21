@@ -62,7 +62,7 @@ class MangaReader():
         # print("Total Pages : {0}".format(total_pages))
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-
+        file_directory = file_directory.replace(":", "-")
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):
