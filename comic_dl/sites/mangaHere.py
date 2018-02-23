@@ -38,7 +38,7 @@ class MangaHere(object):
         last_page_number = str(re.search(r'total_pages\ \=\ (.*?) \;', str(source)).group(1)).strip()
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-
+        file_directory = file_directory.replace(":", "-")
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 

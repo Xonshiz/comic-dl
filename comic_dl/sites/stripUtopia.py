@@ -41,7 +41,7 @@ class StripUtopia(object):
         chapter_number = str(str(comic_url).split("/")[-1]).replace(".html", "")
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-
+        file_directory = file_directory.replace(":", "-")
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))

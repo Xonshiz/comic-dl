@@ -71,6 +71,7 @@ class MangaRock():
         json_parse = json.loads(str(source))
 
         file_directory = str(comic_name) + os.sep + str(chapter_number) + os.sep
+        file_directory = file_directory.replace(":", "-")
 
         directory_path = os.path.realpath(str(download_directory) + os.sep + str(file_directory))
 

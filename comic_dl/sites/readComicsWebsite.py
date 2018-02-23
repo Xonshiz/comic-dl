@@ -38,7 +38,7 @@ class ReadComicsWebsite():
             img_list.append("http://www.readcomics.website/uploads/manga/{0}/chapters/{1}/{2}.jpg".format(name_of_manga, chapter_number, str(image_number).zfill(2)))
 
         file_directory = str(comic_name) + '/' + chapter_number + "/"
-
+        file_directory = file_directory.replace(":", "-")
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):

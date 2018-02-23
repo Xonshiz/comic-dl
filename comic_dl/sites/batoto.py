@@ -116,7 +116,7 @@ class Batoto:
                 comic_name = self.name_cleaner(re.search(r'https://bato.to/comic/_/comics/(.*?)">', str(page_source)).group(1))
                 chapter_number = re.sub('[^0-9]+', '', str(re.search(r'Ch\.(.*?)\:', str(page_source)).group(1)))
                 file_directory = str(comic_name) + os.sep + str(chapter_number) + os.sep
-
+                file_directory = file_directory.replace(":", "-")
                 directory_path = os.path.realpath(str(download_directory) + os.sep + str(file_directory))
 
                 if not os.path.exists(directory_path):
