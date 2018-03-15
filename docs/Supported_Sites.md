@@ -1,7 +1,5 @@
 # List of Supported Websites
 
-[PhantomJS] = Denotes that these sites need PhantomJS to be able to download content.
-
 * [Mangafox.me](http://mangafox.me/) or [Mangafox.la](http://mangafox.la/)
 * [YoManga](http://yomanga.co/)
 * [GoManga](http://gomanga.co/)
@@ -17,3 +15,4 @@
 * [readcomicbooksonline.net](http://readcomicbooksonline.net/)
 * [readcomics.website](http://www.readcomics.website/)
 * [mangarock.com](https://mangarock.com/)
+* [hqbr.com.br](https://hqbr.com.br/home)

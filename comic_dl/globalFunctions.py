@@ -104,7 +104,7 @@ class GlobalFunctions(object):
             # print('{:^80}'.format("%s - %s" % (anime_name, episode_number)))
             print('{:^80}'.format("Manga Name : {0}".format(anime_name)))
             print('{:^80}'.format("Chapter Number - {0}".format(episode_number)))
-            print('{:^80}'.format("Total Chapters - {0}".format(kwargs.get('total_chapters'))))
+            print('{:^80}'.format("Total Pages - {0}".format(kwargs.get('total_chapters'))))
             print('{:^80}'.format('=====================================================================\n'))
 
     def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
