@@ -89,4 +89,4 @@
 - Fix for #98 [2018.02.03]
 - Code Formatting [2018.02.03]
 - Added Support for [hqbr.com.br](https://hqbr.com.br/home) [2018.03.15]
-- Added Support for [comicextra.com/comic/captain-marvel-2016](http://www.comicextra.com/comic/captain-marvel-2016) [Fix for #116] [2018.03.23]
+- Added Support for [comicextra.com](http://www.comicextra.com/) [Fix for #116] [2018.03.23]

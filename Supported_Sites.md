@@ -16,4 +16,4 @@
 * [readcomics.website](http://www.readcomics.website/)
 * [mangarock.com](https://mangarock.com/)
 * [hqbr.com.br](https://hqbr.com.br/home)
-* [comicextra.com/comic/captain-marvel-2016](http://www.comicextra.com/comic/captain-marvel-2016)
+* [comicextra.com](http://www.comicextra.com)
