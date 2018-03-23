@@ -21,6 +21,7 @@ from sites import readComicsWebsite
 from sites import mangaRock
 from sites import batoto
 from sites import hqbr
+from sites import comicextra
 import globalFunctions
 
 
@@ -166,9 +167,15 @@ class Honcho(object):
             return 0
         elif domain in ["www.hqbr.com.br", "hqbr.com.br"]:
             hqbr.Hqbr(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                delete_files=kwargs.get("delete_files"))
+                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                      delete_files=kwargs.get("delete_files"))
+            return 0
+        elif domain in ["www.comicextra.com", "comicextra.com"]:
+            comicextra.ComicExtra(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                      delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
             # kissManga.KissManga(manga_url = comic_url, logger = logging,
