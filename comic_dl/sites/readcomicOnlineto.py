@@ -36,9 +36,10 @@ class ReadComicOnlineTo(object):
 
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
         # print("Received Comic Url : {0}".format(comic_url))
+        print("Fooling CloudFlare...Please Wait...")
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
 
         image_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
 
@@ -90,7 +91,8 @@ class ReadComicOnlineTo(object):
         return manga_name
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+        print("Fooling CloudFlare...Please Wait...")
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
 
         all_links = []
 

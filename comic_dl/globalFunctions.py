@@ -15,7 +15,7 @@ import img2pdf
 
 
 class GlobalFunctions(object):
-    def page_downloader(self, manga_url, **kwargs):
+    def page_downloader(self, manga_url, scrapper_delay=5, **kwargs):
         headers = kwargs.get("headers")
         if not headers:
             headers = {
@@ -25,7 +25,7 @@ class GlobalFunctions(object):
             }
 
         sess = requests.session()
-        sess = cfscrape.create_scraper(sess)
+        sess = cfscrape.create_scraper(sess, delay=scrapper_delay)
         connection = None
 
         connection = sess.get(manga_url, headers=headers, cookies=kwargs.get("cookies"))
