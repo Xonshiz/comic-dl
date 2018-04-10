@@ -90,3 +90,4 @@
 - Code Formatting [2018.02.03]
 - Added Support for [hqbr.com.br](https://hqbr.com.br/home) [2018.03.15]
 - Added Support for [comicextra.com](http://www.comicextra.com/) [Fix for #116] [2018.03.23]
+- Fix for #119 [2018.04.10]

@@ -56,7 +56,7 @@ class MangaFox(object):
         for file_name in range(current_page_number, last_page_number + 1):
             # print("Actual file_name : {0}".format(file_name))
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
-            chapter_url = "http://mangafox.la/manga/" + str(series_code) + "/" + str(
+            chapter_url = "http://fanfox.net/manga/" + str(series_code) + "/" + str(
                 current_chapter_volume) + "/%s.html" % str(file_name)
             logging.debug("Chapter Url : %s" % chapter_url)
 
