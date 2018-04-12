@@ -17,3 +17,4 @@
 * [mangarock.com](https://mangarock.com/)
 * [hqbr.com.br](https://hqbr.com.br/home)
 * [comicextra.com](http://www.comicextra.com)
+* [readcomics.io](https://www.readcomics.io/)

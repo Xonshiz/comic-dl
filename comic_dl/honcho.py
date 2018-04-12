@@ -22,11 +22,11 @@ from sites import mangaRock
 from sites import batoto
 from sites import hqbr
 from sites import comicextra
+from sites import readComicsIO
 import globalFunctions
 
 
 class Honcho(object):
-
     def comic_language_resolver(self, language_code):
         # Will return the Language Name corresponding to the language code.
         language_dict = {
@@ -117,7 +117,8 @@ class Honcho(object):
                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                      delete_files=kwargs.get("delete_files"))
             return 0
-        elif domain in ["www.mangafox.me", "mangafox.me", "www.mangafox.la", "mangafox.la", "www.fanfox.net", "fanfox.net"]:
+        elif domain in ["www.mangafox.me", "mangafox.me", "www.mangafox.la", "mangafox.la", "www.fanfox.net",
+                        "fanfox.net"]:
             mangaFox.MangaFox(manga_url=comic_url, logger=logging, current_directory=current_directory,
                               sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                               chapter_range=chapter_range, conversion=kwargs.get("conversion"),
@@ -173,9 +174,15 @@ class Honcho(object):
             return 0
         elif domain in ["www.comicextra.com", "comicextra.com"]:
             comicextra.ComicExtra(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                      delete_files=kwargs.get("delete_files"))
+                                  sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                  chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                  delete_files=kwargs.get("delete_files"))
+            return 0
+        elif domain in ["www.readcomics.io", "readcomics.io"]:
+            readComicsIO.ReadComicsIO(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                      delete_files=kwargs.get("delete_files"))
             return 0
         elif domain in ["www.kissmanga.com", "kissmanga.com"]:
             # kissManga.KissManga(manga_url = comic_url, logger = logging,

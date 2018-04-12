@@ -93,3 +93,4 @@
 - Fix for #119 [2018.04.10]
 - Fix for #120 [2018.04.10]
 - Fix for #121 [2018.04.10]
+- Added Support for [readcomics.io](https://www.readcomics.io/) [Fix for #117] [2018.04.11]
