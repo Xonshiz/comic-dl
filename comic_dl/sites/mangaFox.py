@@ -63,21 +63,15 @@ class MangaFox(object):
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url,
                                                                                         cookies=cookies_main)
             image_link_finder = source_new.findAll('div', {'class': 'read_img'})
-            for link in image_link_finder:
+            for current_chapter, link in enumerate(image_link_finder):
                 x = link.findAll('img')
                 for a in x:
                     image_link = a['src']
-                    # Fix for 30 (File Naming 0's)
-                    if len(str(file_name)) < len(str(last_page_number)):
-                        number_of_zeroes = len(str(last_page_number)) - len(str(file_name))
-                        # If a chapter has only 9 images, we need to avoid 0*0 case.
-                        if len(str(number_of_zeroes)) == 0:
-                            file_name = str(file_name) + ".jpg"
-                        else:
-                            file_name = "0"*int(number_of_zeroes) + str(file_name) + ".jpg"
-                    else:
-                        file_name = str(file_name) + ".jpg"
                     logging.debug("Image Link : %s" % image_link)
+
+                    current_chapter += 1
+                    file_name = str(
+                        globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_link_finder))) + ".jpg"
                     globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                                  log_flag=self.logging)
 

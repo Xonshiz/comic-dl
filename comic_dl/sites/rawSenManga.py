@@ -58,11 +58,14 @@ class RawSenaManga(object):
             if x is 0:
                 pass
             else:
-                file_name = "0" + str(x) + ".jpg"
+                # file_name = "0" + str(x) + ".jpg"
                 # print("File Name : %s" % file_name)
                 ddl_image = str(image_url) + str(x)
                 referer = str(page_referer) + str(x - 1)
                 logging.debug("Image Link : %s" % ddl_image)
+
+                file_name = str(
+                    globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
                 globalFunctions.GlobalFunctions().downloader(ddl_image, file_name, referer, directory_path,
                                                              cookies=cookies_main, log_flag=self.logging)
 

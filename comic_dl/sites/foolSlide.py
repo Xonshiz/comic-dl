@@ -47,9 +47,11 @@ class FoolSlide(object):
         print("Img Links : {0}".format(img_links))
         print("LEN Img Links : {0}".format(str(len(img_links))))
 
-        for link in img_links:
+        for current_chapter, link in enumerate(img_links):
             new_link = link.replace("\\", "")
-            file_name = str(img_links.index(link)) + ".jpg"
+            # file_name = str(img_links.index(link)) + ".jpg"
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_links))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(new_link, file_name, chapter_url, directory_path,
                                                          log_flag=self.logging)
 

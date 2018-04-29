@@ -49,22 +49,13 @@ class StripUtopia(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        for image_link in img_list:
-            file_name = str(img_list.index(image_link))
-            if len(str(file_name)) < len(str(img_list.index(img_list[-1]))):
-                number_of_zeroes = len(str(img_list.index(img_list[-1]))) - len(str(file_name))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+        for current_chapter, image_link in enumerate(img_list):
+            # file_name = str(img_list.index(image_link))
 
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(img_list.index(image_link)) + "." + \
-                                str(image_link).split(".")[-1]
-
-            else:
-                file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
             logging.debug("image_link : %s" % image_link)
 
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 

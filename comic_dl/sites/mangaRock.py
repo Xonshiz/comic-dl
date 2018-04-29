@@ -80,8 +80,10 @@ class MangaRock():
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
 
-        for image_link in json_parse["data"]:
-            file_name = str(json_parse["data"].index(image_link)) + ".mri"
+        for current_chapter, image_link in enumerate(json_parse["data"]):
+            # file_name = str(json_parse["data"].index(image_link)) + ".mri"
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(json_parse["data"]))) + ".mri"
             globalFunctions.GlobalFunctions().downloader(image_link, file_name,
                                                          None, directory_path, log_flag=self.logging)
         print("Decrypting Files...")

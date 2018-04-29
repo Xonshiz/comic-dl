@@ -61,9 +61,10 @@ class ComicExtra(object):
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
 
         for current_chapter, chapter_link in enumerate(img_list):
-            # print(chapter_link)
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(chapter_link,
-                                                         str(current_chapter) + ".jpg",
+                                                         file_name,
                                                          comic_url, directory_path,
                                                          log_flag=self.logging)
 

@@ -12,6 +12,7 @@ import logging
 import glob
 import json
 import img2pdf
+import math
 
 
 class GlobalFunctions(object):
@@ -182,3 +183,10 @@ class GlobalFunctions(object):
         data = json.load(open('config.json'))
         data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex
         json.dump(data, open('config.json', 'w'), indent=4)
+
+    def prepend_zeroes(self, current_chapter_value, total_images):
+        max_digits = int(math.log10(int(total_images))) + 1
+        current_chapter_digit = int(math.log10(int(current_chapter_value))) + 1
+        number_of_zeroes = abs(max_digits - current_chapter_digit)
+
+        return str(current_chapter_value).zfill(number_of_zeroes + 1)

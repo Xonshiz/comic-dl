@@ -47,9 +47,11 @@ class Hqbr(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
-        for page_count, image_link in enumerate(img_list, start=1):
+        for page_count, image_link in enumerate(img_list):
+            page_count += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(page_count, len(img_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader("https://hqbr.com.br" + str(image_link),
-                                                         str(page_count) + ".jpg",
+                                                         file_name,
                                                          comic_url, directory_path,
                                                          log_flag=self.logging)
 
