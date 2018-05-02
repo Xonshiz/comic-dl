@@ -71,7 +71,7 @@ class MangaFox(object):
 
                     current_chapter += 1
                     file_name = str(
-                        globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_link_finder))) + ".jpg"
+                        globalFunctions.GlobalFunctions().prepend_zeroes(file_name, last_page_number + 1)) + ".jpg"
                     globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                                  log_flag=self.logging)
 
