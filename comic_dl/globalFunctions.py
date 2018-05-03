@@ -41,9 +41,11 @@ class GlobalFunctions(object):
 
             return page_source, connection_cookies
 
-    def downloader(self, image_ddl, file_name, referer, directory_path, **kwargs):
+    def downloader(self, image_and_name, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
 
+        image_ddl = image_and_name[0] 
+        file_name = image_and_name[1]
         file_check_path = str(directory_path) + '/' + str(file_name)
         logging.debug("File Check Path : %s" % file_check_path)
         logging.debug("Download File Name : %s" % file_name)
