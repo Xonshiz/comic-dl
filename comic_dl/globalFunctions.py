@@ -186,7 +186,11 @@ class GlobalFunctions(object):
 
     def prepend_zeroes(self, current_chapter_value, total_images):
         max_digits = int(math.log10(int(total_images))) + 1
-        current_chapter_digit = int(math.log10(int(current_chapter_value))) + 1
+        i = int(current_chapter_value)
+        if i == 0:
+            current_chapter_digit = 1
+        else:
+            current_chapter_digit = int(math.log10(i)) + 1
         number_of_zeroes = abs(max_digits - current_chapter_digit)
 
         return str(current_chapter_value).zfill(number_of_zeroes + 1)
