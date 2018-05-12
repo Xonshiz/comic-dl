@@ -43,8 +43,13 @@ class MangaChapterDownload():
         globalFunctions.GlobalFunctions().info_printer(self.manga_name, self.chapter_number)
 
         for image in self.image_links:
+            file_name = str(image) + str(self.image_links[image][-4:])
+            file_name_number = file_name.split(".")[0]
+            file_name_ext = file_name.split(".")[1]
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(file_name_number, len(
+                self.image_links))) + "." + file_name_ext
             globalFunctions.GlobalFunctions().downloader(image_ddl=self.image_links[image],
-                                                         file_name=str(image) + str(self.image_links[image][-4:]),
+                                                         file_name=file_name,
                                                          referer=None, directory_path=directory_path,
                                                          log_flag=self.logging)
         globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.delete_files,
