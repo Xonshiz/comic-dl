@@ -47,7 +47,7 @@ class MangaSearch():
                 print("Manga Name  --> Manga ID")
                 print("------------------------")
                 for manga_name in self.result:
-                    print("{0} --> {1}".format(str(manga_name), str(self.result[manga_name])))
+                    print("{0} --> {1}".format(manga_name.encode('utf-8'), str(self.result[manga_name])))
                 print("")
             else:
                 print("Nothing Found.")
