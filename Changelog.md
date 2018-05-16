@@ -96,3 +96,5 @@
 - Added Support for [readcomics.io](https://www.readcomics.io/) [Fix for #117] [2018.04.11]
 - Fix for #124 [2018.04.29]
 - Fix for #18 [2018.04.29]
+- PR Merge for #126 (#127)  [2018.05.07]
+- Fix for #128 [2018.05.07]

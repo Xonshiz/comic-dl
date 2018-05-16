@@ -62,7 +62,7 @@ class MangaHere(object):
                 for a in x:
                     image_link = a['src']
 
-                    if image_link in ['http://www.mangahere.co/media/images/loading.gif']:
+                    if image_link in ['http://www.mangahere.cc/media/images/loading.gif']:
                         pass
                     # else:
                     #     # file_name = "0" + str(chapCount) + ".jpg"
@@ -103,7 +103,7 @@ class MangaHere(object):
         chapter_links = []
 
         for link in all_links:
-            if 'mangahere.co/manga/' in link:
+            if 'mangahere.cc/manga/' in link:
                 chapter_links.append(link)
             else:
                 pass
