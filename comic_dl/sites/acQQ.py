@@ -68,9 +68,11 @@ class AcQq(object):
         # for num, image_link in enumerate(img_list):
         #     print(num)
 
-        for num, image_link in enumerate(img_list):
+        for current_chapter, image_link in enumerate(img_list):
             # file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
-            file_name = str(num) + '.' + str(image_link).split(".")[-1]
+            # file_name = str(current_chapter) + '.' + str(image_link).split(".")[-1]
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
             logging.debug("image_link : %s" % image_link)
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)

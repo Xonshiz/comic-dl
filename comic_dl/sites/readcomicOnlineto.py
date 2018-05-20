@@ -53,29 +53,21 @@ class ReadComicOnlineTo(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
 
-        image_len = len(image_list)
+        # image_len = len(image_list)
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
-        for link in image_list:
-            link = link.replace("\\", "")
-            # file_name = str(link).split("/")[-1].strip()
-            # file_name = "0" + str(image_list.index(link)) + ".jpg"
 
-            if len(str(image_list.index(link))) < len(str(image_len)):
-                number_of_zeroes = len(str(image_len)) - len(str(image_list.index(link)))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(image_list.index(link)) + ".jpg"
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(image_list.index(link)) + ".jpg"
-            else:
-                file_name = str(image_list.index(link)) + ".jpg"
+        for current_chapter, link in enumerate(image_list):
+            link = link.replace("\\", "")
 
             logging.debug("Image Link : %s" % link)
             link = link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 link = link.replace("=s0", "=s1600").replace("/s0", "/s1600")
+
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,

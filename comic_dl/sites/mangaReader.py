@@ -85,7 +85,9 @@ class MangaReader():
                 for a in x:
                     image_link = str(a['src']).strip()
                     # print("Image Link : {0}".format(image_link))
-                    globalFunctions.GlobalFunctions().downloader(image_link, str(page_number) + ".jpg",
+                    file_name = str(
+                        globalFunctions.GlobalFunctions().prepend_zeroes(page_number, total_pages)) + ".jpg"
+                    globalFunctions.GlobalFunctions().downloader(image_link, file_name,
                                                                  comic_url, directory_path, log_flag=self.logging)
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
                                                      comic_name, chapter_number)

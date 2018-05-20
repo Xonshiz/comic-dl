@@ -70,8 +70,10 @@ class ReadComicBooksOnline():
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
-        for image_link in img_list:
-            globalFunctions.GlobalFunctions().downloader(image_link, str(int(img_list.index(image_link)) + 1) + ".jpg",
+        for current_chapter, image_link in enumerate(img_list):
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
+            globalFunctions.GlobalFunctions().downloader(image_link, file_name,
                                                          comic_url, directory_path,
                                                          log_flag=self.logging)
 

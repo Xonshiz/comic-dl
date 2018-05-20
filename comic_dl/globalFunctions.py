@@ -12,6 +12,7 @@ import logging
 import glob
 import json
 import img2pdf
+import math
 
 
 class GlobalFunctions(object):
@@ -44,7 +45,7 @@ class GlobalFunctions(object):
     def downloader(self, image_ddl, file_name, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
 
-        file_check_path = str(directory_path) + '/' + str(file_name)
+        file_check_path = str(directory_path) + os.sep + str(file_name)
         logging.debug("File Check Path : %s" % file_check_path)
         logging.debug("Download File Name : %s" % file_name)
 
@@ -182,3 +183,15 @@ class GlobalFunctions(object):
         data = json.load(open('config.json'))
         data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex
         json.dump(data, open('config.json', 'w'), indent=4)
+
+    def prepend_zeroes(self, current_chapter_value, total_images):
+        """
+        :param current_chapter_value: Int value of current page number. Example : 1, 2, 3
+        :param total_images: Total number of images in the
+        :return:
+        """
+        max_digits = int(math.log10(int(total_images))) + 1
+        current_chapter_digit = int(math.log10(int(current_chapter_value))) + 1
+        number_of_zeroes = abs(max_digits - current_chapter_digit)
+
+        return str(current_chapter_value).zfill(number_of_zeroes + 1)

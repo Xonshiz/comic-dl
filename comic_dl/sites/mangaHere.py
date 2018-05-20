@@ -62,21 +62,24 @@ class MangaHere(object):
                 for a in x:
                     image_link = a['src']
 
-                    if image_link in ['http://www.mangahere.co/media/images/loading.gif']:
+                    if image_link in ['http://www.mangahere.cc/media/images/loading.gif']:
                         pass
-                    else:
-                        # file_name = "0" + str(chapCount) + ".jpg"
-                        if len(str(chapCount)) < len(str(last_page_number)):
-                            number_of_zeroes = len(str(last_page_number)) - len(str(chapCount))
-                            # If a chapter has only 9 images, we need to avoid 0*0 case.
-                            if len(str(number_of_zeroes)) == 0:
-                                file_name = str(chapCount) + ".jpg"
-                            else:
-                                file_name = "0" * int(number_of_zeroes) + str(chapCount) + ".jpg"
-                        else:
-                            file_name = str(chapCount) + ".jpg"
+                    # else:
+                    #     # file_name = "0" + str(chapCount) + ".jpg"
+                    #     if len(str(chapCount)) < len(str(last_page_number)):
+                    #         number_of_zeroes = len(str(last_page_number)) - len(str(chapCount))
+                    #         # If a chapter has only 9 images, we need to avoid 0*0 case.
+                    #         if len(str(number_of_zeroes)) == 0:
+                    #             file_name = str(chapCount) + ".jpg"
+                    #         else:
+                    #             file_name = "0" * int(number_of_zeroes) + str(chapCount) + ".jpg"
+                    #     else:
+                    #         file_name = str(chapCount) + ".jpg"
 
                         logging.debug("Image Link : %s" % image_link)
+
+                        file_name = str(
+                            globalFunctions.GlobalFunctions().prepend_zeroes(chapCount, len(x))) + ".jpg"
                         globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                                      log_flag=self.logging)
 
@@ -100,7 +103,7 @@ class MangaHere(object):
         chapter_links = []
 
         for link in all_links:
-            if 'mangahere.co/manga/' in link:
+            if 'mangahere.cc/manga/' in link:
                 chapter_links.append(link)
             else:
                 pass
