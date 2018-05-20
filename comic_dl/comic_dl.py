@@ -173,7 +173,6 @@ class ComicDL(object):
 
             # read config file and download each item of list
             data = json.load(open(CONFIG_FILE+'.lock'))
-            # TODO: update next chapter for missing sites
             # common args
             sorting_order = data["sorting_order"]
             download_directory = data["download_directory"]

@@ -97,7 +97,7 @@ class ComicExtra(object):
             all_links = [all_links[x] for x in indexes][::-1]
             # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links)-1)
         else:
             all_links = all_links
         if not all_links:
