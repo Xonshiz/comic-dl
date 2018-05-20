@@ -168,7 +168,7 @@ class configGenerator(object):
             comic["url"] = input(" >> ")
             if not comic["url"]:
                 break
-            print("Next chapter to download (default 0)")
+            print("Next chapter to download (default 1)")
             comic["next"] = input(" >> ")
             print("Page login username (leave blank if not needed)")
             comic["username"] = input(" >> ")
@@ -178,7 +178,7 @@ class configGenerator(object):
             comic["comic_language"] = input(" >> ")
 
             if not comic["next"]:
-                comic["next"] = 0
+                comic["next"] = 1
             else:
                 comic["next"] = int(comic["next"])
             if not comic["username"]:
