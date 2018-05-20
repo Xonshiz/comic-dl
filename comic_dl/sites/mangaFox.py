@@ -109,7 +109,7 @@ class MangaFox(object):
             all_links = [all_links[len(all_links) - 1 - x] for x in indexes][::-1]
             # if chapter range contains "__EnD__" write new value to config.json
             if chapter_range.split("-")[1] == "__EnD__":
-                                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
+                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
 
