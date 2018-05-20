@@ -101,9 +101,6 @@ class ReadComicBooksOnline():
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
         if not all_links:
@@ -117,6 +114,9 @@ class ReadComicBooksOnline():
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
 
@@ -126,6 +126,9 @@ class ReadComicBooksOnline():
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
 

@@ -177,11 +177,11 @@ class GlobalFunctions(object):
                 pass
             print("Deleted the files...")
     
-    def saveNewRange(self, comicUrl, nextChapterIndex):
+    def addOne(self, comicUrl):
         # @dsanchezseco
         # edit config.json to update nextChapter value
         data = json.load(open('config.json'))
-        data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + nextChapterIndex
+        data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + 1
         json.dump(data, open('config.json', 'w'), indent=4)
 
     def prepend_zeroes(self, current_chapter_value, total_images):

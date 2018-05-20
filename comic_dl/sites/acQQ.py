@@ -113,9 +113,6 @@ class AcQq(object):
             # [::-1] in sub_list in beginning to start this from the 1st episode and at the last,
             #  it is to reverse the list again, becasue I'm reverting it again at the end.
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
 
@@ -126,6 +123,9 @@ class AcQq(object):
                     self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                         download_directory=download_directory, conversion=conversion,
                                         delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
@@ -138,6 +138,9 @@ class AcQq(object):
                     self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                         download_directory=download_directory, conversion=conversion,
                                         delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as single_chapter_exception:
                     logging.debug("Single Chapter Exception : %s" % single_chapter_exception)
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)

@@ -166,13 +166,8 @@ class ComicDL(object):
 
         if args.auto:
             # @dsanchezseco
-            # if exists unfinished previous execution continue with previous
-            # else gen new .lock to start from zero
-            if not os.path.isfile(CONFIG_FILE+'.lock'):
-                copyfile(CONFIG_FILE, CONFIG_FILE+'.lock')
-
             # read config file and download each item of list
-            data = json.load(open(CONFIG_FILE+'.lock'))
+            data = json.load(open(CONFIG_FILE))
             # common args
             sorting_order = data["sorting_order"]
             download_directory = data["download_directory"]
@@ -194,8 +189,6 @@ class ComicDL(object):
                 end_time = time.time()
                 total_time = end_time - start_time
                 print("Total Time Taken To Complete : %s" % total_time)
-            # remove .lock as all chapters are downloaded
-            os.remove(CONFIG_FILE+'.lock')
             sys.exit()
 
         # config generator
