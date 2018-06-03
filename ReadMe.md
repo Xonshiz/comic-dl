@@ -88,7 +88,7 @@ If you're on windows, then it is recommended to download the [`windows binary`](
 * Install Python > 2.7.6. Download the desired installer from [here](https://www.python.org/downloads/).
 * [Add it in the system path](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path) (if not already added).
 * If you're using python >2.7.9, you don't need to install `PIP`. However, if you don't have pip installed and added in windows path, then do so by following [this little tutorial](http://stackoverflow.com/a/12476379).
-* Download [this `text`]() file and put it in some directory/folder.
+* Download [this `text`](https://github.com/Xonshiz/comic-dl/blob/master/requirements.txt) file and put it in some directory/folder.
 * Open Command Prompt and browse to the directory where you downloaded your requiremenets.txt file and run this command :
 ```
 pip install -r requirements.txt
