@@ -1,4 +1,5 @@
-FROM python:3.6.5-stretch
+# this buld the base image to run comic_dl
+FROM python:3.6.5-stretch AS base
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -yq upgrade
 # update system & install basisc stuff
 #        and dependencies for phantomjs
@@ -10,10 +11,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 RUN wget -q https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
     tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/ && \
     ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
-# install comic-dl
-RUN python -m pip install -r requirements.txt && \
-    git -C /opt/ clone https://github.com/kidpixo/comic-dl.git && \
+
+# This install comic-dl and symlink to comic_dl command
+FROM base
+RUN git -C /opt/ clone https://github.com/kidpixo/comic-dl.git && \
+    python -m pip install -r /opt/comic-dl/requirements.txt && \
     chmod +x /opt/comic-dl/comic_dl/__main__.py  && \
     ln -s /opt/comic-dl/comic_dl/__main__.py /usr/local/bin/comic_dl
-    
-
