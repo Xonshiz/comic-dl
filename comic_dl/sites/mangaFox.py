@@ -112,18 +112,24 @@ class MangaFox(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                try:
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
+                except:
+                    break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
-                                    download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files)
+                try:
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                                        download_directory=download_directory, conversion=conversion,
+                                        delete_files=delete_files)
+                except:
+                    break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
