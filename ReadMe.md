@@ -16,6 +16,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
     * [Windows](#windows-)
     * [Mac OS X](#mac-os-x-)
 * [Installation](#installation)
+    * [Docker](#docker)
 * [Python Support](#python-support)
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
@@ -121,6 +122,42 @@ The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](
 and then, execute with this :
 
 `./__main__.py`
+
+
+### Docker 
+
+With docker you can get the whole dependencies enclosed in a container and use the `comic_dl` from your system.
+
+You need an up and running Docker client running, follow the [Docker Documentation](https://docs.docker.com/install/).
+
+A minimal example is here, you can change each step as you wish.
+
+1. Clone this repo with  `git clone [REPOSITORY URL.git]` 
+
+2. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
+
+```bash
+docker build -t comic-dl:py3.6.5-stretch .
+```
+
+3. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
+
+```bash
+alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.6.5-stretch comic_dl -dd /directory"
+```
+
+4. Run it on your system. This actually starts a container on request and stop&delete it when finish.
+
+```bash
+comic_dl --help
+
+usage: comic_dl [-h] [--version] [-s SORTING] [-a] [-c]
+                [-dd DOWNLOAD_DIRECTORY] [-rn RANGE] [--convert CONVERT]
+                [--keep KEEP] [--quality QUALITY] [-i INPUT] [-find SEARCH]
+                [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
+                [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
+[...]
+```
 
 ## Python Support
 This script supports both, Python 3 and Python 2.
