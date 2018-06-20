@@ -64,6 +64,8 @@ class MangaFox(object):
                                                                                         cookies=cookies_main)
             image_link_finder = source_new.findAll('div', {'class': 'read_img'})
             for current_chapter, link in enumerate(image_link_finder):
+                links = []
+                file_names = []
                 x = link.findAll('img')
                 for a in x:
                     image_link = a['src']
@@ -73,9 +75,12 @@ class MangaFox(object):
                     file_name_custom = str(
                         globalFunctions.GlobalFunctions().prepend_zeroes(file_name, last_page_number + 1)) + ".jpg"
 
-                    globalFunctions.GlobalFunctions().downloader(image_link, file_name_custom, chapter_url,
-                                                                 directory_path, log_flag=self.logging)
+                    file_names.append(file_name)
+                    links.append(image_link)
 
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
