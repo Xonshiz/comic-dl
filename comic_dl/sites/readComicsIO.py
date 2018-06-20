@@ -59,7 +59,6 @@ class ReadComicsIO():
 
             file_names.append(file_name)
             links.append(image_link)
-            all_items =[links,file_names]
 
         pool = ThreadPool(4)
         pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
