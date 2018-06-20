@@ -63,23 +63,18 @@ class MangaFox(object):
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url,
                                                                                         cookies=cookies_main)
             image_link_finder = source_new.findAll('div', {'class': 'read_img'})
-            for link in image_link_finder:
+            for current_chapter, link in enumerate(image_link_finder):
                 x = link.findAll('img')
                 for a in x:
                     image_link = a['src']
-                    # Fix for 30 (File Naming 0's)
-                    if len(str(file_name)) < len(str(last_page_number)):
-                        number_of_zeroes = len(str(last_page_number)) - len(str(file_name))
-                        # If a chapter has only 9 images, we need to avoid 0*0 case.
-                        if len(str(number_of_zeroes)) == 0:
-                            file_name = str(file_name) + ".jpg"
-                        else:
-                            file_name = "0"*int(number_of_zeroes) + str(file_name) + ".jpg"
-                    else:
-                        file_name = str(file_name) + ".jpg"
                     logging.debug("Image Link : %s" % image_link)
-                    globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
-                                                                 log_flag=self.logging)
+
+                    current_chapter += 1
+                    file_name_custom = str(
+                        globalFunctions.GlobalFunctions().prepend_zeroes(file_name, last_page_number + 1)) + ".jpg"
+
+                    globalFunctions.GlobalFunctions().downloader(image_link, file_name_custom, chapter_url,
+                                                                 directory_path, log_flag=self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
@@ -112,9 +107,6 @@ class MangaFox(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[len(all_links) - 1 - x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
 
@@ -123,12 +115,18 @@ class MangaFox(object):
                 self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
                 print("Waiting For 5 Seconds...")
                 time.sleep(5)  # Test wait for the issue #23
 

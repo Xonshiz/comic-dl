@@ -51,19 +51,12 @@ class ComicNaver(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
 
-        for link in image_list:
-            # link = link.replace("\\", "")
-            # file_name = str(link).split("/")[-1].strip()
-            file_name = "0" + str(image_list.index(link)) + ".jpg"
-            if len(str(file_name)) < len(str(image_list[-1])):
-                number_of_zeroes = len(str(image_list[-1])) - len(str(file_name))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(image_list.index(link)) + ".jpg"
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(image_list.index(link)) + ".jpg"
-            else:
-                file_name = str(image_list.index(link)) + ".jpg"
+        for current_chapter, link in enumerate(image_list):
+            current_chapter += 1
+
+            # Fix for #18
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
+
             globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 
@@ -99,20 +92,23 @@ class ComicNaver(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             # print("Running this")
             for chap_link in all_links[::-1]:
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         print("Finished Downloading")
         return 0

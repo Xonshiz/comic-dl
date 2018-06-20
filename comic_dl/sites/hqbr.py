@@ -47,9 +47,11 @@ class Hqbr(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
-        for page_count, image_link in enumerate(img_list, start=1):
+        for page_count, image_link in enumerate(img_list):
+            page_count += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(page_count, len(img_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader("https://hqbr.com.br" + str(image_link),
-                                                         str(page_count) + ".jpg",
+                                                         file_name,
                                                          comic_url, directory_path,
                                                          log_flag=self.logging)
 
@@ -78,9 +80,6 @@ class Hqbr(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
         if not all_links:
@@ -94,6 +93,9 @@ class Hqbr(object):
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
 
@@ -103,6 +105,9 @@ class Hqbr(object):
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if chapter_range.split("-")[1] == "__EnD__":
+                        globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
 

@@ -58,11 +58,14 @@ class RawSenaManga(object):
             if x is 0:
                 pass
             else:
-                file_name = "0" + str(x) + ".jpg"
+                # file_name = "0" + str(x) + ".jpg"
                 # print("File Name : %s" % file_name)
                 ddl_image = str(image_url) + str(x)
                 referer = str(page_referer) + str(x - 1)
                 logging.debug("Image Link : %s" % ddl_image)
+
+                file_name = str(
+                    globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
                 globalFunctions.GlobalFunctions().downloader(ddl_image, file_name, referer, directory_path,
                                                              cookies=cookies_main, log_flag=self.logging)
 
@@ -94,9 +97,6 @@ class RawSenaManga(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             all_links = all_links
 
@@ -106,6 +106,9 @@ class RawSenaManga(object):
                     link).strip()
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for link in all_links[::-1]:
@@ -113,3 +116,6 @@ class RawSenaManga(object):
                     link).strip()
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)

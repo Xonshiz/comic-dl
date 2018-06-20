@@ -56,9 +56,10 @@ class OmgBeauPeep(object):
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url)
             image_link = "http://www.omgbeaupeep.com/comics/mangas/" + str(
                 re.search(r'"mangas/(.*?)"', str(source_new)).group(1)).replace(" ", "%20")
-            file_name = "0" + str(x) + ".jpg"
+            # file_name = "0" + str(x) + ".jpg"
             logging.debug("Chapter Url : %s" % chapter_url)
             logging.debug("Image Link : %s" % image_link)
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
                                                          log_flag=self.logging)
 

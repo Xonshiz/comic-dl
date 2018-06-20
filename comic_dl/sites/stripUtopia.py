@@ -49,22 +49,13 @@ class StripUtopia(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        for image_link in img_list:
-            file_name = str(img_list.index(image_link))
-            if len(str(file_name)) < len(str(img_list.index(img_list[-1]))):
-                number_of_zeroes = len(str(img_list.index(img_list[-1]))) - len(str(file_name))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
+        for current_chapter, image_link in enumerate(img_list):
+            # file_name = str(img_list.index(image_link))
 
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(img_list.index(image_link)) + "." + \
-                                str(image_link).split(".")[-1]
-
-            else:
-                file_name = str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
             logging.debug("image_link : %s" % image_link)
 
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
             globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
                                                          log_flag=self.logging)
 
@@ -87,9 +78,6 @@ class StripUtopia(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url,len(all_links))
         else:
             pass
 
@@ -100,6 +88,9 @@ class StripUtopia(object):
                 self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
                                     download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
 
             for chap_link in all_links[::-1]:
@@ -108,6 +99,9 @@ class StripUtopia(object):
                 self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
                                     download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         print("Finished Downloading")
         return 0

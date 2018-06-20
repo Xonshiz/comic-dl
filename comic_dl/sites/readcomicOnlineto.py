@@ -55,31 +55,24 @@ class ReadComicOnlineTo(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
 
-        image_len = len(image_list)
+        # image_len = len(image_list)
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
+
         links = []
         file_names = []
-        for link in image_list:
+        for current_chapter, link in enumerate(image_list):
             link = link.replace("\\", "")
-            # file_name = str(link).split("/")[-1].strip()
-            # file_name = "0" + str(image_list.index(link)) + ".jpg"
-
-            if len(str(image_list.index(link))) < len(str(image_len)):
-                number_of_zeroes = len(str(image_len)) - len(str(image_list.index(link)))
-                # If a chapter has only 9 images, we need to avoid 0*0 case.
-                if len(str(number_of_zeroes)) == 0:
-                    file_name = str(image_list.index(link)) + ".jpg"
-                else:
-                    file_name = "0" * int(number_of_zeroes) + str(image_list.index(link)) + ".jpg"
-            else:
-                file_name = str(image_list.index(link)) + ".jpg"
 
             logging.debug("Image Link : %s" % link)
             link = link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 link = link.replace("=s0", "=s1600").replace("/s0", "/s1600")
+                
+            current_chapter += 1
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
+
             file_names.append(file_name)
             links.append(link)
             all_items =[links,file_names]
@@ -87,7 +80,6 @@ class ReadComicOnlineTo(object):
         pool = ThreadPool(4)
         pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
             
-
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -138,9 +130,6 @@ class ReadComicOnlineTo(object):
             indexes = [x for x in range(starting, ending)]
 
             all_links = [all_links[x] for x in indexes][::-1]
-            # if chapter range contains "__EnD__" write new value to config.json
-            if chapter_range.split("-")[1] == "__EnD__":
-                globalFunctions.GlobalFunctions().saveNewRange(comic_url, len(all_links))
         else:
             all_links = all_links
 
@@ -149,12 +138,18 @@ class ReadComicOnlineTo(object):
                 chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                     conversion=conversion, delete_files=delete_files)
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         print("Finished Downloading")
         return 0
