@@ -6,6 +6,8 @@ import re
 import os
 import logging
 
+from multiprocessing.dummy import Pool as ThreadPool 
+from functools import partial
 
 class ComicNaver(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -51,15 +53,21 @@ class ComicNaver(object):
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
 
-        for current_chapter, link in enumerate(image_list):
+        links = []
+        file_names = []
+        for current_chapter, image_link in enumerate(image_list):
             current_chapter += 1
 
             # Fix for #18
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
 
-            globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path,
-                                                         log_flag=self.logging)
 
+            file_names.append(file_name)
+            links.append(image_link)
+
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
