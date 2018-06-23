@@ -7,6 +7,8 @@ import json
 import os
 import logging
 
+from multiprocessing.dummy import Pool as ThreadPool 
+from functools import partial
 
 class Hqbr(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -46,17 +48,23 @@ class Hqbr(object):
             os.makedirs(directory_path)
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
+        
+        links = []
+        file_names = []
         for page_count, image_link in enumerate(img_list):
             page_count += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(page_count, len(img_list))) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader("https://hqbr.com.br" + str(image_link),
-                                                         file_name,
-                                                         comic_url, directory_path,
-                                                         log_flag=self.logging)
+           
+            file_names.append(file_name)
+            links.append("https://hqbr.com.br" + str(image_link))
 
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
+
+        return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
