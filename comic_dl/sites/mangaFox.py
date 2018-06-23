@@ -7,6 +7,8 @@ import os
 import logging
 import time
 
+from multiprocessing.dummy import Pool as ThreadPool 
+from functools import partial
 
 class MangaFox(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -75,7 +77,7 @@ class MangaFox(object):
                     file_name_custom = str(
                         globalFunctions.GlobalFunctions().prepend_zeroes(file_name, last_page_number + 1)) + ".jpg"
 
-                    file_names.append(file_name)
+                    file_names.append(file_name_custom)
                     links.append(image_link)
 
         pool = ThreadPool(4)
