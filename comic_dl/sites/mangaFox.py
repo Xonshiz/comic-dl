@@ -116,7 +116,9 @@ class MangaFox(object):
                     self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
-                except:
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    logging.error(ex)
                     break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range.split("-")[1] == "__EnD__":
@@ -128,7 +130,9 @@ class MangaFox(object):
                     self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                         download_directory=download_directory, conversion=conversion,
                                         delete_files=delete_files)
-                except:
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    logging.error(ex)
                     break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range.split("-")[1] == "__EnD__":
