@@ -127,6 +127,6 @@ class MangaChapters():
         sorted(chapters.items(), key=lambda s: s[0])
 
         if chapters:
-            return (chapters, str(json_source["title"]))
+            return chapters, str(json_source["title"])
         else:
-            return None
+            return None, str(json_source["title"])
