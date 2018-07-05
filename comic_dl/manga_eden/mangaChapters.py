@@ -6,6 +6,7 @@ import requests
 import json
 import sys
 #import mangaChapterDownload
+import globalFunctions
 from .mangaChapterDownload import *
 
 
@@ -17,7 +18,7 @@ class MangaChapters():
 
         self.sorting_order = str(kwargs.get("sorting_order"))
         self.force_download = str(kwargs.get("force_download"))
-
+        self.comic_url = str(kwargs.get("comic_url"))
         self.download_confirmation = "no"
 
         self.json_source = self.json_download(chapter_id=self.chapter_id)
@@ -75,8 +76,12 @@ class MangaChapters():
                     MangaChapterDownload(page_id=final_chapter_dict[chapter], download_directory=download_directory,
                                          manga_name=str(self.manga_name), chapter_number=str(chapter))
 
+                    # if chapter range contains "__EnD__" write new value to config.json
+                    if self.download_range != "All" and not ((str(self.download_range).split("-")[1]).decode().isdecimal()):
+                            globalFunctions.GlobalFunctions().addOne(self.comic_url)
+
                 print("Finished Downloading")
-                sys.exit()
+                # sys.exit()
             else:
                 sys.exit()
         else:
