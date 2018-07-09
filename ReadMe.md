@@ -134,16 +134,32 @@ A minimal example is here, you can change each step as you wish.
 
 1. Clone this repo with  `git clone [REPOSITORY URL.git]` 
 
-2. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
+2. Build the image and give a name and a tag in the format `name:tag`. 
+Here we are using `python:3.6.5-stretch` as base image from [Docker Hub](https://hub.docker.com/_/python/), hence he tag.
 
 ```bash
-docker build -t comic-dl:py3.6.5-stretch .
+docker build -t comic-dl:py3.6.5-stretch --build-arg VERSION=3.6.5-stretch .
 ```
 
-3. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
+if you encounter some problem, you can use the image based on `python:2.7.15-stretch` and build with :
+
+```bash
+docker build -t comic-dl:py2.7.15-stretch --build-arg VERSION=2.7.15-stretch .
+```
+
+Not specifying the `VERSION` make docker using the `python:3.6.5-stretch` as default.
+
+3. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. 
+This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
 
 ```bash
 alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.6.5-stretch comic_dl -dd /directory"
+```
+
+or 
+
+```bash
+alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py2.7.15-stretch comic_dl -dd /directory"
 ```
 
 4. Run it on your system. This actually starts a container on request and stop&delete it when finish.

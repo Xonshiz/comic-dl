@@ -1,5 +1,6 @@
+ARG VERSION=3.6.5-stretch
 # this buld the base image to run comic_dl
-FROM python:2.7.15-stretch AS base
+FROM python:$VERSION AS base
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -yq upgrade
 # update system & install basisc stuff
 #        and dependencies for phantomjs
