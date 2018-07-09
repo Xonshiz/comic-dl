@@ -4,7 +4,6 @@
 import cfscrape
 import requests
 from bs4 import BeautifulSoup
-from clint.textui import progress
 import os
 import shutil
 import sys
@@ -54,7 +53,7 @@ class GlobalFunctions(object):
             pass
 
         if not os.path.isfile(file_check_path):
-            print('[Comic-dl] Downloading : %s' % file_name)
+            # print('[Comic-dl] Downloading : %s' % file_name)
 
             headers = {
                 'User-Agent':
@@ -78,10 +77,11 @@ class GlobalFunctions(object):
                         # raw.senmanga doesn't return content-length. So, let's just assume 1024.
                         if total_length is None:
                             total_length = 1024
-
-                        for chunk in progress.bar(r.iter_content(chunk_size=1024),
-                                                  expected_size=(int(total_length) / 1024) + 1,
-                                                  hide=False):
+                        import tqdm
+                        for chunk in tqdm.tqdm(r.iter_content(chunk_size=1024),
+                                desc='[Comic-dl] Downloading : %s' % file_name,
+                                unit='B', total=(int(total_length) / 1024) + 1,
+                                leave=False):
                             if chunk:
                                 f.write(chunk)
                                 f.flush()
@@ -99,14 +99,15 @@ class GlobalFunctions(object):
                 pass
 
     def info_printer(self, anime_name, episode_number, **kwargs):
-        if not kwargs.get("volume_number"):
-            print("\n")
-            print('{:^80}'.format('====================================================================='))
-            # print('{:^80}'.format("%s - %s" % (anime_name, episode_number)))
-            print('{:^80}'.format("Manga Name : {0}".format(anime_name)))
-            print('{:^80}'.format("Chapter Number - {0}".format(episode_number)))
-            print('{:^80}'.format("Total Pages - {0}".format(kwargs.get('total_chapters'))))
-            print('{:^80}'.format('=====================================================================\n'))
+        # if not kwargs.get("volume_number"):
+        #     print("\n")
+        #     print('{:^80}'.format('====================================================================='))
+        #     # print('{:^80}'.format("%s - %s" % (anime_name, episode_number)))
+        #     print('{:^80}'.format("Manga Name : {0}".format(anime_name)))
+        #     print('{:^80}'.format("Chapter Number - {0}".format(episode_number)))
+        #     print('{:^80}'.format("Total Pages - {0}".format(kwargs.get('total_chapters'))))
+        #     print('{:^80}'.format('=====================================================================\n'))
+        pass
 
     def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
         # Because I named the variables terribly wrong and I'm too lazy to fix shit everywhere.

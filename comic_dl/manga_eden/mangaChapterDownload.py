@@ -42,7 +42,9 @@ class MangaChapterDownload():
 
         globalFunctions.GlobalFunctions().info_printer(self.manga_name, self.chapter_number)
 
-        for image in self.image_links:
+        # for image in self.image_links:
+        import tqdm
+        for image in tqdm.tqdm(self.image_links,desc='{}/{}'.format(self.manga_name,self.chapter_number)):
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(str(image), len(
                 self.image_links))) + str(self.image_links[image][-4:])
             globalFunctions.GlobalFunctions().downloader(image_ddl=self.image_links[image],
