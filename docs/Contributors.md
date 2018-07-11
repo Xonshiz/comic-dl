@@ -22,3 +22,4 @@
 [#142](https://github.com/Xonshiz/comic-dl/issues/142) 
 [#148](https://github.com/Xonshiz/comic-dl/issues/148) 
 [#152](https://github.com/Xonshiz/comic-dl/issues/152) 
+[#154](https://github.com/Xonshiz/comic-dl/issues/154) 
