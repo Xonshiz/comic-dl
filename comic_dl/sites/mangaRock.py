@@ -104,11 +104,14 @@ class MangaRock():
         if chapter_range != "All":
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0])
-
+            total_chapters = int(json_parse["data"]["total_chapters"])
             if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
-                ending = int(json_parse["data"]["total_chapters"])
+                ending = total_chapters
+
+            if ending > total_chapters:
+                ending = total_chapters
 
             for range_value in range(starting, ending + 1):
                 chapters_dict[str(json_parse["data"]["chapters"][int(range_value) - 1]["oid"])] = re.sub('[^A-Za-z0-9.\-\+\' ]+', '', json_parse["data"]["chapters"][int(range_value) - 1]["name"].replace(":", " -"))
