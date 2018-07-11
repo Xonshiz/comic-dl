@@ -121,7 +121,7 @@ class MangaFox(object):
                     logging.error(ex)
                     break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
@@ -135,7 +135,7 @@ class MangaFox(object):
                     logging.error(ex)
                     break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
                 print("Waiting For 5 Seconds...")
                 time.sleep(5)  # Test wait for the issue #23
