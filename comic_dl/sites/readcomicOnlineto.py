@@ -29,8 +29,9 @@ class ReadComicOnlineTo(object):
         else:
             if "&readType=0" in manga_url:
                 manga_url = str(manga_url).replace("&readType=0", "&readType=1")  # All Images in one page!
-            elif "&readType=1" not in manga_url:
-                manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
+            # disabled to fix #132 and #145
+            # elif "&readType=1" not in manga_url:
+            #     manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)
 
