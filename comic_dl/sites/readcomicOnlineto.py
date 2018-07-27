@@ -7,6 +7,8 @@ import os
 import logging
 from bs4 import BeautifulSoup
 
+from multiprocessing.dummy import Pool as ThreadPool 
+from functools import partial
 
 class ReadComicOnlineTo(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -42,7 +44,7 @@ class ReadComicOnlineTo(object):
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
 
-        image_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
+        img_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
 
         file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
         file_directory = file_directory.replace(":", "-")
@@ -52,25 +54,32 @@ class ReadComicOnlineTo(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
+        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
 
         # image_len = len(image_list)
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
 
-        for current_chapter, link in enumerate(image_list):
-            link = link.replace("\\", "")
+        links = []
+        file_names = []
+        for current_chapter, image_link in enumerate(img_list):
+            image_link = image_link.replace("\\", "")
 
-            logging.debug("Image Link : %s" % link)
-            link = link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
+            logging.debug("Image Link : %s" % image_link)
+            image_link = image_link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
-                link = link.replace("=s0", "=s1600").replace("/s0", "/s1600")
-
+                image_link = image_link.replace("=s0", "=s1600").replace("/s0", "/s1600")
+                
             current_chapter += 1
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path)
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
 
+            file_names.append(file_name)
+            links.append(image_link)
+
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
