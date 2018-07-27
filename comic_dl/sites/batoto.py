@@ -198,7 +198,7 @@ class Batoto:
                 self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files, session_cookies=session_cookie)
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
@@ -206,7 +206,7 @@ class Batoto:
                 self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files, session_cookies=session_cookie)
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         print("Finished Downloading")

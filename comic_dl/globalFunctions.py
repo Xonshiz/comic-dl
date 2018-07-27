@@ -180,8 +180,13 @@ class GlobalFunctions(object):
     def addOne(self, comicUrl):
         # @dsanchezseco
         # edit config.json to update nextChapter value
+        # @darodi
+        # update based on the url value instead of the key value
         data = json.load(open('config.json'))
-        data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + 1
+        for elKey in data["comics"]:
+            json_url = data["comics"][elKey]["url"]
+            if json_url == comicUrl or json_url == comicUrl + "/":
+                data["comics"][elKey]["next"] = data["comics"][elKey]["next"] + 1
         json.dump(data, open('config.json', 'w'), indent=4)
 
     def prepend_zeroes(self, current_chapter_value, total_images):
