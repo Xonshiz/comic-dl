@@ -14,6 +14,7 @@ from sites import rawSenManga
 from sites import mangaFox
 from sites import omgBeauPeep
 from sites import mangaReader
+from sites import mangaEden
 from sites import acQQ
 from sites import stripUtopia
 from sites import readComicBooksOnline
@@ -195,6 +196,12 @@ class Honcho(object):
                           chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                           delete_files=kwargs.get("delete_files"), username=user_name, password=password,
                           comic_language=self.comic_language_resolver(comic_language))
+            return 0
+        elif domain in ["www.mangaeden.com"]:
+            mangaEden.MangaEden(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                delete_files=kwargs.get("delete_files"))
             return 0
         else:
             print("%s is not supported at the moment. You can request it on the Github repository." % domain)

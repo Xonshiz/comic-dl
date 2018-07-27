@@ -183,8 +183,13 @@ class GlobalFunctions(object):
     def addOne(self, comicUrl):
         # @dsanchezseco
         # edit config.json to update nextChapter value
+        # @darodi
+        # update based on the url value instead of the key value
         data = json.load(open('config.json'))
-        data["comics"][comicUrl]["next"] = data["comics"][comicUrl]["next"] + 1
+        for elKey in data["comics"]:
+            json_url = data["comics"][elKey]["url"]
+            if json_url == comicUrl or json_url == comicUrl + "/":
+                data["comics"][elKey]["next"] = data["comics"][elKey]["next"] + 1
         json.dump(data, open('config.json', 'w'), indent=4)
 
     def prepend_zeroes(self, current_chapter_value, total_images):
@@ -194,7 +199,4 @@ class GlobalFunctions(object):
         :return:
         """
         max_digits = int(math.log10(int(total_images))) + 1
-        current_chapter_digit = int(math.log10(int(current_chapter_value))) + 1
-        number_of_zeroes = abs(max_digits - current_chapter_digit)
-
-        return str(current_chapter_value).zfill(number_of_zeroes + 1)
+        return str(current_chapter_value).zfill(max_digits)

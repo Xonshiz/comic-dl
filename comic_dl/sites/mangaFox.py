@@ -40,7 +40,7 @@ class MangaFox(object):
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         current_chapter_volume = str(re.search(r"current_chapter=\"(.*?)\";", str(source)).group(1))
-        chapter_number = re.search(r"c(\d+)", current_chapter_volume).group(1)
+        chapter_number = re.search(r"c(\d+(\.\d+)?)", current_chapter_volume).group(1)
         series_code = str(re.search(r"series_code=\"(.*?)\";", str(source)).group(1))
         current_page_number = int(str(re.search(r'current_page=(.*?)\;', str(source)).group(1)).strip())
         last_page_number = int(str(re.search(r'total_pages=(.*?)\;', str(source)).group(1)).strip())
@@ -119,20 +119,30 @@ class MangaFox(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                try:
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
                                     delete_files=delete_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    logging.error(ex)
+                    break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
-                                    download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files)
+                try:
+                    self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
+                                        download_directory=download_directory, conversion=conversion,
+                                        delete_files=delete_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    logging.error(ex)
+                    break  # break to continue processing other mangas when chapter doesn't contain images.
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range.split("-")[1] == "__EnD__":
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
                 print("Waiting For 5 Seconds...")
                 time.sleep(5)  # Test wait for the issue #23

@@ -17,6 +17,7 @@ class MangaRock():
         delete_files = kwargs.get("delete_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
+        self.manga_url = manga_url
 
         if len(str(manga_url).split("/")) is 5:
             self.comic_id = str(str(manga_url).split("/")[-1])
@@ -114,14 +115,17 @@ class MangaRock():
         if chapter_range != "All":
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0])
-
+            total_chapters = int(json_parse["data"]["total_chapters"])
             if str(chapter_range).split("-")[1].isdigit():
                 ending = int(str(chapter_range).split("-")[1])
             else:
-                ending = str(json_parse["data"]["total_chapters"])
+                ending = total_chapters
+
+            if ending > total_chapters:
+                ending = total_chapters
 
             for range_value in range(starting, ending + 1):
-                chapters_dict[str(json_parse["data"]["chapters"][int(range_value)]["oid"])] = re.sub('[^A-Za-z0-9.\-\+\' ]+', '', json_parse["data"]["chapters"][int(range_value)]["name"].replace(":", " -"))
+                chapters_dict[str(json_parse["data"]["chapters"][int(range_value) - 1]["oid"])] = re.sub('[^A-Za-z0-9.\-\+\' ]+', '', json_parse["data"]["chapters"][int(range_value) - 1]["name"].replace(":", " -"))
         else:
             for chapter in json_parse["data"]["chapters"]:
                 chapters_dict[str(chapter["oid"])] = re.sub('[^A-Za-z0-9.\-\+\' ]+', '', chapter["name"].replace(":", " -"))
@@ -131,6 +135,8 @@ class MangaRock():
                                 chapter_number=str(chapters_dict[single_chapter]).strip().title(),
                                 download_directory=download_directory, conversion=conversion,
                                 delete_files=delete_files)
+            if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+                globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
         print("Finished Downloading")
         return 0

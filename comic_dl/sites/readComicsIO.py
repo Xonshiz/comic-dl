@@ -104,7 +104,7 @@ class ReadComicsIO():
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
                     # if chapter range contains "__EnD__" write new value to config.json
-                    if chapter_range.split("-")[1] == "__EnD__":
+                    if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
@@ -116,7 +116,7 @@ class ReadComicsIO():
                                         download_directory=download_directory,
                                         conversion=conversion, delete_files=delete_files)
                     # if chapter range contains "__EnD__" write new value to config.json
-                    if chapter_range.split("-")[1] == "__EnD__":
+                    if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
                     pass
