@@ -7,6 +7,8 @@ import re
 import os
 import glob
 
+from multiprocessing.dummy import Pool as ThreadPool 
+from functools import partial
 
 class MangaRock():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -81,17 +83,26 @@ class MangaRock():
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
 
+        links = []
+        file_names = []
         for current_chapter, image_link in enumerate(json_parse["data"]):
             # file_name = str(json_parse["data"].index(image_link)) + ".mri"
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(json_parse["data"]))) + ".mri"
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name,
-                                                         None, directory_path, log_flag=self.logging)
+   
+            file_names.append(file_name)
+            links.append(image_link)
+
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=None, directory_path=directory_path), zip(links,file_names))
+            
         print("Decrypting Files...")
         self.file_decryption(path_to_files=directory_path) # Calling the method that does the magic!
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
-                                                     comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+                                                     chapter_number)
+
+        return 0
 
     def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, delete_files):
         chapters_dict = {}
