@@ -55,6 +55,8 @@ class MangaFox(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for file_name in range(current_page_number, last_page_number + 1):
             # print("Actual file_name : {0}".format(file_name))
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
@@ -65,9 +67,8 @@ class MangaFox(object):
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url,
                                                                                         cookies=cookies_main)
             image_link_finder = source_new.findAll('div', {'class': 'read_img'})
+
             for current_chapter, link in enumerate(image_link_finder):
-                links = []
-                file_names = []
                 x = link.findAll('img')
                 for a in x:
                     image_link = a['src']
