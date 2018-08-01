@@ -6,6 +6,8 @@ import re
 import os
 import logging
 
+from multiprocessing.dummy import Pool as ThreadPool
+from functools import partial
 
 class OmgBeauPeep(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -51,6 +53,8 @@ class OmgBeauPeep(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for x in range(1, last_page_number + 1):
             chapter_url = str(comic_url) + "/" + str(x)
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url)
@@ -60,8 +64,12 @@ class OmgBeauPeep(object):
             logging.debug("Chapter Url : %s" % chapter_url)
             logging.debug("Image Link : %s" % image_link)
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
-                                                         log_flag=self.logging)
+
+            links.append(image_link)
+            file_names.append(file_name)
+
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path, log_flag=self.logging), zip(links,file_names))
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
