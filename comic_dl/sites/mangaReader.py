@@ -6,6 +6,8 @@ import re
 import os
 import logging
 
+from multiprocessing.dummy import Pool as ThreadPool
+from functools import partial
 
 class MangaReader():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -70,6 +72,8 @@ class MangaReader():
 
         globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
 
+        links = []
+        file_names = []
         for page_number in range(1, total_pages + 1):
             # print(page_number)
             # Ex URL : http://www.mangareader.net/boku-no-hero-academia/1/Page_Number
@@ -87,8 +91,12 @@ class MangaReader():
                     # print("Image Link : {0}".format(image_link))
                     file_name = str(
                         globalFunctions.GlobalFunctions().prepend_zeroes(page_number, total_pages)) + ".jpg"
-                    globalFunctions.GlobalFunctions().downloader(image_link, file_name,
-                                                                 comic_url, directory_path, log_flag=self.logging)
+                    links.append(image_link)
+                    file_names.append(file_name)
+                    
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path, log_flag=self.logging), zip(links,file_names))
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
                                                      comic_name, chapter_number)
 
