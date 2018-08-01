@@ -67,7 +67,6 @@ class MangaFox(object):
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url,
                                                                                         cookies=cookies_main)
             image_link_finder = source_new.findAll('div', {'class': 'read_img'})
-
             for current_chapter, link in enumerate(image_link_finder):
                 x = link.findAll('img')
                 for a in x:
