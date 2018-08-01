@@ -6,6 +6,8 @@ import re
 import os
 import logging
 
+from multiprocessing.dummy import Pool as ThreadPool
+from functools import partial
 
 class RawSenaManga(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -54,6 +56,8 @@ class RawSenaManga(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for x in range(0, last_page_number + 1):
             if x is 0:
                 pass
@@ -66,8 +70,12 @@ class RawSenaManga(object):
 
                 file_name = str(
                     globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
-                globalFunctions.GlobalFunctions().downloader(ddl_image, file_name, referer, directory_path,
-                                                             cookies=cookies_main, log_flag=self.logging)
+                    
+                links.append(ddl_image)
+                file_names.append(file_name)
+                    
+        pool = ThreadPool(4)
+        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path, log_flag=self.logging), zip(links,file_names))
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
