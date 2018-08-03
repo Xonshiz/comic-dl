@@ -4,7 +4,6 @@
 import cfscrape
 import requests
 from bs4 import BeautifulSoup
-from clint.textui import progress
 import os
 import shutil
 import sys
@@ -13,6 +12,10 @@ import glob
 import json
 import img2pdf
 import math
+
+from multiprocessing.dummy import Pool as ThreadPool
+from functools import partial
+from tqdm import tqdm
 
 
 class GlobalFunctions(object):
@@ -44,6 +47,7 @@ class GlobalFunctions(object):
 
     def downloader(self, image_and_name, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
+        pbar = kwargs.get("pbar")
 
         image_ddl = image_and_name[0] 
         file_name = image_and_name[1]
@@ -53,11 +57,11 @@ class GlobalFunctions(object):
         logging.debug("Download File Name : %s" % file_name)
 
         if os.path.isfile(file_check_path):
-            print('[Comic-dl] File Exist! Skipping : %s\n' % file_name)
+            pbar.write('[Comic-dl] File Exist! Skipping : %s\n' % file_name)
             pass
 
         if not os.path.isfile(file_check_path):
-            print('[Comic-dl] Downloading : %s' % file_name)
+            # pbar.write('[Comic-dl] Downloading : %s' % file_name)
 
             headers = {
                 'User-Agent':
@@ -72,19 +76,12 @@ class GlobalFunctions(object):
                 r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
 
                 if r.status_code != 200:
-                    print("Could not download the image.")
-                    print("Link said : %s" % r.status_code)
+                    pbar.write("Could not download the image.")
+                    pbar.write("Link said : %s" % r.status_code)
                     pass
                 else:
                     with open(file_name, 'wb') as f:
-                        total_length = r.headers.get('content-length')
-                        # raw.senmanga doesn't return content-length. So, let's just assume 1024.
-                        if total_length is None:
-                            total_length = 1024
-
-                        for chunk in progress.bar(r.iter_content(chunk_size=1024),
-                                                  expected_size=(int(total_length) / 1024) + 1,
-                                                  hide=False):
+                        for chunk in r.iter_content(chunk_size=1024):
                             if chunk:
                                 f.write(chunk)
                                 f.flush()
@@ -93,23 +90,26 @@ class GlobalFunctions(object):
                     try:
                         shutil.move(file_path, directory_path)
                     except Exception as FileMovingException:
-                        print(FileMovingException)
+                        pbar.write(FileMovingException)
                         os.remove(file_path)
                         pass
             except Exception as Ex:
-                print("Some problem occurred while downloading this image")
-                print(Ex)
+                pbar.write("Some problem occurred while downloading this image")
+                pbar.write(Ex)
                 pass
 
+        pbar.update()
+
     def info_printer(self, anime_name, episode_number, **kwargs):
-        if not kwargs.get("volume_number"):
-            print("\n")
-            print('{:^80}'.format('====================================================================='))
-            # print('{:^80}'.format("%s - %s" % (anime_name, episode_number)))
-            print('{:^80}'.format("Manga Name : {0}".format(anime_name)))
-            print('{:^80}'.format("Chapter Number - {0}".format(episode_number)))
-            print('{:^80}'.format("Total Pages - {0}".format(kwargs.get('total_chapters'))))
-            print('{:^80}'.format('=====================================================================\n'))
+        # if not kwargs.get("volume_number"):
+        #     print("\n")
+        #     print('{:^80}'.format('====================================================================='))
+        #     # print('{:^80}'.format("%s - %s" % (anime_name, episode_number)))
+        #     print('{:^80}'.format("Manga Name : {0}".format(anime_name)))
+        #     print('{:^80}'.format("Chapter Number - {0}".format(episode_number)))
+        #     print('{:^80}'.format("Total Pages - {0}".format(kwargs.get('total_chapters'))))
+        #     print('{:^80}'.format('=====================================================================\n'))
+        pass
 
     def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
         # Because I named the variables terribly wrong and I'm too lazy to fix shit everywhere.
@@ -200,3 +200,12 @@ class GlobalFunctions(object):
         """
         max_digits = int(math.log10(int(total_images))) + 1
         return str(current_chapter_value).zfill(max_digits)
+
+    def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag):
+        pbar = tqdm(links, leave=False)
+        pbar.set_description('[Comic-dl] Downloading : %s / %s ' % (comic_name, chapter_number))
+        pool = ThreadPool(4)
+        pool.map(partial(self.downloader, referer=comic_url, directory_path=directory_path,
+                         pbar=pbar, log_flag=log_flag), zip(links, file_names))
+        pbar.write('[Comic-dl] Done : %s / %s ' % (comic_name, chapter_number))
+        pbar.close()

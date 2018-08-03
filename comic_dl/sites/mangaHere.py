@@ -6,8 +6,6 @@ import re
 import os
 import logging
 
-from multiprocessing.dummy import Pool as ThreadPool
-from functools import partial
 
 class MangaHere(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -86,9 +84,9 @@ class MangaHere(object):
                             globalFunctions.GlobalFunctions().prepend_zeroes(chapCount, len(x))) + ".jpg"
                         file_names.append(file_name)
                         links.append(image_link)
-        
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path, log_flag=self.logging), zip(links,file_names))
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)

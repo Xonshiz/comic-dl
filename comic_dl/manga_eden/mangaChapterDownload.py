@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from functools import partial
-from multiprocessing.dummy import Pool as ThreadPool
 
 import cfscrape
 import requests
@@ -9,7 +7,6 @@ import json
 import sys
 import os
 import globalFunctions
-from tqdm import tqdm
 
 
 class MangaChapterDownload():
@@ -54,9 +51,8 @@ class MangaChapterDownload():
             file_names.append(file_name)
             links.append(link)
 
-        ThreadPool(4).map(
-            partial(globalFunctions.GlobalFunctions().downloader, referer=None, directory_path=directory_path,
-                    log_flag=self.logging), zip(links, file_names))
+        globalFunctions.GlobalFunctions().multithread_download(self.chapter_number, self.manga_name, None, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.delete_files,
                                                      self.manga_name, self.chapter_number)
