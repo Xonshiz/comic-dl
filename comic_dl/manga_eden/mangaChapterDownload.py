@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from functools import partial
+from multiprocessing.dummy import Pool as ThreadPool
 
 import cfscrape
 import requests
@@ -7,6 +9,7 @@ import json
 import sys
 import os
 import globalFunctions
+from tqdm import tqdm
 
 
 class MangaChapterDownload():
@@ -42,13 +45,19 @@ class MangaChapterDownload():
 
         globalFunctions.GlobalFunctions().info_printer(self.manga_name, self.chapter_number)
 
+        links = []
+        file_names = []
         for image in self.image_links:
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(str(image), len(
-                self.image_links))) + str(self.image_links[image][-4:])
-            globalFunctions.GlobalFunctions().downloader(image_ddl=self.image_links[image],
-                                                         file_name=file_name,
-                                                         referer=None, directory_path=directory_path,
-                                                         log_flag=self.logging)
+            link = self.image_links[image]
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(str(image), len(self.image_links))) + str(
+                link[-4:])
+            file_names.append(file_name)
+            links.append(link)
+
+        ThreadPool(4).map(
+            partial(globalFunctions.GlobalFunctions().downloader, referer=None, directory_path=directory_path,
+                    log_flag=self.logging), zip(links, file_names))
+
         globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.delete_files,
                                                      self.manga_name, self.chapter_number)
 
