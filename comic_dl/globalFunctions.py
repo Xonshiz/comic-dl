@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from multiprocessing import RLock
 
 import cfscrape
 import requests
@@ -45,12 +46,13 @@ class GlobalFunctions(object):
 
             return page_source, connection_cookies
 
-    def downloader(self, image_and_name, referer, directory_path, **kwargs):
+    def downloader(self, image_and_name_and_position, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
         pbar = kwargs.get("pbar")
 
-        image_ddl = image_and_name[0] 
-        file_name = image_and_name[1]
+        image_ddl = image_and_name_and_position[0]
+        file_name = image_and_name_and_position[1]
+        position = image_and_name_and_position[2]
         file_check_path = str(directory_path) + os.sep + str(file_name)
 
         logging.debug("File Check Path : %s" % file_check_path)
@@ -81,10 +83,20 @@ class GlobalFunctions(object):
                     pass
                 else:
                     with open(file_name, 'wb') as f:
-                        for chunk in r.iter_content(chunk_size=1024):
+                        total_length = r.headers.get('content-length')
+                        # raw.senmanga doesn't return content-length. So, let's just assume 1024.
+                        if total_length is None:
+                            total_length = 1024
+                        # for chunk in r.iter_content(chunk_size=1024):
+                        pbar_file = tqdm(r.iter_content(chunk_size=1024),
+                                         desc='[Comic-dl] Downloading : %s' % file_name,
+                                         unit='B', total=(int(total_length) / 1024) + 1, leave=False,
+                                         position=position + 1)
+                        for chunk in pbar_file:
                             if chunk:
                                 f.write(chunk)
                                 f.flush()
+                        pbar_file.close()
 
                     file_path = os.path.normpath(file_name)
                     try:
@@ -202,10 +214,11 @@ class GlobalFunctions(object):
         return str(current_chapter_value).zfill(max_digits)
 
     def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag):
+        L = list(range(4))
         pbar = tqdm(links, leave=False)
         pbar.set_description('[Comic-dl] Downloading : %s / %s ' % (comic_name, chapter_number))
-        pool = ThreadPool(4)
+        pool = ThreadPool(len(L), initializer=tqdm.set_lock, initargs=(RLock(),))
         pool.map(partial(self.downloader, referer=comic_url, directory_path=directory_path,
-                         pbar=pbar, log_flag=log_flag), zip(links, file_names))
+                         pbar=pbar, log_flag=log_flag), zip(links, file_names, L))
         pbar.write('[Comic-dl] Done : %s / %s ' % (comic_name, chapter_number))
         pbar.close()
