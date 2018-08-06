@@ -214,11 +214,11 @@ class GlobalFunctions(object):
         return str(current_chapter_value).zfill(max_digits)
 
     def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag):
-        L = list(range(4))
+        position = list(range(len(links)))
         pbar = tqdm(links, leave=False)
         pbar.set_description('[Comic-dl] Downloading : %s / %s ' % (comic_name, chapter_number))
-        pool = ThreadPool(len(L), initializer=tqdm.set_lock, initargs=(RLock(),))
+        pool = ThreadPool(4, initializer=tqdm.set_lock, initargs=(RLock(),))
         pool.map(partial(self.downloader, referer=comic_url, directory_path=directory_path,
-                         pbar=pbar, log_flag=log_flag), zip(links, file_names, L))
+                         pbar=pbar, log_flag=log_flag), zip(links, file_names, position))
         pbar.write('[Comic-dl] Done : %s / %s ' % (comic_name, chapter_number))
         pbar.close()
