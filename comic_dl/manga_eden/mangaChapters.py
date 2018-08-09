@@ -72,7 +72,9 @@ class MangaChapters():
                 else:
                     final_chapter_dict = self.chapters
 
-                for chapter in final_chapter_dict:
+                # for chapter in final_chapter_dict:
+                import tqdm
+                for chapter in tqdm.tqdm(final_chapter_dict,desc='{}/{}'.format(self.manga_name,chapter)):
                     MangaChapterDownload(page_id=final_chapter_dict[chapter], download_directory=download_directory,
                                          manga_name=str(self.manga_name), chapter_number=str(chapter))
 
