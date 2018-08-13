@@ -14,7 +14,7 @@ import json
 import img2pdf
 import math
 
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing.dummy import Pool as ThreadPool, freeze_support
 from functools import partial
 from tqdm import tqdm
 
@@ -89,7 +89,7 @@ class GlobalFunctions(object):
                             total_length = 1024
                         # for chunk in r.iter_content(chunk_size=1024):
                         pbar_file = tqdm(r.iter_content(chunk_size=1024),
-                                         desc='[Comic-dl] Downloading : %s' % file_name,
+                                         desc='[Comic-dl] Downloading : %s' % file_check_path,
                                          unit='B', total=(int(total_length) / 1024) + 1, leave=False,
                                          position=position + 1)
                         for chunk in pbar_file:
@@ -215,10 +215,12 @@ class GlobalFunctions(object):
 
     def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag):
         position = list(range(len(links)))
-        pbar = tqdm(links, leave=False)
-        pbar.set_description('[Comic-dl] Downloading : %s / %s ' % (comic_name, chapter_number))
-        pool = ThreadPool(4, initializer=tqdm.set_lock, initargs=(RLock(),))
+        pbar = tqdm(links, leave=True, unit='image(s)', position=0)
+        pbar.set_description('[Comic-dl] Downloading : %s [%s] ' % (comic_name, chapter_number))
+        freeze_support()  # for Windows support
+        lock = RLock()
+        pool = ThreadPool(4, initializer=tqdm.set_lock, initargs=(lock,))
         pool.map(partial(self.downloader, referer=comic_url, directory_path=directory_path,
                          pbar=pbar, log_flag=log_flag), zip(links, file_names, position))
-        pbar.write('[Comic-dl] Done : %s / %s ' % (comic_name, chapter_number))
+        pbar.set_description('[Comic-dl] Done : %s [%s] ' % (comic_name, chapter_number))
         pbar.close()
