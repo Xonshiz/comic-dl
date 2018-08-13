@@ -83,20 +83,20 @@ class GlobalFunctions(object):
                     pass
                 else:
                     with open(file_name, 'wb') as f:
-                        total_length = r.headers.get('content-length')
-                        # raw.senmanga doesn't return content-length. So, let's just assume 1024.
-                        if total_length is None:
-                            total_length = 1024
-                        # for chunk in r.iter_content(chunk_size=1024):
-                        pbar_file = tqdm(r.iter_content(chunk_size=1024),
-                                         desc='[Comic-dl] Downloading : %s' % file_check_path,
-                                         unit='B', total=(int(total_length) / 1024) + 1, leave=False,
-                                         position=position + 1)
-                        for chunk in pbar_file:
+                        # total_length = r.headers.get('content-length')
+                        # # raw.senmanga doesn't return content-length. So, let's just assume 1024.
+                        # if total_length is None:
+                        #     total_length = 1024
+                        # pbar_file = tqdm(r.iter_content(chunk_size=1024),
+                        #                  desc='[Comic-dl] Downloading : %s' % file_check_path,
+                        #                  unit='B', total=(int(total_length) / 1024) + 1, leave=False,
+                        #                  position=position + 1)
+                        # for chunk in pbar_file:
+                        for chunk in r.iter_content(chunk_size=1024):
                             if chunk:
                                 f.write(chunk)
                                 f.flush()
-                        pbar_file.close()
+                        # pbar_file.close()
 
                     file_path = os.path.normpath(file_name)
                     try:
