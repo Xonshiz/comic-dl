@@ -52,8 +52,6 @@ class ReadComicOnlineTo(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         # image_len = len(image_list)
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
@@ -149,5 +147,4 @@ class ReadComicOnlineTo(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

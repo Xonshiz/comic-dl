@@ -68,8 +68,6 @@ class ReadComicBooksOnline():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         links = []
         file_names = []
         for current_chapter, image_link in enumerate(img_list):
@@ -138,5 +136,4 @@ class ReadComicBooksOnline():
                 except Exception as e:
                     pass
 
-        print("Finished Downloading")
         return 0

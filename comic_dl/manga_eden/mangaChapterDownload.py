@@ -40,8 +40,6 @@ class MangaChapterDownload():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(self.manga_name, self.chapter_number)
-
         links = []
         file_names = []
         for image in self.image_links:

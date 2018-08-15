@@ -44,8 +44,6 @@ class StripUtopia(object):
         file_directory = file_directory.replace(":", "-")
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
@@ -110,5 +108,4 @@ class StripUtopia(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

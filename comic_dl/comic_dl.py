@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from tqdm import tqdm
 
 from __version__ import __version__
 import argparse
@@ -174,11 +175,13 @@ class ComicDL(object):
             conversion = data["conversion"]
             delete_files = data["keep"]
             image_quality = data["image_quality"]
-            for elKey in data["comics"]:
+            pbar_comic = tqdm(data["comics"], dynamic_ncols=True, desc="[Comic-dl] Auto processing", leave=True,
+                              unit='comic')
+            for elKey in pbar_comic:
+                pbar_comic.set_postfix(comic_name=elKey)
                 el = data["comics"][elKey]
                 # next chapter to download, if it's greater than available don't download anything
                 download_range = str(el["next"]) + "-__EnD__"
-                start_time = time.time()
                 honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
                                         sorting_order=sorting_order, logger=logger,
                                         download_directory=download_directory,
@@ -186,9 +189,8 @@ class ComicDL(object):
                                         delete_files=delete_files, image_quality=image_quality,
                                         username=el["username"], password=el["password"],
                                         comic_language=el["comic_language"])
-                end_time = time.time()
-                total_time = end_time - start_time
-                print("Total Time Taken To Complete : %s" % total_time)
+                pbar_comic.set_postfix()
+            pbar_comic.close()
             sys.exit()
 
         # config generator

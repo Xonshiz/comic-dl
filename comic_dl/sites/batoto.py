@@ -123,8 +123,6 @@ class Batoto:
                 if not os.path.exists(directory_path):
                     os.makedirs(directory_path)
 
-                globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
-
             img_link = page_source.find_all("img", {"id": "comic_page"})
 
             current_image_url = ""
@@ -213,5 +211,4 @@ class Batoto:
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

@@ -43,7 +43,6 @@ class FoolSlide(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_links))
         print("Img Links : {0}".format(img_links))
         print("LEN Img Links : {0}".format(str(len(img_links))))
 
@@ -133,5 +132,4 @@ class FoolSlide(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
 
-        print("Finished Downloading")
         return 0

@@ -80,8 +80,6 @@ class MangaChapters():
                     if self.download_range != "All" and not ((str(self.download_range).split("-")[1]).decode().isdecimal()):
                             globalFunctions.GlobalFunctions().addOne(self.comic_url)
 
-                print("Finished Downloading")
-                # sys.exit()
             else:
                 sys.exit()
         else:

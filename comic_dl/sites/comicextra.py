@@ -58,8 +58,6 @@ class ComicExtra(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
-
         links = []
         file_names = []
         for current_chapter, chapter_link in enumerate(img_list):
@@ -132,5 +130,4 @@ class ComicExtra(object):
                 except Exception as e:
                     pass
 
-        print("Finished Downloading")
         return 0

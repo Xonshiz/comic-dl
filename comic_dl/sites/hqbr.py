@@ -45,8 +45,6 @@ class Hqbr(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-        
         links = []
         file_names = []
         for page_count, image_link in enumerate(img_list):
@@ -117,5 +115,4 @@ class Hqbr(object):
                 except Exception as e:
                     pass
 
-        print("Finished Downloading")
         return 0

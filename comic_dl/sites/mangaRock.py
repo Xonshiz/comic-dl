@@ -79,8 +79,6 @@ class MangaRock():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
-
         links = []
         file_names = []
         for current_chapter, image_link in enumerate(json_parse["data"]):
@@ -136,5 +134,4 @@ class MangaRock():
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
-        print("Finished Downloading")
         return 0

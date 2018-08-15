@@ -68,8 +68,6 @@ class MangaReader():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
-
         links = []
         file_names = []
         for page_number in range(1, total_pages + 1):
@@ -147,5 +145,4 @@ class MangaReader():
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

@@ -60,8 +60,6 @@ class AcQq(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
@@ -151,7 +149,6 @@ class AcQq(object):
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
                     pass
 
-        print("Finished Downloading")
         return 0
 
     def __decode_base64_data(self, base64data):

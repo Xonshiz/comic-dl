@@ -38,7 +38,6 @@ class KissManga(object):
         if not os.path.exists(file_directory):
             os.makedirs(file_directory)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
         print(image_list)
 
         links = []
