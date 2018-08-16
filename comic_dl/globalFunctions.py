@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from multiprocessing import RLock
 
 import cfscrape
 import requests
@@ -13,9 +12,9 @@ import glob
 import json
 import img2pdf
 import math
+import threading
+import Queue
 
-from multiprocessing.dummy import Pool as ThreadPool, freeze_support
-from functools import partial
 from tqdm import tqdm
 
 
@@ -38,19 +37,19 @@ class GlobalFunctions(object):
             print("Whoops! Seems like I can't connect to website.")
             print("It's showing : %s" % connection)
             print("Run this script with the --verbose argument and report the issue along with log file on Github.")
-            sys.exit(1)
+            raise Warning("can't connect to website %s" % manga_url)
         else:
             page_source = BeautifulSoup(connection.text.encode("utf-8"), "html.parser")
             connection_cookies = sess.cookies
 
             return page_source, connection_cookies
 
-    def downloader(self, image_and_name_and_position, referer, directory_path, **kwargs):
+    def downloader(self, image_and_name, referer, directory_path, **kwargs):
         self.logging = kwargs.get("log_flag")
         pbar = kwargs.get("pbar")
 
-        image_ddl = image_and_name_and_position[0]
-        file_name = image_and_name_and_position[1]
+        image_ddl = image_and_name[0]
+        file_name = image_and_name[1]
         file_check_path = str(directory_path) + os.sep + str(file_name)
 
         logging.debug("File Check Path : %s" % file_check_path)
@@ -87,14 +86,14 @@ class GlobalFunctions(object):
                     file_path = os.path.normpath(file_name)
                     try:
                         shutil.move(file_path, directory_path)
-                    except Exception as FileMovingException:
-                        pbar.write(FileMovingException)
+                    except Exception as file_moving_exception:
+                        pbar.write(file_moving_exception)
                         os.remove(file_path)
-                        pass
-            except Exception as Ex:
+                        raise file_moving_exception
+            except Exception as ex:
                 pbar.write("Some problem occurred while downloading this image")
-                pbar.write(Ex)
-                pass
+                pbar.write(ex)
+                raise ex
 
         pbar.update()
 
@@ -188,14 +187,56 @@ class GlobalFunctions(object):
         max_digits = int(math.log10(int(total_images))) + 1
         return str(current_chapter_value).zfill(max_digits)
 
-    def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag):
-        position = list(range(len(links)))
+    def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag,
+                             pool_size=4):
+        """
+        :param chapter_number: string used for the progress bar
+        :param comic_name: string used for the progress bar
+        :param comic_url: used for the referer
+        :param directory_path: used to download
+        :param file_names: files names to download
+        :param links: links to download
+        :param log_flag: log flag
+        :param pool_size: thread pool size, default = 4
+        :return 0 if no error
+        """
+
+        def worker():
+            while True:
+                try:
+                    worker_item = in_queue.get()
+                    self.downloader(referer=comic_url, directory_path=directory_path, pbar=pbar, log_flag=log_flag,
+                                    image_and_name=worker_item)
+                    in_queue.task_done()
+                except Queue.Empty as ex1:
+                    logging.info(ex1)
+                    return
+                except Exception as ex:
+                    err_queue.put(ex)
+                    in_queue.task_done()
+
+        in_queue = Queue.Queue()
+        err_queue = Queue.Queue()
+
         pbar = tqdm(links, leave=True, unit='image(s)', position=0)
         pbar.set_description('[Comic-dl] Downloading : %s [%s] ' % (comic_name, chapter_number))
-        freeze_support()  # for Windows support
-        lock = RLock()
-        pool = ThreadPool(4, initializer=tqdm.set_lock, initargs=(lock,))
-        pool.map(partial(self.downloader, referer=comic_url, directory_path=directory_path,
-                         pbar=pbar, log_flag=log_flag), zip(links, file_names, position))
-        pbar.set_description('[Comic-dl] Done : %s [%s] ' % (comic_name, chapter_number))
-        pbar.close()
+
+        for i in range(pool_size):
+            t = threading.Thread(target=worker)
+            t.daemon = True
+            t.start()
+
+        for item in zip(links, file_names):
+            in_queue.put(item)
+
+        in_queue.join()  # block until all tasks are done
+
+        try:
+            err = err_queue.get(block=False)
+            pbar.set_description('[Comic-dl] Error : %s [%s] - %s ' % (comic_name, chapter_number, err))
+            raise err
+        except Queue.Empty:
+            pbar.set_description('[Comic-dl] Done : %s [%s] ' % (comic_name, chapter_number))
+            return 0
+        finally:
+            pbar.close()

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 from tqdm import tqdm
 
 from __version__ import __version__
@@ -10,15 +11,14 @@ import platform
 import honcho
 import os
 import time
-import manga_eden
 import json
 import configGenerator
 from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
-from shutil import copyfile
 
-CONFIG_FILE='config.json'
+CONFIG_FILE = 'config.json'
+
 
 class ComicDL(object):
     def __init__(self, argv):
@@ -178,18 +178,21 @@ class ComicDL(object):
             pbar_comic = tqdm(data["comics"], dynamic_ncols=True, desc="[Comic-dl] Auto processing", leave=True,
                               unit='comic')
             for elKey in pbar_comic:
-                pbar_comic.set_postfix(comic_name=elKey)
-                el = data["comics"][elKey]
-                # next chapter to download, if it's greater than available don't download anything
-                download_range = str(el["next"]) + "-__EnD__"
-                honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
-                                        sorting_order=sorting_order, logger=logger,
-                                        download_directory=download_directory,
-                                        chapter_range=download_range, conversion=conversion,
-                                        delete_files=delete_files, image_quality=image_quality,
-                                        username=el["username"], password=el["password"],
-                                        comic_language=el["comic_language"])
-                pbar_comic.set_postfix()
+                try:
+                    pbar_comic.set_postfix(comic_name=elKey)
+                    el = data["comics"][elKey]
+                    # next chapter to download, if it's greater than available don't download anything
+                    download_range = str(el["next"]) + "-__EnD__"
+                    honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
+                                            sorting_order=sorting_order, logger=logger,
+                                            download_directory=download_directory,
+                                            chapter_range=download_range, conversion=conversion,
+                                            delete_files=delete_files, image_quality=image_quality,
+                                            username=el["username"], password=el["password"],
+                                            comic_language=el["comic_language"])
+                except Exception as ex:
+                    pbar_comic.write('[Comic-dl] Auto processing with error for %s : %s ' % (elKey, ex))
+            pbar_comic.set_postfix()
             pbar_comic.close()
             sys.exit()
 
@@ -251,7 +254,7 @@ class ComicDL(object):
     #     except KeyError:
     #         return char
 
-
     @staticmethod
     def version():
         print("Current Version : %s" % __version__)
+
