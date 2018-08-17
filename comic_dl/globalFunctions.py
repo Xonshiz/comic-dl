@@ -13,9 +13,13 @@ import json
 import img2pdf
 import math
 import threading
-import Queue
-
 from tqdm import tqdm
+is_py2 = sys.version[0] == '2'
+if is_py2:
+    import Queue as queue
+else:
+    import queue as queue
+
 
 
 class GlobalFunctions(object):
@@ -208,15 +212,15 @@ class GlobalFunctions(object):
                     self.downloader(referer=comic_url, directory_path=directory_path, pbar=pbar, log_flag=log_flag,
                                     image_and_name=worker_item)
                     in_queue.task_done()
-                except Queue.Empty as ex1:
+                except queue.Empty as ex1:
                     logging.info(ex1)
                     return
                 except Exception as ex:
                     err_queue.put(ex)
                     in_queue.task_done()
 
-        in_queue = Queue.Queue()
-        err_queue = Queue.Queue()
+        in_queue = queue.Queue()
+        err_queue = queue.Queue()
 
         pbar = tqdm(links, leave=True, unit='image(s)', position=0)
         pbar.set_description('[Comic-dl] Downloading : %s [%s] ' % (comic_name, chapter_number))
@@ -235,7 +239,7 @@ class GlobalFunctions(object):
             err = err_queue.get(block=False)
             pbar.set_description('[Comic-dl] Error : %s [%s] - %s ' % (comic_name, chapter_number, err))
             raise err
-        except Queue.Empty:
+        except queue.Empty:
             pbar.set_description('[Comic-dl] Done : %s [%s] ' % (comic_name, chapter_number))
             return 0
         finally:
