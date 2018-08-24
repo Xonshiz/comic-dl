@@ -7,8 +7,6 @@ import os
 import logging
 from bs4 import BeautifulSoup
 
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
 
 class ReadComicOnlineTo(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -54,8 +52,6 @@ class ReadComicOnlineTo(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         # image_len = len(image_list)
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
@@ -77,8 +73,8 @@ class ReadComicOnlineTo(object):
             file_names.append(file_name)
             links.append(image_link)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
             
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
@@ -151,5 +147,4 @@ class ReadComicOnlineTo(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

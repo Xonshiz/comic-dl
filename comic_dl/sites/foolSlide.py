@@ -7,8 +7,6 @@ import sys
 import os
 import logging
 
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
 
 class FoolSlide(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -45,7 +43,6 @@ class FoolSlide(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_links))
         print("Img Links : {0}".format(img_links))
         print("LEN Img Links : {0}".format(str(len(img_links))))
 
@@ -60,8 +57,8 @@ class FoolSlide(object):
             file_names.append(file_name)
             links.append(new_link)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=chapter_url, directory_path=directory_path), zip(links,file_names))
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_name, directory_path,
+                                                               file_names, links, self.logging)
             
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
@@ -135,5 +132,4 @@ class FoolSlide(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
 
-        print("Finished Downloading")
         return 0

@@ -7,10 +7,6 @@ import json
 import os
 import logging
 
-
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
-
 """A HUGE thanks to @abcfy2 for his amazing implementation of the ac.qq.com APIs.
 Original code for ac.qq.com : https://github.com/abcfy2/getComic/
 """
@@ -64,8 +60,6 @@ class AcQq(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
@@ -83,9 +77,9 @@ class AcQq(object):
             file_names.append(file_name)
             links.append(image_link)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
-            
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -155,7 +149,6 @@ class AcQq(object):
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
                     pass
 
-        print("Finished Downloading")
         return 0
 
     def __decode_base64_data(self, base64data):

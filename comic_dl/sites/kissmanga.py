@@ -5,8 +5,6 @@ import globalFunctions
 import re
 import os
 
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
 
 class KissManga(object):
     def __init__(self, manga_url, download_directory, **kwargs):
@@ -40,7 +38,6 @@ class KissManga(object):
         if not os.path.exists(file_directory):
             os.makedirs(file_directory)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
         print(image_list)
 
         links = []
@@ -55,6 +52,9 @@ class KissManga(object):
             file_names.append(file_name)
             links.append(link_edited)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links)
+        # globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+        #                                                        file_names, links, self.logging)
+
         return 0

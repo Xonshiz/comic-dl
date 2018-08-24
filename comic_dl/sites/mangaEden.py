@@ -7,7 +7,7 @@ import re
 from manga_eden import mangaChapters
 
 
-class MangaEden():
+class MangaEden:
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         conversion = kwargs.get("conversion")
         delete_files = kwargs.get("delete_files")

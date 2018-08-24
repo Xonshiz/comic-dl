@@ -7,8 +7,6 @@ import re
 import os
 import glob
 
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
 
 class MangaRock():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -81,8 +79,6 @@ class MangaRock():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
-
         links = []
         file_names = []
         for current_chapter, image_link in enumerate(json_parse["data"]):
@@ -93,8 +89,8 @@ class MangaRock():
             file_names.append(file_name)
             links.append(image_link)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=None, directory_path=directory_path), zip(links,file_names))
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, None, directory_path,
+                                                               file_names, links, self.logging)
             
         print("Decrypting Files...")
         self.file_decryption(path_to_files=directory_path) # Calling the method that does the magic!
@@ -138,5 +134,4 @@ class MangaRock():
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
-        print("Finished Downloading")
         return 0

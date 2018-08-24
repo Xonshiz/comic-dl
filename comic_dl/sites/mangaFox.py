@@ -7,8 +7,6 @@ import os
 import logging
 import time
 
-from multiprocessing.dummy import Pool as ThreadPool 
-from functools import partial
 
 class MangaFox(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -50,8 +48,6 @@ class MangaFox(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=last_page_number)
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
@@ -80,9 +76,9 @@ class MangaFox(object):
                     file_names.append(file_name_custom)
                     links.append(image_link)
 
-        pool = ThreadPool(4)
-        pool.map(partial(globalFunctions.GlobalFunctions().downloader, referer=comic_url, directory_path=directory_path), zip(links,file_names))
-            
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -144,8 +140,7 @@ class MangaFox(object):
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
-                print("Waiting For 5 Seconds...")
-                time.sleep(5)  # Test wait for the issue #23
+                # print("Waiting For 5 Seconds...")
+                # time.sleep(5)  # Test wait for the issue #23
 
-        print("Finished Downloading")
         return 0
