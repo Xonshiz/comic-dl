@@ -34,9 +34,8 @@ class ComicNaver(object):
         chapter_number = re.search(r"no=(\d+)", str(comic_url)).group(1)
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
-
-        img_regex = r'http://imgcomic.naver.net/webtoon/\d+/\d+/.+?\.(?:jpg|png|gif|bmp|JPG|PNG|GIF|BMP)'
-
+        # https://image-comic.pstatic.net/webtoon/183559/399/20180810173548_ffbf217190f59dc04bd6fc538e11d64b_IMAG01_1.jpg
+        img_regex = r'https?://(?:imgcomic\.naver\.net|image-comic\.pstatic\.net)/webtoon/\d+/\d+/.+?\.(?:jpg|png|gif|bmp|JPG|PNG|GIF|BMP)'
         image_list = list(re.findall(img_regex, str(source)))
         logging.debug("Image List : %s" % image_list)
 
