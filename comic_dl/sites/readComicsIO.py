@@ -40,8 +40,7 @@ class ReadComicsIO():
             for a in x:
                 img_list.append(str(a['src']).strip())
 
-        file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-        file_directory = file_directory.replace(":", "-")
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):

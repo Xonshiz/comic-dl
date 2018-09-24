@@ -31,8 +31,7 @@ class KissManga(object):
         # print(source)
         image_list = re.findall(r"lstImages\.push\(wrapKA\(\"(.*?)\"\)\);", str(source))
         #
-        file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-        file_directory = file_directory.replace(":", "-")
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         directory_path = os.path.realpath(file_directory)
 
         if not os.path.exists(file_directory):
