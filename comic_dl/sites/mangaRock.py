@@ -71,8 +71,7 @@ class MangaRock():
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=image_api_link)
         json_parse = json.loads(str(source))
 
-        file_directory = str(comic_name) + os.sep + str(chapter_number) + os.sep
-        file_directory = file_directory.replace(":", "-")
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
 
         directory_path = os.path.realpath(str(download_directory) + os.sep + str(file_directory))
 

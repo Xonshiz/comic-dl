@@ -35,8 +35,7 @@ class FoolSlide(object):
         img_links = self.image_links(source)
         logging.debug("Img Links : %s" % img_links)
 
-        file_directory = str(comic_name) + '/' + "Chapter " + str(chapter_number) + "/"
-        file_directory = file_directory.replace(":", "-")
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 

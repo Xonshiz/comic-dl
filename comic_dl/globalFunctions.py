@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import re
 
 import cfscrape
 import requests
@@ -19,7 +20,6 @@ if is_py2:
     import Queue as queue
 else:
     import queue as queue
-
 
 
 class GlobalFunctions(object):
@@ -244,3 +244,10 @@ class GlobalFunctions(object):
             return 0
         finally:
             pbar.close()
+
+    @staticmethod
+    def create_file_directory(chapter_number, comic_name):
+        comic = re.sub('[^\w\-_. \[\]]', '-', comic_name)
+        chapter = re.sub('[^\w\-_. \[\]]', '-', chapter_number)
+        file_directory = comic + os.sep + chapter + os.sep
+        return file_directory
