@@ -44,8 +44,7 @@ class ReadComicOnlineTo(object):
 
         image_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
 
-        file_directory = str(comic_name) + '/' + str(chapter_number) + "/"
-        file_directory = file_directory.replace(":", "-")
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 

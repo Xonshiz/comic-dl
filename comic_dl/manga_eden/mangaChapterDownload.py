@@ -33,8 +33,7 @@ class MangaChapterDownload():
         else:
             pass
 
-        file_directory = str(self.manga_name) + '/' + str(self.chapter_number) + "/"
-
+        file_directory = globalFunctions.GlobalFunctions().create_file_directory(self.chapter_number, self.manga_name)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):

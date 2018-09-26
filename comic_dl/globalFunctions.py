@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import re
 
 import cfscrape
 import requests
@@ -13,7 +14,6 @@ import glob
 import json
 import img2pdf
 import math
-
 
 class GlobalFunctions(object):
     def page_downloader(self, manga_url, scrapper_delay=5, **kwargs):
@@ -176,7 +176,7 @@ class GlobalFunctions(object):
                 print(DirectoryDeleteError)
                 pass
             print("Deleted the files...")
-    
+
     def addOne(self, comicUrl):
         # @dsanchezseco
         # edit config.json to update nextChapter value
@@ -197,3 +197,10 @@ class GlobalFunctions(object):
         """
         max_digits = int(math.log10(int(total_images))) + 1
         return str(current_chapter_value).zfill(max_digits)
+
+    @staticmethod
+    def create_file_directory(chapter_number, comic_name):
+        comic = re.sub('[^\w\-_. \[\]]', '-', comic_name)
+        chapter = re.sub('[^\w\-_. \[\]]', '-', chapter_number)
+        file_directory = comic + os.sep + chapter + os.sep
+        return file_directory
