@@ -200,7 +200,7 @@ class GlobalFunctions(object):
 
     @staticmethod
     def create_file_directory(chapter_number, comic_name):
-        comic = re.sub('[^\w\-_. \[\]]', '-', comic_name)
-        chapter = re.sub('[^\w\-_. \[\]]', '-', chapter_number)
+        comic = re.sub('[^\w\-_. \[\]]', '-', str(comic_name))
+        chapter = re.sub('[^\w\-_. \[\]]', '-', str(chapter_number))
         file_directory = comic + os.sep + chapter + os.sep
         return file_directory
