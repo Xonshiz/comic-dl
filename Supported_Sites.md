@@ -1,9 +1,9 @@
 # List of Supported Websites
 
-* [Mangafox.me](http://mangafox.me/) or [Mangafox.la](http://mangafox.la/)
-* [YoManga](http://yomanga.co/)
-* [GoManga](http://gomanga.co/)
-* [Batoto](http://bato.to/)
+* [Mangafox.me](http://fanfox.net/)
+~* [YoManga](http://yomanga.co/)~
+~* [GoManga](http://gomanga.co/)~
+~* [Batoto](http://bato.to/)~
 * [Comic Naver](http://comic.naver.com/index.nhn)
 * [Readcomiconline.to](http://readcomiconline.to/)
 * [mangahere.co](http://mangahere.co/)
@@ -13,7 +13,7 @@
 * [striputopija.blogspot.si](http://striputopija.blogspot.si/)
 * [mangareader.net](http://www.mangareader.net/)
 * [readcomicbooksonline.net](http://readcomicbooksonline.net/)
-* [readcomics.website](http://www.readcomics.website/)
+~* [readcomics.website](http://www.readcomics.website/)~
 * [mangarock.com](https://mangarock.com/)
 * [hqbr.com.br](https://hqbr.com.br/home)
 * [comicextra.com](http://www.comicextra.com)

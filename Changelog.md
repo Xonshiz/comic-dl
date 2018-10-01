@@ -102,3 +102,14 @@
 - PR Merge for #130 (#129)  [2018.05.16]
 - PR Merge for #135 (#133)  [2018.05.20]
 - PR Merge for #137 (#129 and #136)  [2018.05.21]
+- PR Merge for #141
+- PR Merge for #142 
+- PR Merge for #144 
+- PR Merge for #149 
+- PR Merge for #151 
+- PR Merge for #157 
+- PR Merge for #160 
+- PR Merge for #161 
+- PR Merge for #162 
+- PR Merge for #167 
+- PR Merge for #172  [2018.09.24]
