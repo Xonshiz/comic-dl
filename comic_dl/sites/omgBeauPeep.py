@@ -45,11 +45,11 @@ class OmgBeauPeep(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=last_page_number)
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for x in range(1, last_page_number + 1):
             chapter_url = str(comic_url) + "/" + str(x)
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url)
@@ -59,8 +59,12 @@ class OmgBeauPeep(object):
             logging.debug("Chapter Url : %s" % chapter_url)
             logging.debug("Image Link : %s" % image_link)
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name, chapter_url, directory_path,
-                                                         log_flag=self.logging)
+
+            links.append(image_link)
+            file_names.append(file_name)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)

@@ -67,8 +67,8 @@ class MangaReader():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=total_pages)
-
+        links = []
+        file_names = []
         for page_number in range(1, total_pages + 1):
             # print(page_number)
             # Ex URL : http://www.mangareader.net/boku-no-hero-academia/1/Page_Number
@@ -86,8 +86,12 @@ class MangaReader():
                     # print("Image Link : {0}".format(image_link))
                     file_name = str(
                         globalFunctions.GlobalFunctions().prepend_zeroes(page_number, total_pages)) + ".jpg"
-                    globalFunctions.GlobalFunctions().downloader(image_link, file_name,
-                                                                 comic_url, directory_path, log_flag=self.logging)
+                    links.append(image_link)
+                    file_names.append(file_name)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
                                                      comic_name, chapter_number)
 
@@ -140,5 +144,4 @@ class MangaReader():
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

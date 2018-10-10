@@ -106,7 +106,8 @@ class Batoto:
             'Accept-Encoding': 'gzip, deflate',
             'referer': 'https://bato.to/reader'
         }
-
+        links = []
+        file_names = []
         while next_page:
             batoto_reader_url = "https://bato.to/areader?id=" + str(chapter_id) + "&p=" + str(page_count)
             page_source, temp_cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=batoto_reader_url,
@@ -121,24 +122,25 @@ class Batoto:
                 if not os.path.exists(directory_path):
                     os.makedirs(directory_path)
 
-                globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
-
             img_link = page_source.find_all("img", {"id": "comic_page"})
 
             current_image_url = ""
 
             for x in img_link:
                 current_image_url = str(x['src']).strip()
+            links.append(current_image_url)
+            file_names.append(str(page_count) + str(current_image_url)[-4:])
 
-            globalFunctions.GlobalFunctions().downloader(current_image_url, str(page_count) +
-                                                         str(current_image_url)[-4:],
-                                                         comic_url, directory_path, log_flag=self.logging)
             try:
                 page_count = int(str(re.search(r"next_page = '(.*?)';", str(page_source)).group(1)).split("_")[-1])
                 next_page = True
             except Exception as LastPage:
                 next_page = False
                 pass
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
                                                      comic_name, chapter_number)
 
@@ -208,5 +210,4 @@ class Batoto:
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

@@ -48,11 +48,11 @@ class RawSenaManga(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=last_page_number)
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for x in range(0, last_page_number + 1):
             if x is 0:
                 pass
@@ -65,8 +65,12 @@ class RawSenaManga(object):
 
                 file_name = str(
                     globalFunctions.GlobalFunctions().prepend_zeroes(x, last_page_number + 1)) + ".jpg"
-                globalFunctions.GlobalFunctions().downloader(ddl_image, file_name, referer, directory_path,
-                                                             cookies=cookies_main, log_flag=self.logging)
+                    
+                links.append(ddl_image)
+                file_names.append(file_name)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)

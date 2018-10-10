@@ -39,15 +39,18 @@ class MangaChapterDownload():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(self.manga_name, self.chapter_number)
-
+        links = []
+        file_names = []
         for image in self.image_links:
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(str(image), len(
-                self.image_links))) + str(self.image_links[image][-4:])
-            globalFunctions.GlobalFunctions().downloader(image_ddl=self.image_links[image],
-                                                         file_name=file_name,
-                                                         referer=None, directory_path=directory_path,
-                                                         log_flag=self.logging)
+            link = self.image_links[image]
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(str(image), len(self.image_links))) + str(
+                link[-4:])
+            file_names.append(file_name)
+            links.append(link)
+
+        globalFunctions.GlobalFunctions().multithread_download(self.chapter_number, self.manga_name, None, directory_path,
+                                                               file_names, links, self.logging)
+
         globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.delete_files,
                                                      self.manga_name, self.chapter_number)
 

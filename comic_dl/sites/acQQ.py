@@ -59,22 +59,25 @@ class AcQq(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
         # for num, image_link in enumerate(img_list):
         #     print(num)
-
+        links = []
+        file_names = []
         for current_chapter, image_link in enumerate(img_list):
             # file_name = "0" + str(img_list.index(image_link)) + "." + str(image_link).split(".")[-1]
             # file_name = str(current_chapter) + '.' + str(image_link).split(".")[-1]
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
             logging.debug("image_link : %s" % image_link)
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
-                                                         log_flag=self.logging)
+
+            file_names.append(file_name)
+            links.append(image_link)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
@@ -145,7 +148,6 @@ class AcQq(object):
                     print("Some excpetion occured with the details : \n%s" % single_chapter_exception)
                     pass
 
-        print("Finished Downloading")
         return 0
 
     def __decode_base64_data(self, base64data):

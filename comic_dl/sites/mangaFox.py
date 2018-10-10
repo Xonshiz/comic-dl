@@ -47,11 +47,11 @@ class MangaFox(object):
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=last_page_number)
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for file_name in range(current_page_number, last_page_number + 1):
             # print("Actual file_name : {0}".format(file_name))
             # http://mangafox.me/manga/colette_wa_shinu_koto_ni_shita/v03/c019/2.html
@@ -72,8 +72,11 @@ class MangaFox(object):
                     file_name_custom = str(
                         globalFunctions.GlobalFunctions().prepend_zeroes(file_name, last_page_number + 1)) + ".jpg"
 
-                    globalFunctions.GlobalFunctions().downloader(image_link, file_name_custom, chapter_url,
-                                                                 directory_path, log_flag=self.logging)
+                    file_names.append(file_name_custom)
+                    links.append(image_link)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
@@ -136,8 +139,7 @@ class MangaFox(object):
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
-                print("Waiting For 5 Seconds...")
-                time.sleep(5)  # Test wait for the issue #23
+                # print("Waiting For 5 Seconds...")
+                # time.sleep(5)  # Test wait for the issue #23
 
-        print("Finished Downloading")
         return 0

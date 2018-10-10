@@ -45,18 +45,22 @@ class Hqbr(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
+        links = []
+        file_names = []
         for page_count, image_link in enumerate(img_list):
             page_count += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(page_count, len(img_list))) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader("https://hqbr.com.br" + str(image_link),
-                                                         file_name,
-                                                         comic_url, directory_path,
-                                                         log_flag=self.logging)
+           
+            file_names.append(file_name)
+            links.append("https://hqbr.com.br" + str(image_link))
 
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
+
+        return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -111,5 +115,4 @@ class Hqbr(object):
                 except Exception as e:
                     pass
 
-        print("Finished Downloading")
         return 0

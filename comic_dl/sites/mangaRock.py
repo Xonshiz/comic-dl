@@ -78,19 +78,26 @@ class MangaRock():
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(json_parse["data"]))
-
+        links = []
+        file_names = []
         for current_chapter, image_link in enumerate(json_parse["data"]):
             # file_name = str(json_parse["data"].index(image_link)) + ".mri"
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(json_parse["data"]))) + ".mri"
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name,
-                                                         None, directory_path, log_flag=self.logging)
+   
+            file_names.append(file_name)
+            links.append(image_link)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, None, directory_path,
+                                                               file_names, links, self.logging)
+            
         print("Decrypting Files...")
         self.file_decryption(path_to_files=directory_path) # Calling the method that does the magic!
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
-                                                     comic_name, chapter_number)
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+                                                     chapter_number)
+
+        return 0
 
     def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, delete_files):
         chapters_dict = {}
@@ -126,5 +133,4 @@ class MangaRock():
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
-        print("Finished Downloading")
         return 0

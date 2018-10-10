@@ -43,11 +43,11 @@ class StripUtopia(object):
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_list))
-
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
+        links = []
+        file_names = []
         for current_chapter, image_link in enumerate(img_list):
             # file_name = str(img_list.index(image_link))
 
@@ -55,11 +55,16 @@ class StripUtopia(object):
 
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader(image_link, file_name, comic_url, directory_path,
-                                                         log_flag=self.logging)
+            file_names.append(file_name)
+            links.append(image_link)
 
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
+
+        return 0
 
     def full_series(self, source, comic_url, comic_name, sorting, download_directory, chapter_range, conversion,
                     delete_files):
@@ -102,5 +107,4 @@ class StripUtopia(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

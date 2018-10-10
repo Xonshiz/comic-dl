@@ -42,18 +42,23 @@ class FoolSlide(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(img_links))
         print("Img Links : {0}".format(img_links))
         print("LEN Img Links : {0}".format(str(len(img_links))))
 
-        for current_chapter, link in enumerate(img_links):
-            new_link = link.replace("\\", "")
+        links = []
+        file_names = []
+        for current_chapter, image_link in enumerate(img_links):
+            new_link = image_link.replace("\\", "")
             # file_name = str(img_links.index(link)) + ".jpg"
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_links))) + ".jpg"
-            globalFunctions.GlobalFunctions().downloader(new_link, file_name, chapter_url, directory_path,
-                                                         log_flag=self.logging)
+            
+            file_names.append(file_name)
+            links.append(new_link)
 
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_name, directory_path,
+                                                               file_names, links, self.logging)
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -126,5 +131,4 @@ class FoolSlide(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
 
-        print("Finished Downloading")
         return 0

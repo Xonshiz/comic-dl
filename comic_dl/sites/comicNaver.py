@@ -47,17 +47,20 @@ class ComicNaver(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number, total_chapters=len(image_list))
-
-        for current_chapter, link in enumerate(image_list):
+        links = []
+        file_names = []
+        for current_chapter, image_link in enumerate(image_list):
             current_chapter += 1
 
             # Fix for #18
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(image_list))) + ".jpg"
 
-            globalFunctions.GlobalFunctions().downloader(link, file_name, comic_url, directory_path,
-                                                         log_flag=self.logging)
+            file_names.append(file_name)
+            links.append(image_link)
 
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links, self.logging)
+            
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -108,5 +111,4 @@ class ComicNaver(object):
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
-        print("Finished Downloading")
         return 0

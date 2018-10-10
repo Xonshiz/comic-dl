@@ -37,15 +37,23 @@ class KissManga(object):
         if not os.path.exists(file_directory):
             os.makedirs(file_directory)
 
-        globalFunctions.GlobalFunctions().info_printer(comic_name, chapter_number)
         print(image_list)
 
+        links = []
+        file_names = []
         for link in image_list:
             link_edited = "http://2.bp.blogspot.com/" + link.replace("\\", "") + ".png"
             print(link_edited)
             # file_name = str(link).split("/")[-1].strip()
             file_name = str(image_list.index(link)) + ".jpg"
             print(file_name)
-            globalFunctions.GlobalFunctions().downloader(link_edited, file_name, comic_url, directory_path)
+            
+            file_names.append(file_name)
+            links.append(link_edited)
+
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+                                                               file_names, links)
+        # globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
+        #                                                        file_names, links, self.logging)
 
         return 0
