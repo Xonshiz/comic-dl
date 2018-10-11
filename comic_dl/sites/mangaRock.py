@@ -61,7 +61,7 @@ class MangaRock():
 
             data = map(lambda x: ord(x) ^ 101, data)
 
-            open(str(mri_file).replace(".mri", ".jpg"), 'wb').write(''.join(map(chr, header + data)))
+            open(str(mri_file).replace(".mri", ".webp"), 'wb').write(''.join(map(chr, header + data)))
 
             # Let's delete the .mri file
             os.remove(mri_file)
