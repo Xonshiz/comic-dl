@@ -157,6 +157,11 @@ class GlobalFunctions(object):
         elif str(conversion) == "None":
             pass
 
+        # to convert from webp to jpg,
+        # conversion is already done in comic_dl.sites.mangaRock.MangaRock#file_decryption
+        elif str(conversion).lower().strip() in ['jpg']:
+            pass
+
         else:
             print("Seems like that conversion isn't supported yet. Please report it on the repository...")
             pass
