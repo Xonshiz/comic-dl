@@ -129,7 +129,7 @@ class Honcho(object):
                               delete_files=kwargs.get("delete_files"),
                               print_index=print_index)
             return 0
-        elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com", "www.otakusmash.com"]:
+        elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com", "www.otakusmash.com", "otakusmash.com"]:
             omgBeauPeep.OmgBeauPeep(manga_url=comic_url, logger=logging, current_directory=current_directory,
                                     sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                                     chapter_range=chapter_range, conversion=kwargs.get("conversion"),

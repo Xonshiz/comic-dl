@@ -63,8 +63,11 @@ class OmgBeauPeep(object):
         file_names = []
         for x in range(1, last_page_number + 1):
             chapter_url = str(comic_url) + "/" + str(x)
+            image_prefix = "http://www.omgbeaupeep.com/comics/mangas/"
+            if "otakusmash" in comic_url:
+                image_prefix = "https://www.otakusmash.com/read-comics/mangas/"
             source_new, cookies_new = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_url)
-            image_link = "http://www.omgbeaupeep.com/comics/mangas/" + str(
+            image_link = image_prefix + str(
                 re.search(r'"mangas/(.*?)"', str(source_new)).group(1)).replace(" ", "%20")
             # file_name = "0" + str(x) + ".jpg"
             logging.debug("Chapter Url : %s" % chapter_url)
@@ -95,9 +98,13 @@ class OmgBeauPeep(object):
     def full_series(self, manga_url, comic_name, download_directory, conversion, delete_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
         chapters = source.findAll('select', {'name': 'chapter'})[0]
+        bypass_first = "otakusmash" in manga_url
         for option in chapters.findAll('option'):
             if self.print_index:
                 print '{}: {}'.format(option['value'], option.text)
             else:
+                if bypass_first:
+                    bypass_first = False
+                    continue
                 self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)
