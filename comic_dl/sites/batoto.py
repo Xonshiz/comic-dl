@@ -196,7 +196,7 @@ class Batoto:
             all_links = all_links
 
         if self.print_index:
-            idx = all_links.__len__()
+            idx = len(all_links)
             for chap_link in all_links:
                 print str(idx) + ": " + chap_link
                 idx = idx - 1

@@ -108,7 +108,7 @@ class RawSenaManga(object):
             link_regex = "<a href=\".*/" + str(series_name_raw) + "/.*>(.*)</a>"
             # "<a href="https://raw.senmanga.com/Tokyo-Ghoul:RE/10/1" title="Chapter 10 - Raw">Chapter 10 - Raw</a>"
             all_links = list(re.findall(link_regex, str(source)))
-            idx = all_links.__len__()
+            idx = len(all_links)
             for link in all_links:
                 print str(idx) + ": " + link
                 idx = idx - 1

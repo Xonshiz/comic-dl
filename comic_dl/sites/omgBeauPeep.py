@@ -103,7 +103,7 @@ class OmgBeauPeep(object):
             if self.print_index:
                 print '{}: {}'.format(option['value'], option.text)
             else:
-                if bypass_first:
+                if bypass_first:  # Because this website lists the next chapter, which is NOT available.
                     bypass_first = False
                     continue
                 self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,

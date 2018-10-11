@@ -92,7 +92,7 @@ class MangaFox(object):
 
         # all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
         all_links_temp = re.findall(r"<link/>(.*?).html", str(source))
-        all_links = ["http:" + str(chap_link) + ".html" for chap_link in all_links_temp]
+        all_links = ["http:" + str(link) + ".html" for link in all_links_temp]
 
         logging.debug("All Links : %s" % all_links)
 
@@ -114,7 +114,7 @@ class MangaFox(object):
             all_links = all_links
 
         if self.print_index:
-            idx = all_links.__len__()
+            idx = len(all_links)
             for chap_link in all_links:
                 print str(idx) + ": " + str(chap_link)
                 idx = idx - 1

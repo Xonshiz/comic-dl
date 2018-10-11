@@ -93,7 +93,7 @@ class Hqbr(object):
         # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
 
         if self.print_index:
-            idx = all_links.__len__()
+            idx = len(all_links)
             for chap_link in all_links:
                 print str(idx) + ": " + chap_link
                 idx = idx -1
