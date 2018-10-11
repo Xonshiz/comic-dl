@@ -18,12 +18,17 @@ class OmgBeauPeep(object):
         self.comic_name = self.name_cleaner(manga_url)
         self.print_index = kwargs.get("print_index")
 
+        splitter = list(str(manga_url).split("/"))
+
         # Since this website doesn't seem to have a dedicated page for series, I need to make a function just for the sake of range, huh. *sigh*
         # You need to pass the ABSOLUTE chapter number for this website though. Otherwise, it'll generate wrong links to chapter and won't download anything.
         # Please spare me such hard work.
         if chapter_range != "All":
             self.range_maker(manga_url=manga_url, chapter_range=chapter_range, download_directory=download_directory,
                              conversion=conversion, delete_files=delete_files)
+        elif len(splitter) <= 5:
+            self.full_series(manga_url, self.comic_name, download_directory, conversion=conversion,
+                                delete_files=delete_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)
@@ -85,4 +90,14 @@ class OmgBeauPeep(object):
             # Dirty Hack, 'cause I'm a HackerMan! (Dumb Joke)
             new_url = str(manga_url).replace(str(chapter_number), str(comic_chapter))
             self.single_chapter(new_url, self.comic_name, download_directory, conversion=conversion,
+                                delete_files=delete_files)
+
+    def full_series(self, manga_url, comic_name, download_directory, conversion, delete_files):
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
+        chapters = source.findAll('select', {'name': 'chapter'})[0]
+        for option in chapters.findAll('option'):
+            if self.print_index:
+                print '{}: {}'.format(option['value'], option.text)
+            else:
+                self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)

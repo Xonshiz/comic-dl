@@ -87,7 +87,7 @@ class AcQq(object):
         return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
-        chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
+        chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)  # TODO fix, broken
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
         content_json = json.loads(str(source))
         logging.debug("content_json : %s" % content_json)
