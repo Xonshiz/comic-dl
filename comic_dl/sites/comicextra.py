@@ -16,6 +16,7 @@ class ComicExtra(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         # self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         if "/comic/" not in manga_url:
             # http://www.comicextra.com/captain-marvel-2016/chapter-10
@@ -104,6 +105,13 @@ class ComicExtra(object):
             print("Couldn't Find the chapter list")
             return 1
         # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
+
+        if self.print_index:
+            idx = all_links.__len__()
+            for chap_link in all_links:
+                print str(idx) + ": " + chap_link
+                idx = idx - 1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

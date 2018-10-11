@@ -14,6 +14,7 @@ class ReadComicsWebsite():
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         if len(str(manga_url).split("/")) == 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name,
@@ -86,7 +87,14 @@ class ReadComicsWebsite():
         if not all_links:
             print("Couldn't Find the chapter list")
             return 1
-        all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
+        all_links.pop(0)  # Because this website lists the next chapter, which is NOT available.
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + chap_link
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

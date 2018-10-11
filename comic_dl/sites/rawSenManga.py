@@ -16,8 +16,9 @@ class RawSenaManga(object):
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
         url_split = str(manga_url).split("/")
+        self.print_index = kwargs.get("print_index")
 
-        if len(url_split) is 5:
+        if len(url_split) < 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
                              delete_files=delete_files)
@@ -81,7 +82,7 @@ class RawSenaManga(object):
         series_name_raw = str(comic_url).split("/")[3].strip()
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         # a href="/Flying-Witch-Ishizuka-Chihiro/34/1"
-        link_regex = "<td><a href=\"/" + str(series_name_raw) + "/(.*?)\""
+        link_regex = "<a href=\".*/" + str(series_name_raw) + "/(.*?)\""
 
         all_links = list(re.findall(link_regex, str(source)))
         logging.debug("All Links : %s" % all_links)
@@ -102,6 +103,16 @@ class RawSenaManga(object):
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            link_regex = "<a href=\".*/" + str(series_name_raw) + "/.*>(.*)</a>"
+            # "<a href="https://raw.senmanga.com/Tokyo-Ghoul:RE/10/1" title="Chapter 10 - Raw">Chapter 10 - Raw</a>"
+            all_links = list(re.findall(link_regex, str(source)))
+            idx = all_links.__len__()
+            for link in all_links:
+                print str(idx) + ": " + link
+                idx = idx - 1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for link in all_links:

@@ -18,6 +18,7 @@ class MangaFox(object):
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
         url_split = str(manga_url).split("/")
+        self.print_index = kwargs.get("print_index")
 
         if len(url_split) is 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
@@ -91,7 +92,7 @@ class MangaFox(object):
 
         # all_links = re.findall(r"href=\"(.*?)\" title=\"Thanks for", str(source))
         all_links_temp = re.findall(r"<link/>(.*?).html", str(source))
-        all_links = ["http:" + str(link) + ".html" for link in all_links_temp]
+        all_links = ["http:" + str(chap_link) + ".html" for chap_link in all_links_temp]
 
         logging.debug("All Links : %s" % all_links)
 
@@ -111,6 +112,13 @@ class MangaFox(object):
             all_links = [all_links[len(all_links) - 1 - x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = all_links.__len__()
+            for chap_link in all_links:
+                print str(idx) + ": " + str(chap_link)
+                idx = idx - 1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

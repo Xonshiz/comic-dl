@@ -14,6 +14,7 @@ class ReadComicsIO():
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         if "/comic/" in manga_url:
             # https://readcomics.io/the-walking-dead/chapter-178/full
@@ -91,6 +92,13 @@ class ReadComicsIO():
             print("Couldn't Find the chapter list")
             return 1
         # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + str(chap_link)
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

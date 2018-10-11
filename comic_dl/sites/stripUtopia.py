@@ -11,6 +11,7 @@ class StripUtopia(object):
         delete_files = kwargs.get("delete_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
+        self.print_index = kwargs.get("print_index")
 
         page_souce, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
         self.comic_name = self.name_cleaner(page_souce, manga_url)
@@ -84,6 +85,14 @@ class StripUtopia(object):
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             pass
+
+        if self.print_index:
+            idx = 0
+            all_chapters = re.findall(r'http://striputopija.blogspot.rs/\d+/\d+/.+.html.+>(.+)</a>', str(source))
+            for chap_link in all_chapters:
+                idx = idx + 1
+                print str(idx) + ": " + str(chap_link)
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

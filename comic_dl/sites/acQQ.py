@@ -20,6 +20,8 @@ class AcQq(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")  # TODO broken?
+
         if "/index/" in str(manga_url):
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
                                 delete_files=delete_files)
@@ -117,6 +119,13 @@ class AcQq(object):
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + str(chap_link)
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

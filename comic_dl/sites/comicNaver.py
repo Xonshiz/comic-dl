@@ -16,6 +16,7 @@ class ComicNaver(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
         if "list.nhn" in manga_url:
             self.full_series(manga_url, self.comic_name, self.sorting, download_directory, chapter_range=chapter_range,
                              conversion=conversion, delete_files=delete_files)
@@ -95,6 +96,14 @@ class ComicNaver(object):
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + chap_link
+            return
+
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,

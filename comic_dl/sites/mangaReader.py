@@ -15,6 +15,7 @@ class MangaReader():
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         """The URLs don't have any keyword that distinguish the URL from being a "Chapter" or "All Chapter" page.
         So, we're going to break the url down and see if the "4th" character after "/".split() is NONE or not.
@@ -127,6 +128,13 @@ class MangaReader():
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + chap_link
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

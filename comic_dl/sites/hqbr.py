@@ -16,6 +16,7 @@ class Hqbr(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         if "/hqs/" in manga_url:
             # https://hqbr.com.br/hqs/Aves%20de%20Rapina%20(1999)/capitulo/126/leitor/0#1
@@ -90,6 +91,13 @@ class Hqbr(object):
             print("Couldn't Find the chapter list")
             return 1
         # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
+
+        if self.print_index:
+            idx = all_links.__len__()
+            for chap_link in all_links:
+                print str(idx) + ": " + chap_link
+                idx = idx -1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

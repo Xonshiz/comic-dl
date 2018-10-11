@@ -16,6 +16,7 @@ class OmgBeauPeep(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         # Since this website doesn't seem to have a dedicated page for series, I need to make a function just for the sake of range, huh. *sigh*
         # You need to pass the ABSOLUTE chapter number for this website though. Otherwise, it'll generate wrong links to chapter and won't download anything.
@@ -44,6 +45,11 @@ class OmgBeauPeep(object):
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
         # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
+
+        if self.print_index:
+            for x in xrange(1, last_page_number + 1):
+                print str(x) + ": " + str(comic_url) + "/" + str(x)
+            return
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)

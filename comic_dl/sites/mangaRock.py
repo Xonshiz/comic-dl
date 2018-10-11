@@ -16,6 +16,7 @@ class MangaRock():
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.manga_url = manga_url
+        self.print_index = kwargs.get("print_index")
 
         if len(str(manga_url).split("/")) is 5:
             self.comic_id = str(str(manga_url).split("/")[-1])
@@ -27,7 +28,6 @@ class MangaRock():
             self.comic_name, self.chapter_number = self.name_cleaner(url=manga_url, chapter_id=self.chapter_id)
             self.single_chapter(chapter_id=self.chapter_id, comic_name=self.comic_name, chapter_number=self.chapter_number,
                                 download_directory=download_directory, conversion=conversion, delete_files=delete_files)
-
 
     def name_cleaner(self, url, chapter_id):
         print("Fetching The Chapter Data...")
@@ -124,6 +124,12 @@ class MangaRock():
         else:
             for chapter in json_parse["data"]["chapters"]:
                 chapters_dict[str(chapter["oid"])] = re.sub('[^A-Za-z0-9.\-\+\' ]+', '', chapter["name"].replace(":", " -"))
+
+        if self.print_index:
+            chapters_ = json_parse["data"]["chapters"]
+            for chapter in chapters_:
+                print str(chapter["order"] + 1) + ": " + chapter["name"].encode('utf-8')
+            return
 
         for single_chapter in chapters_dict:
             self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,

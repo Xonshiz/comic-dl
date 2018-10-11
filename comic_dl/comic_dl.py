@@ -43,7 +43,10 @@ class ComicDL(object):
         parser.add_argument('--quality', nargs=1,
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
-        parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
+        parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to comic.')
+
+        parser.add_argument('--print-index', action='store_true',
+                            help='prints the range index for links in the input URL')
 
         parser.add_argument('-find', '--search', nargs=1, help='Searches for a manga through the Manga Eden Database.')
 
@@ -207,6 +210,9 @@ class ComicDL(object):
                 print("I need an Input URL to download from.")
                 print("Run the script with --help to see more information.")
         else:
+            print_index = False
+            if args.print_index:
+                print_index = True
             if not args.sorting:
                 args.sorting = ["ascending"]
             if not args.download_directory:
@@ -228,7 +234,7 @@ class ComicDL(object):
                                     chapter_range=args.range, conversion=args.convert[0],
                                     delete_files=args.keep[0], image_quality=args.quality[0],
                                     username=args.username[0], password=args.password[0],
-                                    comic_language=args.manga_language[0])
+                                    comic_language=args.manga_language[0], print_index=print_index)
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)

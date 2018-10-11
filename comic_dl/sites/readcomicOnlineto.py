@@ -5,7 +5,6 @@ import globalFunctions
 import re
 import os
 import logging
-from bs4 import BeautifulSoup
 
 
 class ReadComicOnlineTo(object):
@@ -18,6 +17,7 @@ class ReadComicOnlineTo(object):
         self.sorting = kwargs.get("sorting_order")
         self.image_quality = kwargs.get("image_quality")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         url_split = str(manga_url).split("/")
 
@@ -127,6 +127,13 @@ class ReadComicOnlineTo(object):
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = 0
+            for chap_link in all_links:
+                idx = idx + 1
+                print str(idx) + ": " + chap_link
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

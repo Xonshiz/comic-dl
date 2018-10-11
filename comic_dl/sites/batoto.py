@@ -20,6 +20,7 @@ class Batoto:
         delete_files = kwargs.get("delete_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
+        self.print_index = kwargs.get("print_index")
 
         if "/reader#" in  str(manga_url):
             self.single_chapter(comic_url=manga_url, download_directory=download_directory, conversion=conversion,
@@ -193,6 +194,13 @@ class Batoto:
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
+
+        if self.print_index:
+            idx = all_links.__len__()
+            for chap_link in all_links:
+                print str(idx) + ": " + chap_link
+                idx = idx - 1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:

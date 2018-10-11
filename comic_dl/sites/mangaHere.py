@@ -16,10 +16,11 @@ class MangaHere(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         url_split = str(manga_url).split("/")
 
-        if len(url_split) is 6:
+        if len(url_split) is 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
                              delete_files=delete_files)
@@ -128,6 +129,13 @@ class MangaHere(object):
             chapter_links = [chapter_links[x] for x in indexes][::-1]
         else:
             chapter_links = chapter_links
+
+        if self.print_index:
+            idx = chapter_links.__len__()
+            for chap_link in chapter_links:
+                print str(idx) + ": " + str(chap_link)
+                idx = idx - 1
+            return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in chapter_links:
