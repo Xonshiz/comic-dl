@@ -7,6 +7,8 @@ import re
 import os
 import glob
 
+from PIL import Image
+
 
 class MangaRock():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -28,7 +30,6 @@ class MangaRock():
             self.single_chapter(chapter_id=self.chapter_id, comic_name=self.comic_name, chapter_number=self.chapter_number,
                                 download_directory=download_directory, conversion=conversion, delete_files=delete_files)
 
-
     def name_cleaner(self, url, chapter_id):
         print("Fetching The Chapter Data...")
         info_json_url = "https://api.mangarockhd.com/query/web400/info?oid=" + str(str(url).split("/")[4])
@@ -47,7 +48,8 @@ class MangaRock():
                 pass
         return comic_name, re.sub('[^A-Za-z0-9.\-\+\' ]+', '', chapter_number_value.replace(":", " -"))
 
-    def file_decryption(self, path_to_files):
+    @staticmethod
+    def file_decryption(path_to_files, conversion):
         """
         A REALLY BIG THANKS TO 'dradzenglor' for decrypting the files! Amazing work!
         Follow The Thread On Reddit : https://www.reddit.com/r/codes/comments/7mdx70/need_help_decrypting_this_string/
@@ -61,10 +63,21 @@ class MangaRock():
 
             data = map(lambda x: ord(x) ^ 101, data)
 
-            open(str(mri_file).replace(".mri", ".jpg"), 'wb').write(''.join(map(chr, header + data)))
+            webp_file = str(mri_file).replace(".mri", ".webp")
+            open(webp_file, 'wb').write(''.join(map(chr, header + data)))
 
             # Let's delete the .mri file
             os.remove(mri_file)
+
+            # if a conversion is asked, convert to jpg,
+            # it will be needed in order to use method comic_dl.globalFunctions.GlobalFunctions#conversion
+            # will also work with --convert jpg
+            jpg_file = str(mri_file).replace(".mri", ".jpg")
+            if str(conversion) != "None":
+                im = Image.open(webp_file)
+                rgb_im = im.convert("RGB")
+                rgb_im.save(jpg_file)
+                os.remove(webp_file)
 
     def single_chapter(self, chapter_id, comic_name, chapter_number, download_directory, conversion, delete_files):
         image_api_link = "https://api.mangarockhd.com/query/web400/pages?oid=" + str(chapter_id)
@@ -92,7 +105,7 @@ class MangaRock():
                                                                file_names, links, self.logging)
             
         print("Decrypting Files...")
-        self.file_decryption(path_to_files=directory_path) # Calling the method that does the magic!
+        self.file_decryption(path_to_files=directory_path, conversion=conversion) # Calling the method that does the magic!
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)

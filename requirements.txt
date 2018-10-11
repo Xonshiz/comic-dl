@@ -1,3 +1,4 @@
+Pillow
 tqdm
 bs4
 requests
