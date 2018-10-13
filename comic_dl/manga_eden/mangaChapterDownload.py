@@ -17,7 +17,7 @@ class MangaChapterDownload():
 
         self.logging = kwargs.get("log_flag")
         self.conversion = kwargs.get("conversion")
-        self.delete_files = kwargs.get("delete_files")
+        self.keep_files = kwargs.get("keep_files")
 
         self.json_content = self.json_download(page_id=self.page_id)
         self.image_links = self.link_lookup(json_source=self.json_content)
@@ -51,7 +51,7 @@ class MangaChapterDownload():
         globalFunctions.GlobalFunctions().multithread_download(self.chapter_number, self.manga_name, None, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.delete_files,
+        globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.keep_files,
                                                      self.manga_name, self.chapter_number)
 
 

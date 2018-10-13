@@ -11,7 +11,7 @@ class MangaReader():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
@@ -46,15 +46,15 @@ class MangaReader():
             # There's no "chapter number", hence, this is the listing page with all the chapters listed.
             self.full_series(comic_url=manga_url, comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
-                             conversion=conversion, delete_files=delete_files)
+                             conversion=conversion, keep_files=keep_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
     def name_cleaner(self, url):
         return str(str(url).split("/")[3].strip().replace("-", " ").title())
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = int(str(comic_url).split("/")[4])
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
@@ -93,7 +93,7 @@ class MangaReader():
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files,
                                                      comic_name, chapter_number)
 
     def link_builder(self, link):
@@ -101,7 +101,7 @@ class MangaReader():
 
         return str(link).replace("-{0}.".format(file_name), "-" + str(int(file_name) + 6) + ".")
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         all_links = []
 
@@ -139,7 +139,7 @@ class MangaReader():
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -147,7 +147,7 @@ class MangaReader():
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

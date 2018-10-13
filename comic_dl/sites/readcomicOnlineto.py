@@ -12,7 +12,7 @@ class ReadComicOnlineTo(object):
 
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.image_quality = kwargs.get("image_quality")
@@ -25,7 +25,7 @@ class ReadComicOnlineTo(object):
             # Removing "6" from here, because it caused #47
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
-                             conversion=conversion, delete_files=delete_files)
+                             conversion=conversion, keep_files=keep_files)
         else:
             if "&readType=0" in manga_url:
                 manga_url = str(manga_url).replace("&readType=0", "&readType=1")  # All Images in one page!
@@ -33,9 +33,9 @@ class ReadComicOnlineTo(object):
             # elif "&readType=1" not in manga_url:
             #     manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         # print("Received Comic Url : {0}".format(comic_url))
         print("Fooling CloudFlare...Please Wait...")
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
@@ -75,7 +75,7 @@ class ReadComicOnlineTo(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
             
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
@@ -87,7 +87,7 @@ class ReadComicOnlineTo(object):
 
         return manga_name
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         print("Fooling CloudFlare...Please Wait...")
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
 
@@ -139,7 +139,7 @@ class ReadComicOnlineTo(object):
             for chap_link in all_links:
                 chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -148,7 +148,7 @@ class ReadComicOnlineTo(object):
             for chap_link in all_links[::-1]:
                 chap_link = "http://readcomiconline.to" + chap_link
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

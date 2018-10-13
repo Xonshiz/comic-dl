@@ -17,17 +17,17 @@ class Batoto:
         comic_language = kwargs.get("comic_language")
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.print_index = kwargs.get("print_index")
 
         if "/reader#" in  str(manga_url):
             self.single_chapter(comic_url=manga_url, download_directory=download_directory, conversion=conversion,
-                                delete_files=delete_files, user_name=user_name, user_password=password)
+                                keep_files=keep_files, user_name=user_name, user_password=password)
         else:
             self.full_series(comic_url=manga_url, sorting=self.sorting, download_directory=download_directory,
-                             chapter_range=chapter_range, conversion=conversion, delete_files=delete_files,
+                             chapter_range=chapter_range, conversion=conversion, keep_files=keep_files,
                              user_name=user_name, user_password=password, manga_language=comic_language)
 
     def user_login(self, username, password, **kwargs):
@@ -79,7 +79,7 @@ class Batoto:
     def name_cleaner(self, scrapped_name):
         return re.sub('[^A-Za-z0-9.\-\+\' ]+', '', ' '.join([str(word).strip().title() for word in str(scrapped_name).split("-")[:-1]]))
 
-    def single_chapter(self, comic_url, download_directory, conversion, delete_files, comic_name=None, user_name=None,
+    def single_chapter(self, comic_url, download_directory, conversion, keep_files, comic_name=None, user_name=None,
                        user_password=None, **kwargs):
         chapter_id = str(str(comic_url).split("#")[-1]).replace("/", "")
         temp_cookies = kwargs.get("session_cookies")
@@ -142,10 +142,10 @@ class Batoto:
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files,
                                                      comic_name, chapter_number)
 
-    def full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, delete_files,
+    def full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files,
                     user_name=None, user_password=None, **kwargs):
         all_links = []
         session_cookie = None
@@ -205,7 +205,7 @@ class Batoto:
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files, session_cookies=session_cookie)
+                                    keep_files=keep_files, session_cookies=session_cookie)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -213,7 +213,7 @@ class Batoto:
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files, session_cookies=session_cookie)
+                                    keep_files=keep_files, session_cookies=session_cookie)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

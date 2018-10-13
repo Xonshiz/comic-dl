@@ -12,7 +12,7 @@ class MangaRock():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.manga_url = manga_url
@@ -22,12 +22,12 @@ class MangaRock():
             self.comic_id = str(str(manga_url).split("/")[-1])
             self.full_series(comic_id=self.comic_id, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                             delete_files=delete_files)
+                             keep_files=keep_files)
         else:
             self.chapter_id = str(str(manga_url).split("/")[-1])
             self.comic_name, self.chapter_number = self.name_cleaner(url=manga_url, chapter_id=self.chapter_id)
             self.single_chapter(chapter_id=self.chapter_id, comic_name=self.comic_name, chapter_number=self.chapter_number,
-                                download_directory=download_directory, conversion=conversion, delete_files=delete_files)
+                                download_directory=download_directory, conversion=conversion, keep_files=keep_files)
 
     def name_cleaner(self, url, chapter_id):
         print("Fetching The Chapter Data...")
@@ -66,7 +66,7 @@ class MangaRock():
             # Let's delete the .mri file
             os.remove(mri_file)
 
-    def single_chapter(self, chapter_id, comic_name, chapter_number, download_directory, conversion, delete_files):
+    def single_chapter(self, chapter_id, comic_name, chapter_number, download_directory, conversion, keep_files):
         image_api_link = "https://api.mangarockhd.com/query/web400/pages?oid=" + str(chapter_id)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=image_api_link)
         json_parse = json.loads(str(source))
@@ -94,12 +94,12 @@ class MangaRock():
         print("Decrypting Files...")
         self.file_decryption(path_to_files=directory_path) # Calling the method that does the magic!
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
 
-    def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, keep_files):
         chapters_dict = {}
         api_url = "https://api.mangarockhd.com/query/web400/info?oid=" + str(comic_id)
 
@@ -135,7 +135,7 @@ class MangaRock():
             self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,
                                 chapter_number=str(chapters_dict[single_chapter]).strip().title(),
                                 download_directory=download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 

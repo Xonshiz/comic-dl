@@ -12,7 +12,7 @@ class Hqbr(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
@@ -21,18 +21,18 @@ class Hqbr(object):
         if "/hqs/" in manga_url:
             # https://hqbr.com.br/hqs/Aves%20de%20Rapina%20(1999)/capitulo/126/leitor/0#1
             self.single_chapter(manga_url, self.comic_name, download_directory,
-                                conversion=conversion, delete_files=delete_files)
+                                conversion=conversion, keep_files=keep_files)
         else:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
-                             conversion=conversion, delete_files=delete_files)
+                             conversion=conversion, keep_files=keep_files)
 
     def name_cleaner(self, url):
         manga_name = re.sub(r"[0-9][a-z][A-Z]\ ", "", str(url).split("/")[4].split("?")[0].replace("%20", " ").title())
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = int(str(comic_url).split("/")[6].strip())
         # print(chapter_number)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -58,12 +58,12 @@ class Hqbr(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
             
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         all_links = []
         chap_holder_div = source.find_all('table', {'class': 'table table-hover'})
@@ -104,7 +104,7 @@ class Hqbr(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
-                                        conversion=conversion, delete_files=delete_files)
+                                        conversion=conversion, keep_files=keep_files)
                     # if chapter range contains "__EnD__" write new value to config.json
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -116,7 +116,7 @@ class Hqbr(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
-                                        conversion=conversion, delete_files=delete_files)
+                                        conversion=conversion, keep_files=keep_files)
                     # if chapter range contains "__EnD__" write new value to config.json
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)

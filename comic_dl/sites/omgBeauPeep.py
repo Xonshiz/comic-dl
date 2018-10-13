@@ -12,7 +12,7 @@ class OmgBeauPeep(object):
 
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
@@ -25,13 +25,13 @@ class OmgBeauPeep(object):
         # Please spare me such hard work.
         if chapter_range != "All":
             self.range_maker(manga_url=manga_url, chapter_range=chapter_range, download_directory=download_directory,
-                             conversion=conversion, delete_files=delete_files)
+                             conversion=conversion, keep_files=keep_files)
         elif len(splitter) <= 5:
             self.full_series(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
     def name_cleaner(self, url):
         initial_name = str(url).split("/")[4].strip()
@@ -40,7 +40,7 @@ class OmgBeauPeep(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = str(comic_url).split("/")[5].strip()
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -80,12 +80,12 @@ class OmgBeauPeep(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
 
-    def range_maker(self, manga_url, chapter_range, download_directory, conversion, delete_files):
+    def range_maker(self, manga_url, chapter_range, download_directory, conversion, keep_files):
         starting = int(str(chapter_range).split("-")[0])
         ending = int(str(chapter_range).split("-")[1])
         for comic_chapter in range(starting, ending):
@@ -93,9 +93,9 @@ class OmgBeauPeep(object):
             # Dirty Hack, 'cause I'm a HackerMan! (Dumb Joke)
             new_url = str(manga_url).replace(str(chapter_number), str(comic_chapter))
             self.single_chapter(new_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
-    def full_series(self, manga_url, comic_name, download_directory, conversion, delete_files):
+    def full_series(self, manga_url, comic_name, download_directory, conversion, keep_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
         chapters = source.findAll('select', {'name': 'chapter'})[0]
         bypass_first = "otakusmash" in manga_url
@@ -107,4 +107,4 @@ class OmgBeauPeep(object):
                     bypass_first = False
                     continue
                 self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)

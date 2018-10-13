@@ -101,11 +101,7 @@ class GlobalFunctions(object):
 
         pbar.update()
 
-    def conversion(self, directory_path, conversion, delete_files, comic_name, chapter_number):
-        # Because I named the variables terribly wrong and I'm too lazy to fix shit everywhere.
-        # So, let's do this -_-
-        keep_files = delete_files
-
+    def conversion(self, directory_path, conversion, keep_files, comic_name, chapter_number):
         main_directory = str(directory_path).split(os.sep)
         main_directory.pop()
         converted_file_directory = str(os.sep.join(main_directory)) + os.sep

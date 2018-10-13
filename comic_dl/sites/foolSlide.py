@@ -13,7 +13,7 @@ class FoolSlide(object):
 
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
 
@@ -22,12 +22,12 @@ class FoolSlide(object):
         if "/reader/series/" in manga_url:
             self.full_manga(manga_url=manga_url, comic_name=self.manga_name, sorting=self.sorting,
                             download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                            delete_files=delete_files)
+                            keep_files=keep_files)
         elif "/reader/read/" in manga_url:
             self.single_chapter(manga_url, self.manga_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
-    def single_chapter(self, chapter_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, chapter_url, comic_name, download_directory, conversion, keep_files):
 
         chapter_number = str(chapter_url).split("/")[8].strip()
 
@@ -59,7 +59,7 @@ class FoolSlide(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_name, directory_path,
                                                                file_names, links, self.logging)
             
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
@@ -85,7 +85,7 @@ class FoolSlide(object):
 
         return anime_name
 
-    def full_manga(self, manga_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_manga(self, manga_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
         # print(source)
         chapter_text = source.findAll('div', {'class': 'title'})
@@ -118,7 +118,7 @@ class FoolSlide(object):
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 self.single_chapter(chapter_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
@@ -126,7 +126,7 @@ class FoolSlide(object):
             # print("Running this")
             for chap_link in all_links[::-1]:
                 self.single_chapter(chapter_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
