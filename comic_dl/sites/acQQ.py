@@ -20,7 +20,7 @@ class AcQq(object):
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
-        self.print_index = kwargs.get("print_index")  # TODO broken?
+        self.print_index = kwargs.get("print_index")
 
         if "/index/" in str(manga_url):
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
@@ -87,7 +87,8 @@ class AcQq(object):
         return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
-        chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)  # TODO fix, broken
+        # TODO fix, broken, doesn't return a json anymore
+        chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
         content_json = json.loads(str(source))
         logging.debug("content_json : %s" % content_json)
