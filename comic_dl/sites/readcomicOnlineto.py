@@ -6,7 +6,7 @@ import re
 import os
 import logging
 from bs4 import BeautifulSoup
-
+from datetime import datetime
 
 class ReadComicOnlineTo(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
@@ -66,7 +66,7 @@ class ReadComicOnlineTo(object):
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 image_link = image_link.replace("=s0", "=s1600").replace("/s0", "/s1600")
-                
+
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
 
@@ -75,7 +75,7 @@ class ReadComicOnlineTo(object):
 
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
-            
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
                                                      chapter_number)
 
@@ -98,16 +98,25 @@ class ReadComicOnlineTo(object):
         # print(listing_table)
 
         for elements in listing_table:
-            x = elements.findAll('a')
-            for a in x:
-                all_links.append(str(a['href']).strip())
+            x = elements.findAll('tr')
+            unorderer = []
+            for row in x:
+                colums = row.findAll('td')
+                if len(colums) == 0:
+                    continue
+                unorderer.append({
+                    "date": str(colums[1].contents[0]).strip(),
+                    "link": str(colums[0].find('a')['href']).strip()
+                })
+            # order links by date, in reverse order because of readcomiconline logic
+            unorderer.sort(key=lambda x: datetime.strptime(x['date'], '%m/%d/%Y'), reverse=True)
+
+            all_links = map(lambda x: x['link'], unorderer)
 
         """Readcomiconline.to shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
            the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
            This is a fix for issues like #74.
         """
-        all_links.reverse()
-
         # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
