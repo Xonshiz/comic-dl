@@ -108,15 +108,11 @@ class ReadComicOnlineTo(object):
                     "date": str(colums[1].contents[0]).strip(),
                     "link": str(colums[0].find('a')['href']).strip()
                 })
-            # order links by date, in reverse order because of readcomiconline logic
+            # order links by date
             unorderer.sort(key=lambda x: datetime.strptime(x['date'], '%m/%d/%Y'))
 
             all_links = map(lambda x: x['link'], unorderer)
 
-        """Readcomiconline.to shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
-           the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
-           This is a fix for issues like #74.
-        """
         # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
