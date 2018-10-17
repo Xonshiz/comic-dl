@@ -12,22 +12,23 @@ class MangaHere(object):
 
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
+        self.print_index = kwargs.get("print_index")
 
         url_split = str(manga_url).split("/")
 
-        if len(url_split) is 6:
+        if len(url_split) is 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                             delete_files=delete_files)
+                             keep_files=keep_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         # Some chapters have integer values and some have decimal values. We will look for decimal first.
         try:
             chapter_number = re.search(r"c(\d+\.\d+)", str(comic_url)).group(1)
@@ -85,7 +86,7 @@ class MangaHere(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
@@ -97,7 +98,7 @@ class MangaHere(object):
 
         return anime_name
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         all_links = re.findall(r"class=\"color_0077\" href=\"(.*?)\"", str(source))
@@ -129,11 +130,18 @@ class MangaHere(object):
         else:
             chapter_links = chapter_links
 
+        if self.print_index:
+            idx = chapter_links.__len__()
+            for chap_link in chapter_links:
+                print str(idx) + ": " + str(chap_link)
+                idx = idx - 1
+            return
+
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in chapter_links:
                 self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files)
+                                    keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -142,7 +150,7 @@ class MangaHere(object):
             for chap_link in chapter_links[::-1]:
                 self.single_chapter(comic_url=str(chap_link), comic_name=comic_name,
                                     download_directory=download_directory, conversion=conversion,
-                                    delete_files=delete_files)
+                                    keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

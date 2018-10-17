@@ -18,3 +18,4 @@
 * [hqbr.com.br](https://hqbr.com.br/home)
 * [comicextra.com](http://www.comicextra.com)
 * [readcomics.io](https://www.readcomics.io/)
+* [otakusmash.com](http://www.otakusmash.com/)

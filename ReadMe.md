@@ -178,6 +178,7 @@ Currently, the script supports these arguments :
 ```
 -h, --help                             Prints the basic help menu of the script and exits.
 -i,--input                             Defines the input link to the comic/manga.
+--print-index                          Prints the range index for links in the input URL
 -V,--version                           Prints the VERSION and exits.
 -u,--username                          Indicates username for a website.
 -p,--password                          Indicates password for a website.

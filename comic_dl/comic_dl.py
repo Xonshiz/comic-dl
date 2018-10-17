@@ -43,7 +43,10 @@ class ComicDL(object):
         parser.add_argument('--quality', nargs=1,
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
-        parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to anime.')
+        parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to comic.')
+
+        parser.add_argument('--print-index', action='store_true',
+                            help='prints the range index for links in the input URL')
 
         parser.add_argument('-find', '--search', nargs=1, help='Searches for a manga through the Manga Eden Database.')
 
@@ -134,7 +137,7 @@ class ComicDL(object):
             start_time = time.time()
 
             mangaChapters.MangaChapters(chapter_id=args.chapter_id[0], download_directory=args.download_directory[0],
-                                        conversion=args.convert[0], delete_files=args.keep[0],
+                                        conversion=args.convert[0], keep_files=args.keep[0],
                                         chapter_range=args.range, sorting_order=args.sorting[0],
                                         force_download=force_download)
 
@@ -156,7 +159,7 @@ class ComicDL(object):
             mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
                                                       download_directory=args.download_directory[0],
                                                       log_flag=logger, conversion=args.convert[0],
-                                                      delete_files=args.keep[0])
+                                                      keep_files=args.keep[0])
 
             end_time = time.time()
             total_time = end_time - start_time
@@ -173,7 +176,7 @@ class ComicDL(object):
             sorting_order = data["sorting_order"]
             download_directory = data["download_directory"]
             conversion = data["conversion"]
-            delete_files = data["keep"]
+            keep_files = data["keep"]
             image_quality = data["image_quality"]
             pbar_comic = tqdm(data["comics"], dynamic_ncols=True, desc="[Comic-dl] Auto processing", leave=True,
                               unit='comic')
@@ -187,7 +190,7 @@ class ComicDL(object):
                                             sorting_order=sorting_order, logger=logger,
                                             download_directory=download_directory,
                                             chapter_range=download_range, conversion=conversion,
-                                            delete_files=delete_files, image_quality=image_quality,
+                                            keep_files=keep_files, image_quality=image_quality,
                                             username=el["username"], password=el["password"],
                                             comic_language=el["comic_language"])
                 except Exception as ex:
@@ -207,6 +210,9 @@ class ComicDL(object):
                 print("I need an Input URL to download from.")
                 print("Run the script with --help to see more information.")
         else:
+            print_index = False
+            if args.print_index:
+                print_index = True
             if not args.sorting:
                 args.sorting = ["ascending"]
             if not args.download_directory:
@@ -226,9 +232,9 @@ class ComicDL(object):
                                     sorting_order=args.sorting[0], logger=logger,
                                     download_directory=args.download_directory[0],
                                     chapter_range=args.range, conversion=args.convert[0],
-                                    delete_files=args.keep[0], image_quality=args.quality[0],
+                                    keep_files=args.keep[0], image_quality=args.quality[0],
                                     username=args.username[0], password=args.password[0],
-                                    comic_language=args.manga_language[0])
+                                    comic_language=args.manga_language[0], print_index=print_index)
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)

@@ -11,19 +11,20 @@ class RawSenaManga(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
-        delete_files = kwargs.get("delete_files")
+        keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = self.name_cleaner(manga_url)
         url_split = str(manga_url).split("/")
+        self.print_index = kwargs.get("print_index")
 
-        if len(url_split) is 5:
+        if len(url_split) < 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                             delete_files=delete_files)
+                             keep_files=keep_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                delete_files=delete_files)
+                                keep_files=keep_files)
 
     def name_cleaner(self, url):
         initial_name = str(url).split("/")[3].strip()
@@ -32,7 +33,7 @@ class RawSenaManga(object):
 
         return manga_name
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, delete_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = str(comic_url).split("/")[4].strip()
 
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -72,16 +73,16 @@ class RawSenaManga(object):
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, delete_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
         return 0
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, delete_files):
+    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         series_name_raw = str(comic_url).split("/")[3].strip()
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         # a href="/Flying-Witch-Ishizuka-Chihiro/34/1"
-        link_regex = "<td><a href=\"/" + str(series_name_raw) + "/(.*?)\""
+        link_regex = "<a href=\".*/" + str(series_name_raw) + "/(.*?)\""
 
         all_links = list(re.findall(link_regex, str(source)))
         logging.debug("All Links : %s" % all_links)
@@ -103,12 +104,22 @@ class RawSenaManga(object):
         else:
             all_links = all_links
 
+        if self.print_index:
+            link_regex = "<a href=\".*/" + str(series_name_raw) + "/.*>(.*)</a>"
+            # "<a href="https://raw.senmanga.com/Tokyo-Ghoul:RE/10/1" title="Chapter 10 - Raw">Chapter 10 - Raw</a>"
+            all_links = list(re.findall(link_regex, str(source)))
+            idx = len(all_links)
+            for link in all_links:
+                print str(idx) + ": " + link
+                idx = idx - 1
+            return
+
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for link in all_links:
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -118,7 +129,7 @@ class RawSenaManga(object):
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
                 self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, delete_files=delete_files)
+                                    conversion=conversion, keep_files=keep_files)
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
