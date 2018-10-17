@@ -109,7 +109,7 @@ class ReadComicOnlineTo(object):
                     "link": str(colums[0].find('a')['href']).strip()
                 })
             # order links by date, in reverse order because of readcomiconline logic
-            unorderer.sort(key=lambda x: datetime.strptime(x['date'], '%m/%d/%Y'), reverse=True)
+            unorderer.sort(key=lambda x: datetime.strptime(x['date'], '%m/%d/%Y'))
 
             all_links = map(lambda x: x['link'], unorderer)
 
