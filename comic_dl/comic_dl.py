@@ -141,7 +141,7 @@ class ComicDL(object):
             end_time = time.time()
             total_time = end_time - start_time
 
-            print("Total Time Taken To Search : %s" % total_time)
+            print("Total Time Taken To Search (In Seconds) : %s" % total_time)
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
 
@@ -161,7 +161,7 @@ class ComicDL(object):
             end_time = time.time()
             total_time = end_time - start_time
 
-            print("Total Time Taken To Download : %s" % total_time)
+            print("Total Time Taken To Download  (In Seconds) : %s" % total_time)
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
 
