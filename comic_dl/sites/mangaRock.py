@@ -132,10 +132,13 @@ class MangaRock():
             return
 
         for single_chapter in chapters_dict:
-            self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,
-                                chapter_number=str(chapters_dict[single_chapter]).strip().title(),
-                                download_directory=download_directory, conversion=conversion,
-                                keep_files=keep_files)
+            try:
+                self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,
+                                    chapter_number=str(chapters_dict[single_chapter]).strip().title(),
+                                    download_directory=download_directory, conversion=conversion,
+                                    keep_files=keep_files)
+            except Exception as ex:
+                break  # break to continue processing other mangas
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 

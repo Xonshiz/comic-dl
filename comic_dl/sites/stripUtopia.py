@@ -98,9 +98,13 @@ class StripUtopia(object):
             for chap_link in all_links:
                 page_souce, cookies_main = globalFunctions.GlobalFunctions().page_downloader(
                     manga_url=chap_link + ".html")
-                self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
-                                    download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -109,9 +113,13 @@ class StripUtopia(object):
             for chap_link in all_links[::-1]:
                 page_souce, cookies_main = globalFunctions.GlobalFunctions().page_downloader(
                     manga_url=chap_link + ".html")
-                self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
-                                    download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(source=page_souce, comic_url=chap_link + ".html", comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

@@ -204,16 +204,24 @@ class Batoto:
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
-                                    keep_files=keep_files, session_cookies=session_cookie)
+                try:
+                    self.single_chapter(comic_url=chap_link, download_directory=download_directory,
+                                        conversion=conversion,
+                                        keep_files=keep_files, session_cookies=session_cookie)
+                except Exception as ex:
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                self.single_chapter(comic_url=chap_link, download_directory=download_directory, conversion=conversion,
-                                    keep_files=keep_files, session_cookies=session_cookie)
+                try:
+                    self.single_chapter(comic_url=chap_link, download_directory=download_directory,
+                                        conversion=conversion,
+                                        keep_files=keep_files, session_cookies=session_cookie)
+                except Exception as ex:
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

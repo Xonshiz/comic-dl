@@ -119,11 +119,12 @@ class ComicExtra(object):
                 try:
                     self.single_chapter(comic_url=chap_link, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
-                    # if chapter range contains "__EnD__" write new value to config.json
-                    if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
-                        globalFunctions.GlobalFunctions().addOne(comic_url)
-                except Exception as e:
-                    pass
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
@@ -131,10 +132,11 @@ class ComicExtra(object):
                 try:
                     self.single_chapter(comic_url=chap_link, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
-                    # if chapter range contains "__EnD__" write new value to config.json
-                    if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
-                        globalFunctions.GlobalFunctions().addOne(comic_url)
-                except Exception as e:
-                    pass
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
+                # if chapter range contains "__EnD__" write new value to config.json
+                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+                    globalFunctions.GlobalFunctions().addOne(comic_url)
 
         return 0
