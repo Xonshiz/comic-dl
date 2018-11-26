@@ -95,7 +95,7 @@ class Hqbr(object):
         if self.print_index:
             idx = len(all_links)
             for chap_link in all_links:
-                print str(idx) + ": " + chap_link
+                print(str(idx) + ": " + chap_link)
                 idx = idx -1
             return
 

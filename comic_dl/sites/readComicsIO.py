@@ -97,7 +97,7 @@ class ReadComicsIO():
             idx = 0
             for chap_link in all_links:
                 idx = idx + 1
-                print str(idx) + ": " + str(chap_link)
+                print(str(idx) + ": " + str(chap_link))
             return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:

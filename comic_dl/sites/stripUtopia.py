@@ -91,7 +91,7 @@ class StripUtopia(object):
             all_chapters = re.findall(r'http://striputopija.blogspot.rs/\d+/\d+/.+.html.+>(.+)</a>', str(source))
             for chap_link in all_chapters:
                 idx = idx + 1
-                print str(idx) + ": " + str(chap_link)
+                print(str(idx) + ": " + str(chap_link))
             return
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:

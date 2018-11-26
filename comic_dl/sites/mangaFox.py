@@ -116,7 +116,7 @@ class MangaFox(object):
         if self.print_index:
             idx = len(all_links)
             for chap_link in all_links:
-                print str(idx) + ": " + str(chap_link)
+                print(str(idx) + ": " + str(chap_link))
                 idx = idx - 1
             return
 
