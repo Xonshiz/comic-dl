@@ -31,7 +31,7 @@ class MangaRock():
 
     def name_cleaner(self, url, chapter_id):
         print("Fetching The Chapter Data...")
-        info_json_url = "https://api.mangarockhd.com/query/web400/info?oid=" + str(str(url).split("/")[4])
+        info_json_url = "https://api.mangarockhd.com/query/web401/info?oid=" + str(str(url).split("/")[4])
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=info_json_url)
         json_parse = json.loads(str(source))
@@ -67,7 +67,7 @@ class MangaRock():
             os.remove(mri_file)
 
     def single_chapter(self, chapter_id, comic_name, chapter_number, download_directory, conversion, keep_files):
-        image_api_link = "https://api.mangarockhd.com/query/web400/pages?oid=" + str(chapter_id)
+        image_api_link = "https://api.mangarockhd.com/query/web401/pages?oid=" + str(chapter_id)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=image_api_link)
         json_parse = json.loads(str(source))
 
@@ -101,7 +101,7 @@ class MangaRock():
 
     def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, keep_files):
         chapters_dict = {}
-        api_url = "https://api.mangarockhd.com/query/web400/info?oid=" + str(comic_id)
+        api_url = "https://api.mangarockhd.com/query/web401/info?oid=" + str(comic_id)
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=api_url)
         json_parse = json.loads(str(source))
@@ -132,10 +132,13 @@ class MangaRock():
             return
 
         for single_chapter in chapters_dict:
-            self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,
-                                chapter_number=str(chapters_dict[single_chapter]).strip().title(),
-                                download_directory=download_directory, conversion=conversion,
-                                keep_files=keep_files)
+            try:
+                self.single_chapter(chapter_id=str(single_chapter), comic_name=comic_name,
+                                    chapter_number=str(chapters_dict[single_chapter]).strip().title(),
+                                    download_directory=download_directory, conversion=conversion,
+                                    keep_files=keep_files)
+            except Exception as ex:
+                break  # break to continue processing other mangas
             if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 

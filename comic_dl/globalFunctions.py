@@ -75,7 +75,7 @@ class GlobalFunctions(object):
             sess = cfscrape.create_scraper(sess)
             try:
                 r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
-
+                r.raise_for_status()
                 if r.status_code != 200:
                     pbar.write("Could not download the image.")
                     pbar.write("Link said : %s" % r.status_code)
@@ -94,10 +94,26 @@ class GlobalFunctions(object):
                         pbar.write(file_moving_exception)
                         os.remove(file_path)
                         raise file_moving_exception
+            except requests.exceptions.HTTPError as errh:
+                pbar.write("Http Error:")
+                pbar.write(errh.message)
+                raise
+            except requests.exceptions.ConnectionError as errc:
+                pbar.write("Error Connecting:")
+                pbar.write(errc.message)
+                raise
+            except requests.exceptions.Timeout as errt:
+                pbar.write("Timeout Error:")
+                pbar.write(errt.message)
+                raise
+            except requests.exceptions.RequestException as err:
+                pbar.write("OOps: Something Else")
+                pbar.write(err.message)
+                raise
             except Exception as ex:
-                pbar.write("Some problem occurred while downloading this image")
+                pbar.write("Some problem occurred while downloading this image: %s " % file_name)
                 pbar.write(ex)
-                raise ex
+                raise
 
         pbar.update()
 

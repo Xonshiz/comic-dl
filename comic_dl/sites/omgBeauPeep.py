@@ -106,5 +106,9 @@ class OmgBeauPeep(object):
                 if bypass_first:  # Because this website lists the next chapter, which is NOT available.
                     bypass_first = False
                     continue
-                self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,
-                                keep_files=keep_files)
+                try:
+                    self.single_chapter(manga_url + "/" + str(option['value']), comic_name, download_directory, conversion=conversion,
+                                    keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % str(option['value']))
+                    break  # break to continue processing other mangas

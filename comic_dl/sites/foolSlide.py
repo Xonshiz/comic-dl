@@ -117,16 +117,26 @@ class FoolSlide(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                self.single_chapter(chapter_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(chapter_url=chap_link, comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             # print("Running this")
             for chap_link in all_links[::-1]:
-                self.single_chapter(chapter_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(chapter_url=chap_link, comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(manga_url)

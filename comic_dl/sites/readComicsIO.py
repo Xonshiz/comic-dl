@@ -110,7 +110,7 @@ class ReadComicsIO():
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
-                    pass
+                    break  # break to continue processing other mangas
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
@@ -122,6 +122,6 @@ class ReadComicsIO():
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
                 except Exception as e:
-                    pass
+                    break  # break to continue processing other mangas
 
         return 0

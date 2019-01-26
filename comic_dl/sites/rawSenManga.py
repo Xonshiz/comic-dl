@@ -118,8 +118,12 @@ class RawSenaManga(object):
             for link in all_links:
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)
@@ -128,8 +132,13 @@ class RawSenaManga(object):
             for link in all_links[::-1]:
                 chap_link = "http://raw.senmanga.com/" + str(series_name_raw) + "/" + str(
                     link).strip()
-                self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
-                                    conversion=conversion, keep_files=keep_files)
+                try:
+                    self.single_chapter(comic_url=chap_link, comic_name=comic_name,
+                                        download_directory=download_directory,
+                                        conversion=conversion, keep_files=keep_files)
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
                 if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                     globalFunctions.GlobalFunctions().addOne(comic_url)

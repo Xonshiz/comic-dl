@@ -108,8 +108,9 @@ class Hqbr(object):
                     # if chapter range contains "__EnD__" write new value to config.json
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
-                except Exception as e:
-                    pass
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
@@ -120,7 +121,8 @@ class Hqbr(object):
                     # if chapter range contains "__EnD__" write new value to config.json
                     if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
                         globalFunctions.GlobalFunctions().addOne(comic_url)
-                except Exception as e:
-                    pass
+                except Exception as ex:
+                    logging.error("Error downloading : %s" % chap_link)
+                    break  # break to continue processing other mangas
 
         return 0
