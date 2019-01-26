@@ -110,7 +110,7 @@ class RawSenaManga(object):
             all_links = list(re.findall(link_regex, str(source)))
             idx = len(all_links)
             for link in all_links:
-                print str(idx) + ": " + link
+                print(str(idx) + ": " + link)
                 idx = idx - 1
             return
 

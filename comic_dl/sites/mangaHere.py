@@ -133,7 +133,7 @@ class MangaHere(object):
         if self.print_index:
             idx = chapter_links.__len__()
             for chap_link in chapter_links:
-                print str(idx) + ": " + str(chap_link)
+                print(str(idx) + ": " + str(chap_link))
                 idx = idx - 1
             return
 

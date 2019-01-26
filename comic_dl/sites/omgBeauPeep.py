@@ -53,7 +53,7 @@ class OmgBeauPeep(object):
 
         if self.print_index:
             for x in xrange(1, last_page_number + 1):
-                print str(x) + ": " + str(comic_url) + "/" + str(x)
+                print(str(x) + ": " + str(comic_url) + "/" + str(x))
             return
 
         if not os.path.exists(directory_path):
@@ -101,7 +101,7 @@ class OmgBeauPeep(object):
         bypass_first = "otakusmash" in manga_url
         for option in chapters.findAll('option'):
             if self.print_index:
-                print '{}: {}'.format(option['value'], option.text)
+                print('{}: {}'.format(option['value'], option.text))
             else:
                 if bypass_first:  # Because this website lists the next chapter, which is NOT available.
                     bypass_first = False

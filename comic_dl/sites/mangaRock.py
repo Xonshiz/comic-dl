@@ -128,7 +128,7 @@ class MangaRock():
         if self.print_index:
             chapters_ = json_parse["data"]["chapters"]
             for chapter in chapters_:
-                print str(chapter["order"] + 1) + ": " + chapter["name"].encode('utf-8')
+                print(str(chapter["order"] + 1) + ": " + chapter["name"].encode('utf-8'))
             return
 
         for single_chapter in chapters_dict:
