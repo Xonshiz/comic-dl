@@ -24,6 +24,7 @@ from sites import batoto
 from sites import hqbr
 from sites import comicextra
 from sites import readComicsIO
+from sites import japscan
 import globalFunctions
 
 
@@ -181,6 +182,13 @@ class Honcho(object):
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                 keep_files=kwargs.get("keep_files"),
                                 print_index=print_index)
+            return 0
+        elif domain in ["www.japscan.to"]:
+            japscan.Japscan(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                            sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                            chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                            keep_files=kwargs.get("keep_files"),
+                            print_index=print_index)
             return 0
         elif domain in ["www.hqbr.com.br", "hqbr.com.br"]:
             hqbr.Hqbr(manga_url=comic_url, logger=logging, current_directory=current_directory,
