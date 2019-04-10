@@ -6,6 +6,7 @@ import globalFunctions
 import json
 import os
 import logging
+import base64
 
 """A HUGE thanks to @abcfy2 for his amazing implementation of the ac.qq.com APIs.
 Original code for ac.qq.com : https://github.com/abcfy2/getComic/
@@ -43,6 +44,8 @@ class AcQq(object):
         source, cookies_main = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
 
         base64data = re.findall(r"DATA\s*=\s*'(.+?)'", str(source))[0][1:]
+        data = re.findall(r"data:\s*'(.+?)',", str(source))
+        nonce = re.findall(r'data-mpmvr="(.+?)"', str(source))[0]
         logging.debug("base64data : %s" % base64data)
         # print(base64data)
         # import sys
@@ -88,21 +91,30 @@ class AcQq(object):
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         # TODO fix, broken, doesn't return a json anymore
-        chapter_list = "http://m.ac.qq.com/GetData/getChapterList?id=" + str(comic_name)
+        chapter_list = "https://ac.qq.com/Comic/comicInfo/id/" + str(comic_name)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=chapter_list)
-        content_json = json.loads(str(source))
-        logging.debug("content_json : %s" % content_json)
-        last = int(content_json['last'])
-        first = int(content_json['first'])
-        logging.debug("first : %s" % first)
-        logging.debug("last : %s" % last)
-
         all_links = []
-
-        for chapter_number in range(first, last + 1):
-            "http://ac.qq.com/ComicView/index/id/538359/cid/114"
-            chapter_url = "http://ac.qq.com/ComicView/index/id/%s/cid/%s" % (comic_name, chapter_number)
-            all_links.append(chapter_url)
+        raw_chapters_table = source.find_all('ol', {'class': 'chapter-page-all works-chapter-list'})
+        for table_data in raw_chapters_table:
+            x = table_data.findAll('a')
+            for a in x:
+                if "/ComicView/" in str(a['href']):
+                    all_links.append("https://ac.qq.com" + str(a['href']).strip())
+        # import sys
+        # sys.exit()
+        # content_json = json.loads(str(source))
+        # logging.debug("content_json : %s" % content_json)
+        # last = int(content_json['last'])
+        # first = int(content_json['first'])
+        # logging.debug("first : %s" % first)
+        # logging.debug("last : %s" % last)
+        #
+        # all_links = []
+        #
+        # for chapter_number in range(first, last + 1):
+        #     "http://ac.qq.com/ComicView/index/id/538359/cid/114"
+        #     chapter_url = "http://ac.qq.com/ComicView/index/id/%s/cid/%s" % (comic_name, chapter_number)
+        #     all_links.append(chapter_url)
 
         logging.debug("all_links : %s" % all_links)
         if chapter_range != "All":
@@ -159,6 +171,20 @@ class AcQq(object):
                     pass
 
         return 0
+
+    def __decode_data(data, nonce):
+        t = list(data)
+        n = re.findall(r'(\d+)([a-zA-Z]+)', nonce)
+        n_len = len(n)
+        index = n_len - 1
+        while index >= 0:
+            locate = int(n[index][0]) & 255
+            del t[locate:locate + len(n[index][1])]
+            index = index - 1
+
+        base64_str = ''.join(t)
+        json_str = base64.b64decode(base64_str).decode('utf-8')
+        return json.loads(json_str)
 
     def __decode_base64_data(self, base64data):
         base64DecodeChars = [- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
