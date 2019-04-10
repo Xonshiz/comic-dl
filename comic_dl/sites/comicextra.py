@@ -45,7 +45,7 @@ class ComicExtra(object):
             for a in x:
                 img_list.append(str(a['src']).strip())
         # http://www.comicextra.com/steven-universe-ongoing/chapter-13
-        chapter_number = int(str(comic_url.split("-")[-1]).replace("/full", ""))
+        chapter_number = str(comic_url.split("-")[-1]).replace("/full", "")
         # print(chapter_number)
 
         # total_pages = re.search(r'>of (.*?)</div>', str(source)).group(1)
