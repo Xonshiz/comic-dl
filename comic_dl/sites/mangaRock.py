@@ -58,10 +58,9 @@ class MangaRock():
             n = len(data) + 7
 
             header = [82, 73, 70, 70, 255 & n, n >> 8 & 255, n >> 16 & 255, n >> 24 & 255, 87, 69, 66, 80, 86, 80, 56]
+            data = [x ^ 101 for x in data]
 
-            data = map(lambda x: ord(x) ^ 101, data)
-
-            open(str(mri_file).replace(".mri", ".jpg"), 'wb').write(''.join(map(chr, header + data)))
+            open(str(mri_file).replace(".mri", ".jpg"), 'wb').write(bytes(header + data))
 
             # Let's delete the .mri file
             os.remove(mri_file)
