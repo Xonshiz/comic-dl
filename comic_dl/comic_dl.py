@@ -17,6 +17,8 @@ from manga_eden import mangaChapters
 from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
 
+from readcomiconline import RCO
+
 CONFIG_FILE = 'config.json'
 
 
@@ -44,6 +46,12 @@ class ComicDL(object):
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
         parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to comic.')
+
+        # Chr1st-oo, added arguments
+        parser.add_argument("--comic-id", action="store_true", help="Add this after -i if you are inputting a comic id.")
+        parser.add_argument("-comic-search", "--search-comic", nargs=1, help="Searches for a comic through the gathered data from ReadComicOnline.to")
+        parser.add_argument("-comic-info", "--comic-info", nargs=1, help="List all informations for the queried comic.")
+        #
 
         parser.add_argument('--print-index', action='store_true',
                             help='prints the range index for links in the input URL')
@@ -116,6 +124,20 @@ class ComicDL(object):
             print("Total Time Taken To Search : %s" % total_time)
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
+
+        # Chr1st-oo, comic search & conic info
+        if args.comic_info or args.search_comic:
+            rco = RCO.ReadComicOnline()
+
+            if args.search_comic:
+                query = args.search_comic[0]
+                rco.comicSearch(query)
+            elif args.comic_info:
+                query = args.comic_info[0]
+                rco.comicInfo(query)
+            
+            sys.exit()
+
 
         if args.chapter_id:
             force_download = False
@@ -225,8 +247,13 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality:
                 args.quality = ["Best"]
+
             # user_input = unicode(args.input[0], encoding='latin-1')
             user_input = args.input[0]
+            if args.comic_id:
+                rco = RCO.ReadComicOnline()
+                user_input = rco.comicLink(user_input)
+            #print(user_input)
             start_time = time.time()
             honcho.Honcho().checker(comic_url=user_input, current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,
