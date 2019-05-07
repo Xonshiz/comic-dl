@@ -18,6 +18,7 @@ from manga_eden import mangaChapterDownload
 from manga_eden import mangaSearch
 
 from readcomiconline import RCO
+from readcomiconline import dataUpdate
 
 CONFIG_FILE = 'config.json'
 
@@ -51,6 +52,7 @@ class ComicDL(object):
         parser.add_argument("--comic", action="store_true", help="Add this after -i if you are inputting a comic id or the EXACT comic name.")
         parser.add_argument("-comic-search", "--search-comic", nargs=1, help="Searches for a comic through the gathered data from ReadComicOnline.to")
         parser.add_argument("-comic-info", "--comic-info", nargs=1, help="List all informations for the queried comic.")
+        parser.add_argument("--update", nargs=1, help="USAGE: --update <COMIC_LINK OR COMIC_NAME>... Updates the comic database for the given argument.")
         #
 
         parser.add_argument('--print-index', action='store_true',
@@ -137,6 +139,14 @@ class ComicDL(object):
                 rco.comicInfo(query)
             
             sys.exit()
+
+        if args.update:
+            query = args.update[0]
+
+            if "readcomiconline" in query or "https://" in query or "http://" in query:
+                dataUpdate.RCOUpdater(link=query)
+            else:
+                dataUpdate.RCOUpdater(name=query)
 
 
         if args.chapter_id:

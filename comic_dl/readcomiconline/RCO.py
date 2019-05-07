@@ -88,7 +88,7 @@ class ReadComicOnline():
          
         if result:
             print("Comic Information------------------------------------------")
-            print("""Information gathered from readcomiconline.to as of {}
+            print("""
 ID                  :   {}
 Name                :   {}
 Genres              :   {}
@@ -102,7 +102,6 @@ Link                :   {}
 Summary
 {}
                 """.format(
-                self.data["dateCreated"],
                 result["no"],
                 result["name"],
                 ", ".join(result["genres"]),
