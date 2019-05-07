@@ -1,6 +1,7 @@
 # @Christ-oo
 
 import json
+import sys
 
 class ReadComicOnline():
     def __init__ (self):
@@ -36,18 +37,25 @@ class ReadComicOnline():
             
             print("----------------------------------------------------------")
         else:
-            print("No result found...")
+            print("No comic found with that name or id.")
+            print("If you are inputting an ID, use -comic-search <QUERY> to determine the id.")
+            print("If you are inputting a name, you must input the exact name of the comic for ")
 
-    def comicLink(self, comic_id=None, comic_name=None):
+    def comicLink(self, query):
         result = ""
 
-        if comic_id:
-            comic_id = int(str(comic_id).strip())
+        if str(query).isdigit():
+            print("You inputted a Comic ID")
+
+            comic_id = int(str(query).strip())
             for i in self.data["comics"]:
                 if comic_id == i["no"]:
                     result = i["link"]
                     break
-        elif comic_name:
+        else:
+            print("You inputted a Comic Name")
+
+            comic_name = str(query).strip()
             for i in self.data["comics"]:
                 if comic_name == i["name"]:
                     result = i["link"]
@@ -58,16 +66,21 @@ class ReadComicOnline():
         else:
             return None
 
-    def comicInfo(self, comic_id=None, comic_name=None):
+    def comicInfo(self, query):
         result = {}
 
-        if comic_id:
-            comic_id = int(str(comic_id).strip())
+        if str(query).isdigit():
+            print("You inputted a Comic ID")
+
+            comic_id = int(str(query).strip())
             for i in self.data["comics"]:
                 if comic_id == i["no"]:
                     result = i
                     break
-        elif comic_name:
+        else:
+            print("You inputted a Comic Name")
+
+            comic_name = query.strip()
             for i in self.data["comics"]:
                 if comic_name == i["name"]:
                     result = i
@@ -103,4 +116,6 @@ Summary
                 result["summary"],
             ))
         else:
-            print("No result found...")
+            print("No comic found with that name or id.")
+            print("If you are inputting an ID, use -comic-search <QUERY> to determine the id.")
+            print("If you are inputting a name, you must input the exact name of the comic for ")
