@@ -3,7 +3,7 @@
 import os
 import re
 
-import cfscrape
+import cloudscraper
 import globalFunctions
 from PIL import Image
 from bs4 import BeautifulSoup
@@ -15,7 +15,7 @@ JAPSCAN_URL = 'https://www.japscan.to'
 class Japscan():
 
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        self.scraper = cfscrape.create_scraper()
+        self.scraper = cloudscraper.create_scraper()
         conversion = kwargs.get("conversion")
         keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")

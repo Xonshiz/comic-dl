@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-import cfscrape
+import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 import os
@@ -33,7 +33,7 @@ class GlobalFunctions(object):
             }
 
         sess = requests.session()
-        sess = cfscrape.create_scraper(sess, delay=scrapper_delay)
+        sess = cloudscraper.create_scraper(sess, delay=scrapper_delay)
 
         connection = sess.get(manga_url, headers=headers, cookies=kwargs.get("cookies"))
 
@@ -72,7 +72,7 @@ class GlobalFunctions(object):
             }
 
             sess = requests.session()
-            sess = cfscrape.create_scraper(sess)
+            sess = cloudscraper.create_scraper(sess)
             try:
                 r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
                 r.raise_for_status()

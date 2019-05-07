@@ -9,7 +9,7 @@ setup(
   install_requires=["selenium",
                       "requests",
                       "more_itertools",
-                      "cfscrape",
+                      "cloudscraper",
                       "bs4"
     ],
   version = '2018.01.10',

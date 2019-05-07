@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import cfscrape
+import cloudscraper
 import requests
 import json
 import sys
@@ -75,7 +75,7 @@ class MangaSearch():
         }
 
         sess = requests.session()
-        sess = cfscrape.create_scraper(sess)
+        sess = cloudscraper.create_scraper(sess)
 
         search_url = "http://www.mangaeden.com/api/list/{0}/".format(manga_language)
 

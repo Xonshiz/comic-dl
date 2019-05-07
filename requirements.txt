@@ -1,7 +1,7 @@
 tqdm
 bs4
 requests
-cfscrape
+cloudscraper
 clint
 img2pdf
 enum34
