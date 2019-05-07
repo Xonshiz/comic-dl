@@ -49,6 +49,7 @@ class ComicDL(object):
 
         # Chr1st-oo, added arguments
         parser.add_argument("--comic-id", action="store_true", help="Add this after -i if you are inputting a comic id.")
+        parser.add_argument("--comic-name", action="store_true", help="Add this after -i or -comic-info if you are inputting the exact name of the comic.")
         parser.add_argument("-comic-search", "--search-comic", nargs=1, help="Searches for a comic through the gathered data from ReadComicOnline.to")
         parser.add_argument("-comic-info", "--comic-info", nargs=1, help="List all informations for the queried comic.")
         #
@@ -125,7 +126,7 @@ class ComicDL(object):
             print("API Provided By Manga Eden : http://www.mangaeden.com/")
             sys.exit()
 
-        # Chr1st-oo, comic search & conic info
+        # Chr1st-oo, comic search & comic info
         if args.comic_info or args.search_comic:
             rco = RCO.ReadComicOnline()
 
@@ -134,7 +135,12 @@ class ComicDL(object):
                 rco.comicSearch(query)
             elif args.comic_info:
                 query = args.comic_info[0]
-                rco.comicInfo(query)
+
+                #defaults to comic_id if --comic-name is not in args
+                if args.comic_name:
+                    rco.comicInfo(comic_name=query)
+                else:
+                    rco.comicInfo(comic_id=query)
             
             sys.exit()
 
@@ -208,6 +214,9 @@ class ComicDL(object):
                     el = data["comics"][elKey]
                     # next chapter to download, if it's greater than available don't download anything
                     download_range = str(el["next"]) + "-__EnD__"
+                    if not el["last"] == "None":
+                        download_range = str(el["next"]) + "-" + str(el["last"]) + "-RANGE"
+                    
                     honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
                                             sorting_order=sorting_order, logger=logger,
                                             download_directory=download_directory,
@@ -250,10 +259,19 @@ class ComicDL(object):
 
             # user_input = unicode(args.input[0], encoding='latin-1')
             user_input = args.input[0]
-            if args.comic_id:
+
+            if args.comic_id or args.comic_name:
                 rco = RCO.ReadComicOnline()
-                user_input = rco.comicLink(user_input)
-            #print(user_input)
+
+                if args.comic_id:
+                    user_input = rco.comicLink(comic_id=user_input)
+                elif args.comic_name:
+                    user_input = rco.comicLink(comic_name=user_input)
+
+                    if not user_input:
+                        print("No comic found with that comic name, you must input the exact name of the comic for this to work.")
+                        sys.exit()
+
             start_time = time.time()
             honcho.Honcho().checker(comic_url=user_input, current_directory=os.getcwd(),
                                     sorting_order=args.sorting[0], logger=logger,

@@ -145,7 +145,8 @@ class ReadComicOnlineTo(object):
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
+                if chapter_range != "All" and (chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
@@ -158,7 +159,8 @@ class ReadComicOnlineTo(object):
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
                 # if chapter range contains "__EnD__" write new value to config.json
-                if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
+                if chapter_range != "All" and (chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         return 0

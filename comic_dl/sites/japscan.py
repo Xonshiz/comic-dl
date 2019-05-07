@@ -55,7 +55,8 @@ class Japscan():
                 self.single_chapter(chapter_path, comic_id, download_directory)
             except Exception as ex:
                 break  # break to continue processing other mangas
-            if chapter_range != "All" and chapter_range.split("-")[1] == "__EnD__":
+            # @Chr1st-oo - modified condition due to some changes on automatic download and config.
+            if chapter_range != "All" and (chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
                 globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
         return 0

@@ -1,3 +1,5 @@
+# @Christ-oo
+
 import json
 
 class ReadComicOnline():
@@ -12,7 +14,7 @@ class ReadComicOnline():
         except Exception as e:
             print("An error occurred : {}".format(e))
             print("Download the data from {}".format("https://drive.google.com/open?id=1eOjwOQx_LHericcowyBRNIJtZZGMKlp6"))
-            print("And paste it inside the readcomiconline directory")
+            print("And paste it inside the comic-dl/comic_dl directory")
 
     def comicSearch(self, search_query):
         search_query = str(search_query).strip()
@@ -36,31 +38,41 @@ class ReadComicOnline():
         else:
             print("No result found...")
 
-    def comicLink(self, comic_id):
-        comic_id = int(str(comic_id).strip())
-
+    def comicLink(self, comic_id=None, comic_name=None):
         result = ""
 
-        for i in self.data["comics"]:
-            if comic_id == i["no"]:
-                result = i["link"]
-                break
+        if comic_id:
+            comic_id = int(str(comic_id).strip())
+            for i in self.data["comics"]:
+                if comic_id == i["no"]:
+                    result = i["link"]
+                    break
+        elif comic_name:
+            for i in self.data["comics"]:
+                if comic_name == i["name"]:
+                    result = i["link"]
+                    break
         
         if result:
             return result
         else:
             return None
 
-    def comicInfo(self, comic_id):
-        comic_id = int(str(comic_id).strip())
-
+    def comicInfo(self, comic_id=None, comic_name=None):
         result = {}
 
-        for i in self.data["comics"]:
-            if comic_id == i["no"]:
-                result = i
-                break
-        
+        if comic_id:
+            comic_id = int(str(comic_id).strip())
+            for i in self.data["comics"]:
+                if comic_id == i["no"]:
+                    result = i
+                    break
+        elif comic_name:
+            for i in self.data["comics"]:
+                if comic_name == i["name"]:
+                    result = i
+                    break
+         
         if result:
             print("Comic Information------------------------------------------")
             print("""Information gathered from readcomiconline.to as of {}

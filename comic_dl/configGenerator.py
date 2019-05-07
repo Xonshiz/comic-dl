@@ -170,6 +170,11 @@ class configGenerator(object):
                 break
             print("Next chapter to download (default 1)")
             comic["next"] = input(" >> ")
+            
+            # @Christ-oo - Added range functionality
+            print("Last chapter to download (leave blank if download all)")
+            comic["last"] = input(" >> ")
+
             print("Page login username (leave blank if not needed)")
             comic["username"] = input(" >> ")
             print("Page login password (leave blank if not needed)")
@@ -181,6 +186,13 @@ class configGenerator(object):
                 comic["next"] = 1
             else:
                 comic["next"] = int(comic["next"])
+
+            # @Christ-oo
+            if not comic["last"]:
+                comic["last"] = "None" 
+            else:
+                comic["last"] = int(comic["last"])
+            
             if not comic["username"]:
                 comic["username"] = "None"
             if not comic["password"]:
