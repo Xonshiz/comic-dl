@@ -151,13 +151,13 @@ alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:
 4. Run it on your system. This actually starts a container on request and stop&delete it when finish.
 
 ```bash
-comic_dl --help
-
-usage: comic_dl [-h] [--version] [-s SORTING] [-a] [-c]
-                [-dd DOWNLOAD_DIRECTORY] [-rn RANGE] [--convert CONVERT]
-                [--keep KEEP] [--quality QUALITY] [-i INPUT] [-find SEARCH]
-                [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
-                [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
+usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
+               [-dd DOWNLOAD_DIRECTORY] [-rn RANGE] [--convert CONVERT]
+               [--keep KEEP] [--quality QUALITY] [-i INPUT] [--comic]
+               [-comic-search SEARCH_COMIC] [-comic-info COMIC_INFO]
+               [--update UPDATE] [--print-index] [-find SEARCH]
+               [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
+               [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
 [...]
 ```
 
@@ -203,10 +203,10 @@ Currently, the script supports these arguments :
                                        [ Ex : -i "Deadpool Classic" --comic ]
 -comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to 
                                        [ Ex : -comic-search "Deadpool" ]
--comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact                                            comic name).
+-comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact comic name).
                                        [ Ex : -comic-info "Deadpool Classic" ] or [ Ex : -comic-info 3865 ]
 --update                               Updates the comic database for the given argument.
-                                       [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.to/Comic/Deadpool-                                        Classic" ]
+                                       [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.to/Comic/Deadpool-Classic" ]
 ```
 
 ## Language Codes:
