@@ -199,6 +199,14 @@ Currently, the script supports these arguments :
 -cid, --chapter-id                     Takes the Chapter ID to list all the chapters in a Manga.
 -fd, --force-download                  Forces download of chapters, when using comic-dl's search function.
 -pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
+--comic                                Add this after -i if you are inputting a comic id or the EXACT comic name. 
+                                       [ Ex : -i "Deadpool Classic" --comic ]
+-comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to 
+                                       [ Ex : -comic-search "Deadpool" ]
+-comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact                                            comic name).
+                                       [ Ex : -comic-info "Deadpool Classic" ] or [ Ex : -comic-info 3865 ]
+--update                               Updates the comic database for the given argument.
+                                       [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.to/Comic/Deadpool-                                        Classic" ]
 ```
 
 ## Language Codes:
