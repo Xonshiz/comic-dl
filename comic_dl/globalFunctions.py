@@ -162,6 +162,7 @@ class GlobalFunctions(object):
             except Exception as CBZError:
                 print("Couldn't write the cbz file...")
                 print(CBZError)
+                print(cbz_file_name, 'zip', directory_path, directory_path)
                 # Let's not delete the files if the conversion failed...
                 keep_files = "True"
                 pass
