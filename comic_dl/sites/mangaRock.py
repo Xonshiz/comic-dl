@@ -52,27 +52,18 @@ class MangaRock():
         A REALLY BIG THANKS TO 'dradzenglor' for decrypting the files! Amazing work!
         Follow The Thread On Reddit : https://www.reddit.com/r/codes/comments/7mdx70/need_help_decrypting_this_string/
         """
+        for mri_file in glob.glob(os.path.abspath(path_to_files) + os.sep + "*.mri"):
+            data = open(mri_file, "rb").read()
 
-        # Jpg files could either be decrypted or encrypted.
-        for jpg_file in glob.glob(os.path.abspath(path_to_files) + os.sep + "*.jpg"):
-            with open(jpg_file, "rb") as fp_in:
-                data = fp_in.read()
+            n = len(data) + 7
 
-            # Detect encryption status
-            header_ident = data[0:4]
-            decrypted = header_ident == "RIFF"
-            if not decrypted:
-                print("Decrypting " + jpg_file)
-                n = len(data) + 7
-                header = [82, 73, 70, 70, 255 & n, n >> 8 & 255, n >> 16 & 255, n >> 24 & 255, 87, 69, 66, 80, 86, 80, 56]
-                data = [ord(x) ^ 101 for x in data]
+            header = [82, 73, 70, 70, 255 & n, n >> 8 & 255, n >> 16 & 255, n >> 24 & 255, 87, 69, 66, 80, 86, 80, 56]
+            data = [x ^ 101 for x in data]
 
-                out_bytes = bytearray(header + data)
+            open(str(mri_file).replace(".mri", ".jpg"), 'wb').write(bytes(header + data))
 
-                with open(jpg_file, 'wb') as fp_out:
-                    # It is safe to write directly here, because we already 
-                    # copied the data to memory and closed the file.
-                    fp_out.write(out_bytes)
+            # Let's delete the .mri file
+            os.remove(mri_file)
 
     def single_chapter(self, chapter_id, comic_name, chapter_number, download_directory, conversion, keep_files):
         image_api_link = "https://api.mangarockhd.com/query/web401/pages?oid=" + str(chapter_id)
@@ -89,13 +80,9 @@ class MangaRock():
         links = []
         file_names = []
         for current_chapter, image_link in enumerate(json_parse["data"]):
+            # file_name = str(json_parse["data"].index(image_link)) + ".mri"
             current_chapter += 1
-
-            # The files used to skip duplicate download and the file we download here
-            # need to have the same filename given the multithread_download implementation.
-            # Thus, we use jpg files for both encrypted and decrypted files, and detect
-            # encryption status in the file_decryption step.
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(json_parse["data"]))) + ".jpg"
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(json_parse["data"]))) + ".mri"
    
             file_names.append(file_name)
             links.append(image_link)
