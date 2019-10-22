@@ -137,7 +137,7 @@ class ComicDL(object):
             elif args.comic_info:
                 query = args.comic_info[0]
                 rco.comicInfo(query)
-            
+
             sys.exit()
 
         if args.update:
@@ -218,9 +218,9 @@ class ComicDL(object):
                     el = data["comics"][elKey]
                     # next chapter to download, if it's greater than available don't download anything
                     download_range = str(el["next"]) + "-__EnD__"
-                    if not el["last"] == "None":
+                    if "last" in el and not el["last"] == "None":
                         download_range = str(el["next"]) + "-" + str(el["last"]) + "-RANGE"
-                    
+
                     honcho.Honcho().checker(comic_url=el["url"].strip(), current_directory=os.getcwd(),
                                             sorting_order=sorting_order, logger=logger,
                                             download_directory=download_directory,
