@@ -3,7 +3,7 @@
 
 import globalFunctions
 import requests
-import cfscrape
+import cloudscraper
 from bs4 import BeautifulSoup
 import sys
 import re
@@ -56,7 +56,7 @@ class Batoto:
         }
 
         sess = requests.session()
-        sess = cfscrape.create_scraper(sess)
+        sess = cloudscraper.create_scraper(sess)
 
         print('Trying To Log In...')
         connection = sess.post("https://bato.to/forums/index.php?app=core&module=global&section=login&do=process",
