@@ -1,7 +1,7 @@
 # @Chr1st-oo
 
 import json
-import cfscrape
+import cloudscraper
 import requests
 import sys
 import re
@@ -17,7 +17,7 @@ class RCOUpdater():
             self.link = self.BASE + self.nameLink(str(name).strip())
 
         self.session = requests.session()
-        self.scraper = cfscrape.create_scraper(sess=self.session)
+        self.scraper = cloudscraper.create_scraper(sess=self.session)
 
         self.data = ""
         try:

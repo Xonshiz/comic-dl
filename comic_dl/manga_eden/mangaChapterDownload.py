@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import cfscrape
+import cloudscraper
 import requests
 import json
 import sys
@@ -64,7 +64,7 @@ class MangaChapterDownload():
         }
 
         sess = requests.session()
-        sess = cfscrape.create_scraper(sess)
+        sess = cloudscraper.create_scraper(sess)
 
         search_url = "http://www.mangaeden.com/api/chapter/{0}/".format(page_id)
 
