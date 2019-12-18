@@ -36,7 +36,7 @@ setup(
     include_package_data=True,
     install_requires=["clint",
                       "requests",
-                      "cfscrape",
+                      "cloudscraper",
                       "bs4"
     ],
     entry_points={
