@@ -157,7 +157,7 @@ class GlobalFunctions(object):
                     print('[Comic-dl] CBZ File Exist! Skipping : {0}\n'.format(cbz_file_name))
                     pass
                 else:
-                    shutil.make_archive(cbz_file_name, 'zip', directory_path, directory_path)
+                    shutil.make_archive(cbz_file_name, 'zip', directory_path)
                     os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
             except Exception as CBZError:
                 print("Couldn't write the cbz file...")
