@@ -22,6 +22,14 @@ else:
     import queue as queue
 
 
+def easySlug(string, repl="-", directory=False):
+    import re
+    if directory:
+        return re.sub("^\.|\.+$", "", easySlug(string, directory=False))
+    else:
+        return re.sub("[\\\\/:*?\"<>\|]|\ $", repl, string)
+        
+
 class GlobalFunctions(object):
     def page_downloader(self, manga_url, scrapper_delay=5, **kwargs):
         headers = kwargs.get("headers")
@@ -127,7 +135,7 @@ class GlobalFunctions(object):
             im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
                                                               key=lambda x: int(
                                                                   str((x.split('.')[0])).split(os.sep)[-1]))]
-            pdf_file_name = str(converted_file_directory) + "{0} - Ch {1}.pdf".format(comic_name, chapter_number)
+            pdf_file_name = str(converted_file_directory) + "{0} - Ch {1}.pdf".format(easySlug(comic_name), chapter_number)
             try:
                 # This block is same as the one in the "cbz" conversion section. Check that one.
                 if os.path.isfile(pdf_file_name):
@@ -146,7 +154,7 @@ class GlobalFunctions(object):
 
         elif str(conversion).lower().strip() in ['cbz']:
 
-            cbz_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(comic_name, chapter_number)
+            cbz_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(easySlug(comic_name), chapter_number)
             print("CBZ File : {0}".format(cbz_file_name))
 
             try:
