@@ -72,7 +72,7 @@ class GlobalFunctions(object):
             }
 
             sess = requests.session()
-            sess = cfscrape.create_scraper(sess)
+            sess = cloudscraper.create_scraper(sess)
             try:
                 r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
                 r.raise_for_status()
