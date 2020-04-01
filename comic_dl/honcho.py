@@ -25,6 +25,7 @@ from sites import hqbr
 from sites import comicextra
 from sites import readComicsIO
 from sites import japscan
+from sites import manganelo
 import globalFunctions
 
 
@@ -224,6 +225,13 @@ class Honcho(object):
                           keep_files=kwargs.get("keep_files"), username=user_name, password=password,
                           comic_language=self.comic_language_resolver(comic_language),
                           print_index=print_index)
+            return 0
+        elif domain in ["manganelo.com", "mangakakalot.com"]:
+            manganelo.Manganelo(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                keep_files=kwargs.get("keep_files"),
+                                print_index=print_index)
             return 0
         elif domain in ["www.mangaeden.com"]:
             if print_index:
