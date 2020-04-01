@@ -78,7 +78,7 @@ class Manganelo():
             chapter_list = source.find('div', {'class': 'chapter-list'})
             all_links = chapter_list.findAll('a')
         else:  # manganelo
-            chapter_list = source.find('chapter_list', {'class': 'row-content-chapter'})
+            chapter_list = source.find('ul', {'class': 'row-content-chapter'})
             all_links = chapter_list.findAll('a')
 
         chapter_links = []
