@@ -19,7 +19,6 @@ from sites import acQQ
 from sites import stripUtopia
 from sites import readComicBooksOnline
 from sites import readComicsWebsite
-from sites import mangaRock
 from sites import batoto
 from sites import hqbr
 from sites import comicextra
