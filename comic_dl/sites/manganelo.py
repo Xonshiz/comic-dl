@@ -97,6 +97,9 @@ class Manganelo():
             else:
                 ending = len(all_links)
 
+            if ending > len(all_links):
+                ending = len(all_links)
+
             indexes = [x for x in range(starting, ending)]
 
             chapter_links = chapter_links[::-1]
