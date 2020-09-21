@@ -4,9 +4,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -yq upgrade
 # update system & install basisc stuff
 #        and dependencies for phantomjs
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
-    build-essential chrpath libssl-dev libxft-dev \
-         libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev \
-    wget nodejs-legacy
+    build-essential \
+    chrpath \
+    libssl-dev \
+    libxft-dev \
+    libfreetype6 \
+    libfreetype6-dev \
+    libfontconfig1 \
+    libfontconfig1-dev
+    #wget nodejs-legacy
 
 # We're not using PhantomJS anymore. So, this step should be removed for now.
 # install phantomjs and symlink to /usr/local/bin/
@@ -15,8 +21,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 #    ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
 
 # This install comic-dl and symlink to comic_dl command
+
 FROM base
 COPY / /opt/comic-dl
-RUN python -m pip install -r /opt/comic-dl/requirements.txt && \
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r /opt/comic-dl/requirements.txt && \
     chmod +x /opt/comic-dl/comic_dl/__main__.py  && \
     ln -s /opt/comic-dl/comic_dl/__main__.py /usr/local/bin/comic_dl
