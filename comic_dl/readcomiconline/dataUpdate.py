@@ -10,7 +10,7 @@ from datetime import date
 
 class RCOUpdater():
     def __init__ (self, link=None, name=None):
-        self.BASE = "https://readcomiconline.to/Comic/"
+        self.BASE = "https://readcomiconline.li/Comic/"
         self.link = link
 
         if name:
@@ -27,7 +27,7 @@ class RCOUpdater():
             print("Download the data from {}".format("https://drive.google.com/open?id=1eOjwOQx_LHericcowyBRNIJtZZGMKlp6"))
             print("And paste it inside the comic-dl/comic_dl directory")
             sys.exit()
-        
+
         if self.link:
             try:
                 soup = BeautifulSoup(
@@ -88,14 +88,14 @@ class RCOUpdater():
                     self.data["last"] = {
                         "no": self.data["comics"][-1]["no"], "name": self.data["comics"][-1]["name"], "dateAdded": date.today().strftime("%d/%m/%Y")
                     }
-                               
+
                 with open("rco-data.json", "w") as out:
                     json.dump(self.data, out, indent=2)
 
                 print("Database updated successfully...")
             except Exception as e:
                 print("The link is not available, perhaps you provided an invalid link or name.")
-                sys.exit() 
+                sys.exit()
 
     def getLastId(self, name):
         return self.data["last"]["no"]
@@ -106,8 +106,8 @@ class RCOUpdater():
     def alreadyExists(self, name):
         for datum in self.data["comics"]:
             if name == datum["name"]:
-                return datum["no"] 
-        
+                return datum["no"]
+
         return False
 
     def getGenre(self, el):
