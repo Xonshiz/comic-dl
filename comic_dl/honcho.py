@@ -7,7 +7,7 @@ except ImportError:
     from urlparse import urlparse
 import logging
 from sites import foolSlide
-from sites import readcomicOnlineto
+from sites import readcomicOnlineli
 from sites import comicNaver
 from sites import mangaHere
 from sites import rawSenManga
@@ -92,7 +92,7 @@ class Honcho(object):
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                 keep_files=kwargs.get("keep_files"))
             return 0
-        elif domain in ["www.readcomiconline.to", "readcomiconline.to"]:
+        elif domain in ["www.readcomiconline.li", "readcomiconline.li"]:
             readcomicOnlineto.ReadComicOnlineTo(manga_url=comic_url, logger=logging,
                                                 current_directory=current_directory, sorting_order=sorting,
                                                 log_flag=log_flag, download_directory=download_directory,
