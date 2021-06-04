@@ -5,7 +5,8 @@
 ~* [GoManga](http://gomanga.co/)~
 ~* [Batoto](http://bato.to/)~
 * [Comic Naver](http://comic.naver.com/index.nhn)
-* [Readcomiconline.to](http://readcomiconline.to/)
+* [Readcomiconline.li](http://readcomiconline.li/)
+~* [Readcomiconline.to](http://readcomiconline.to/)~
 * [mangahere.co](http://mangahere.co/)
 * [raw.senmanga](http://raw.senmanga.com/)
 * [omgbeaupeep.com](http://www.omgbeaupeep.com/)

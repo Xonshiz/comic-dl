@@ -7,7 +7,7 @@ import os
 import logging
 
 
-class ReadComicOnlineTo(object):
+class ReadComicOnlineLi(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
 
         current_directory = kwargs.get("current_directory")
@@ -65,7 +65,7 @@ class ReadComicOnlineTo(object):
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 image_link = image_link.replace("=s0", "=s1600").replace("/s0", "/s1600")
-                
+
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
 
@@ -74,7 +74,7 @@ class ReadComicOnlineTo(object):
 
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
-            
+
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
 
@@ -101,7 +101,7 @@ class ReadComicOnlineTo(object):
             for a in x:
                 all_links.append(str(a['href']).strip())
 
-        """Readcomiconline.to shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
+        """Readcomiconline.li shows the chapters in the Descending order. The 1st chapter is at the bottom, hence, at
            the end of the list. So, we'll reverse the list, to perform the ranging functionality properly.
            This is a fix for issues like #74.
         """
@@ -137,7 +137,7 @@ class ReadComicOnlineTo(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                chap_link = "http://readcomiconline.to" + chap_link
+                chap_link = "http://readcomiconline.li" + chap_link
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)

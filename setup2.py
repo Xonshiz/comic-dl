@@ -46,7 +46,7 @@ setup(
     },
     license="MIT Licence",
     zip_safe=False,
-    keywords = ['comic-dl', 'cli', 'comic downloader','manga downloader','mangafox','batoto','kissmanga','readcomiconline.to'],
+    keywords = ['comic-dl', 'cli', 'comic downloader','manga downloader','mangafox','batoto','kissmanga','readcomiconline.li'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

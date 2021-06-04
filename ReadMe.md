@@ -5,7 +5,7 @@ Comic-dl is a command line tool to download Comics and Manga from various Manga 
 
 If you're looking for an application, or a UI for this, please move to : [CoManga](https://github.com/Xonshiz/CoManga)
 
-> Don't overuse this script. Support the developers of those websites by disabling your adblock on their site. 
+> Don't overuse this script. Support the developers of those websites by disabling your adblock on their site.
 >Advertisments pay for the website servers.
 
 > Searching and downloading that manga is supported via MangaEden's API : http://www.mangaeden.com/api/
@@ -68,7 +68,7 @@ sudo apt-get install libfreetype6 libfreetype6-dev
 sudo apt-get install libfontconfig1 libfontconfig1-dev
 ```
 Grab the suitable `tar.bz2` file from this [link](http://phantomjs.org/download.html)
-Extract the contents of this `tar.bz2` file you just downloaded. Open a terminal and follow the commands. 
+Extract the contents of this `tar.bz2` file you just downloaded. Open a terminal and follow the commands.
 * Don't forget the change the name of the file(s) mentioned here with the ones that you downloaded.There might be a newer version when you download
 ```
 cd /Name/of_the/directory/that/contains/the/tar_bz2/file
@@ -126,7 +126,7 @@ and then, execute with this :
 `./__main__.py`
 
 
-### Docker 
+### Docker
 
 With docker you can get the whole dependencies enclosed in a container and use the `comic_dl` from your system.
 
@@ -134,7 +134,7 @@ You need an up and running Docker client running, follow the [Docker Documentati
 
 A minimal example is here, you can change each step as you wish.
 
-1. Clone this repo with  `git clone [REPOSITORY URL.git]` 
+1. Clone this repo with  `git clone [REPOSITORY URL.git]`
 
 2. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
 
@@ -165,9 +165,9 @@ usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
 This script supports python 3. You can run this on python 2 as well, as long as you have all the dependencies installed.
 
 ## Windows Binary
-It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 
+It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies.
 
-You need to download and install [Node.js](https://nodejs.org/en/) and make sure it is in your Windows path (watch out for the tick box during install). 
+You need to download and install [Node.js](https://nodejs.org/en/) and make sure it is in your Windows path (watch out for the tick box during install).
 
 You also need to download [PhantomJS](http://phantomjs.org/download.html) and keep it in the same directory as that of this windows binary file or you need to have PhantomJS in your path. PhantomJS is required for some websites, which you can check in the [list of supported sites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
@@ -199,14 +199,14 @@ Currently, the script supports these arguments :
 -cid, --chapter-id                     Takes the Chapter ID to list all the chapters in a Manga.
 -fd, --force-download                  Forces download of chapters, when using comic-dl's search function.
 -pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
---comic                                Add this after -i if you are inputting a comic id or the EXACT comic name. 
+--comic                                Add this after -i if you are inputting a comic id or the EXACT comic name.
                                        [ Ex : -i "Deadpool Classic" --comic ]
--comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to 
+-comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to
                                        [ Ex : -comic-search "Deadpool" ]
 -comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact comic name).
                                        [ Ex : -comic-info "Deadpool Classic" ] or [ Ex : -comic-info 3865 ]
 --update                               Updates the comic database for the given argument.
-                                       [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.to/Comic/Deadpool-Classic" ]
+                                       [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.li/Comic/Deadpool-Classic" ]
 ```
 
 ## Language Codes:
@@ -244,7 +244,7 @@ Language Code --> Language
 26 --> Esperanto
 27 --> Swedish
 28 --> Lithuanian
-29 --> Other 
+29 --> Other
 ```
 
 #### Note :
@@ -368,7 +368,7 @@ To generate the config file run the comand below and follow the instructions
 ```
 python __main__.py --config
 ```
-or with the binary 
+or with the binary
 
 ```
 comic_dl.exe --config
@@ -376,12 +376,12 @@ comic_dl.exe --config
 
 This commands supports the creation of the config file, the addition and remove of series and the edition of the common download configuration.
 
-Once the config file is generated you can download automatically the new chapters available for your selected comics by running the command bellow. The command will automatically update the config file to the lastest chapter downloaded, so in the next run it'll download just the new ones. 
+Once the config file is generated you can download automatically the new chapters available for your selected comics by running the command bellow. The command will automatically update the config file to the lastest chapter downloaded, so in the next run it'll download just the new ones.
 
 ```
 python __main__.py --auto
 ```
-or with the binary 
+or with the binary
 
 ```
 comic_dl.exe --auto
@@ -417,7 +417,7 @@ If you don't include the verbose log, there are chances it'll take time to fix t
 
 P.S : Just attaching a screenshot will NOT tell or anyone else what happened behind the scenes. So, Error Log is mandatory.
 
- 
+
 ### Suggesting A Feature
 If you're here to make suggestions, please follow the basic syntax to post a request :
 
