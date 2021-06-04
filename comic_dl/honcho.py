@@ -218,7 +218,7 @@ class Honcho(object):
                           comic_language=self.comic_language_resolver(comic_language),
                           print_index=print_index)
             return 0
-        elif domain in ["manganelo.com", "mangakakalot.com"]:
+        elif domain in ["manganelo.com", "mangakakalot.com", "manganato.com", "readmanganato.com"]:
             manganelo.Manganelo(manga_url=comic_url, logger=logging, current_directory=current_directory,
                                 sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),

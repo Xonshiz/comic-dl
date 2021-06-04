@@ -55,7 +55,7 @@ class RawSenaManga(object):
         links = []
         file_names = []
         for x in range(0, last_page_number + 1):
-            if x is 0:
+            if x == 0:
                 pass
             else:
                 # file_name = "0" + str(x) + ".jpg"

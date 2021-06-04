@@ -15,7 +15,7 @@
 * [mangareader.net](http://www.mangareader.net/)
 * [readcomicbooksonline.net](http://readcomicbooksonline.net/)
 ~* [readcomics.website](http://www.readcomics.website/)~
-* [manganelo.com](https://manganelo.com/) * [mangakakalot.com](https://mangakakalot.com/)
+* [manganelo.com](https://manganelo.com/) * [mangakakalot.com](https://mangakakalot.com/) * [manganato.com](https://manganato.com/) * [readmanganato.com](https://readmanganato.com/)
 * [hqbr.com.br](https://hqbr.com.br/home)
 * [comicextra.com](http://www.comicextra.com)
 * [readcomics.io](https://www.readcomics.io/)
