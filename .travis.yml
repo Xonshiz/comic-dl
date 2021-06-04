@@ -5,7 +5,7 @@ matrix:
         - 2.6
       dist: trusty
       install:
-        - "pip install -r requirements.txt"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
       script:
         - cd hulusubs_dl
         - python __main__.py --version
@@ -18,7 +18,7 @@ matrix:
         - 2.7
       dist: trusty
       install:
-        - "pip install -r requirements.txt"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
       script:
         - cd hulusubs_dl
         - python __main__.py --version
@@ -41,7 +41,7 @@ matrix:
         - 3.5
       dist: trusty
       install:
-        - "pip install -r requirements.txt"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
       script:
         - cd comic_dl
         - python __main__.py --version
@@ -58,7 +58,7 @@ matrix:
         - "pip install --upgrade pip"
       install:
         - "python --version"
-        - "pip install requests"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
@@ -95,7 +95,7 @@ matrix:
         - python -m pip install --upgrade pip
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
       install:
-        - "pip install -r requirements.txt"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
@@ -129,7 +129,7 @@ matrix:
         - python3 --version
         - python3 -m pip install --upgrade pip
       install:
-        - "pip install -r requirements.txt"
+        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
