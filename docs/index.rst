@@ -125,7 +125,7 @@ and then, execute with this :
 `./__main__.py`
 
 ## Python Support
-This script supports both, Python 3 and Python 2.
+This script supports python 3. You can run this on python 2 as well, as long as you have all the dependencies installed.
 
 ## Windows Binary
 It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies. 

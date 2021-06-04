@@ -2,39 +2,13 @@ matrix:
   include:
     - language: python
       python:
-        - 2.7
+        - 3.6
       dist: trusty
       before_install:
         - "pip install --upgrade pip"
         - "pip install --upgrade setuptools"
       install:
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
-      script:
-        - cd hulusubs_dl
-        - python __main__.py --version
-        - cd ..
-      deploy:
-        - provider: pypi
-          edge:
-            branch: v1.8.45
-          username: xonshiz
-          password:
-            secure: lHfaeruvQM4QL3hk1+wSwVSNjkeQH153X9Oi+nY1SaahjEg1l9mNaubfq7l8mNRgbZzW3yOHswDOLz6bNlSKX9xnjecl/5jVOg97ImChujtwZobGmCJuSBq+F2HGt3KnJefjgv2E/kAMgKPLJJSZHIGzxaYDLyRiz8hr6aMdPFEU8rY8Ha4OpHOCjQrZOULgUYQs/UR2FzjI6QhIqHOlc+reZbtADI9Z69i16iTXf+isAFgwEW+Na/uxODT3kXgt5HXxNayODPlMCVBABfWyDajoeJFmYE90hggPI3FmBn9rapTEIJMMDhT5Sh/T7lIVgyJGBA6eT4lBiEPgB4CS8Vbh6nW00RjrgYWMDPMpxqNA3hBCRsQ1zpOQc5idH8yxS2Y+7GxwWqcqmGiuvE0/a0ytU5vDeM+VkjSN1irFEW1tAPjMNHLK8aPDDteu0qCyhDK17W4NOuZ8DQgxjvPwsSIElQOTnEy4UdXNkcQa8rnPIHnHa0ceoOZI1gYdn/xlrKcmXmGSGCi4KBpo1bQ1fC6QnHleKsognpNAr4diJxgqDjRMUmcfQOWW8c2hji2xUH34amvVMZVpbJu1zkM/o8I7upaAjwE6H/s7Azo2X/sKYyH0uJDeWYrTHofp9M3yWJKJQ3/nqzG8Ete9caZBbKcj0pb6RXdJ8iAR4JLUDJE=
-          distributions: "sdist bdist_wheel"
-          on:
-            branch: master
-      notifications:
-        email:
-          - xonshiz@gmail.com
-    - language: python
-      python:
-        - 3.5
-      dist: trusty
-      before_install:
-        - "pip install --upgrade pip"
-        - "pip install --upgrade setuptools"
-      install:
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
+        - "pip install -r requirements.txt"
       script:
         - cd comic_dl
         - python __main__.py --version
@@ -52,7 +26,8 @@ matrix:
         - "pip install --upgrade setuptools"
       install:
         - "python --version"
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
+        - "pip install -r requirements.txt"
+        - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
@@ -89,7 +64,7 @@ matrix:
         - python -m pip install --upgrade pip
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
       install:
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
+        - "pip install  -r requirements.txt"
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
@@ -124,7 +99,8 @@ matrix:
         - python3 --version
         - python3 -m pip install --upgrade pip
       install:
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
+        - "pip install  -r requirements.txt"
+        - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
         - cd comic_dl

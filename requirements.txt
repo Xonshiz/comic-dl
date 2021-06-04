@@ -3,7 +3,6 @@ bs4
 requests
 clint
 img2pdf
-enum34
 future
 colorama
 cloudscraper
