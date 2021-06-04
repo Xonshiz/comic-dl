@@ -1,20 +1,158 @@
-language: python
-python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev" # 3.5 development branch
-  - "3.6-dev" # 3.6 development branch
-  - "nightly" # currently points to 3.7-dev
-# command to install dependencies
-install: "pip install -r requirements.txt"
-# command to run tests
-#script: nosetests
-#script: cd comic_dl
-script:
-- cd comic_dl
-- python __main__.py --version
-notifications:
-  email:
-    - xonshiz@psychoticelites.com
+matrix:
+  include:
+    - language: python
+      python:
+        - 2.6
+      dist: trusty
+      install:
+        - "pip install -r requirements.txt"
+      script:
+        - cd hulusubs_dl
+        - python __main__.py --version
+        - cd ..
+      notifications:
+        email:
+          - xonshiz@gmail.com
+    - language: python
+      python:
+        - 2.7
+      dist: trusty
+      install:
+        - "pip install -r requirements.txt"
+      script:
+        - cd hulusubs_dl
+        - python __main__.py --version
+        - cd ..
+      deploy:
+        - provider: pypi
+          edge:
+            branch: v1.8.45
+          username: xonshiz
+          password:
+            secure: lHfaeruvQM4QL3hk1+wSwVSNjkeQH153X9Oi+nY1SaahjEg1l9mNaubfq7l8mNRgbZzW3yOHswDOLz6bNlSKX9xnjecl/5jVOg97ImChujtwZobGmCJuSBq+F2HGt3KnJefjgv2E/kAMgKPLJJSZHIGzxaYDLyRiz8hr6aMdPFEU8rY8Ha4OpHOCjQrZOULgUYQs/UR2FzjI6QhIqHOlc+reZbtADI9Z69i16iTXf+isAFgwEW+Na/uxODT3kXgt5HXxNayODPlMCVBABfWyDajoeJFmYE90hggPI3FmBn9rapTEIJMMDhT5Sh/T7lIVgyJGBA6eT4lBiEPgB4CS8Vbh6nW00RjrgYWMDPMpxqNA3hBCRsQ1zpOQc5idH8yxS2Y+7GxwWqcqmGiuvE0/a0ytU5vDeM+VkjSN1irFEW1tAPjMNHLK8aPDDteu0qCyhDK17W4NOuZ8DQgxjvPwsSIElQOTnEy4UdXNkcQa8rnPIHnHa0ceoOZI1gYdn/xlrKcmXmGSGCi4KBpo1bQ1fC6QnHleKsognpNAr4diJxgqDjRMUmcfQOWW8c2hji2xUH34amvVMZVpbJu1zkM/o8I7upaAjwE6H/s7Azo2X/sKYyH0uJDeWYrTHofp9M3yWJKJQ3/nqzG8Ete9caZBbKcj0pb6RXdJ8iAR4JLUDJE=
+          distributions: "sdist bdist_wheel"
+          on:
+            branch: master
+      notifications:
+        email:
+          - xonshiz@gmail.com
+    - language: python
+      python:
+        - 3.5
+      dist: trusty
+      install:
+        - "pip install -r requirements.txt"
+      script:
+        - cd comic_dl
+        - python __main__.py --version
+        - cd ..
+      notifications:
+        email:
+          - xonshiz@gmail.com
+    - os: linux
+      language: python
+      python:
+        - 3.8
+      dist: xenial
+      before_install:
+        - "pip install --upgrade pip"
+      install:
+        - "python --version"
+        - "pip install requests"
+        - "pip install pyinstaller"
+      script:
+        - cd comic_dl
+        - python __main__.py --version
+        - pyinstaller --onefile --hidden-import=queue "__main__.py" -n "comic_dl_linux"
+        - cd ..
+      notifications:
+        email:
+          - xonshiz@gmail.com
+      before_deploy:
+        - export TRAVIS_TAG="1.0.$TRAVIS_BUILD_NUMBER"
+        - echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+        - git config --local user.name "$USER_NAME"
+        - git config --local user.email "$USER_EMAIL"
+        - git tag "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+      deploy:
+        - provider: releases
+          tag_name: $TRAVIS_TAG
+          overwrite: true
+          api_key: $GITHUB_TOKEN
+          name: "Comic_dl"
+          file: "comic_dl/dist/comic_dl_linux"
+          skip_cleanup: true
+          draft: false
+          on:
+            branch: master
+    - os: windows
+      language: sh
+      python: "3.8"
+      before_install:
+        - choco install python --version 3.8.0
+        - python --version
+        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+        - python -m pip install --upgrade pip
+      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+      install:
+        - "pip install -r requirements.txt"
+        - "pip install pyinstaller"
+      script:
+        - cd comic_dl
+        - python __main__.py --version
+        - pyinstaller --onefile --hidden-import=queue "__main__.py" -n "comic_dl.exe"
+        - cd ..
+      notifications:
+        email:
+          - xonshiz@gmail.com
+      before_deploy:
+        - export TRAVIS_TAG="1.0.$TRAVIS_BUILD_NUMBER"
+        - echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+        - git config --local user.name "$USER_NAME"
+        - git config --local user.email "$USER_EMAIL"
+        - git tag "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+      deploy:
+        - provider: releases
+          tag_name: $TRAVIS_TAG
+          overwrite: true
+          api_key: $GITHUB_TOKEN
+          name: "Comic_dl"
+          file: "comic_dl/dist/comic_dl.exe"
+          skip_cleanup: true
+          draft: false
+          on:
+            branch: master
+    - os: osx
+      language: sh
+      python: "3.8"
+      before_install:
+        - python3 --version
+        - python3 -m pip install --upgrade pip
+      install:
+        - "pip install -r requirements.txt"
+        - "pip install pyinstaller"
+      script:
+        - cd comic_dl
+        - python3 __main__.py --version
+        - pyinstaller --onefile --hidden-import=queue "__main__.py"  -n "comic_dl_osx"
+        - export huluVersion=`cat version.txt`
+        - cd ..
+      notifications:
+        email:
+          - xonshiz@gmail.com
+      before_deploy:
+        - export TRAVIS_TAG="1.0.$TRAVIS_BUILD_NUMBER"
+        - echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+        - git config --local user.name "$USER_NAME"
+        - git config --local user.email "$USER_EMAIL"
+      deploy:
+        - provider: releases
+          tag_name: $TRAVIS_TAG
+          overwrite: true
+          api_key: $GITHUB_TOKEN
+          name: "Comic_dl"
+          file: "comic_dl/dist/comic_dl_osx"
+          skip_cleanup: true
+          draft: false
+          on:
+            branch: master
