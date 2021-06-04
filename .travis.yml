@@ -2,21 +2,11 @@ matrix:
   include:
     - language: python
       python:
-        - 2.6
-      dist: trusty
-      install:
-        - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
-      script:
-        - cd hulusubs_dl
-        - python __main__.py --version
-        - cd ..
-      notifications:
-        email:
-          - xonshiz@gmail.com
-    - language: python
-      python:
         - 2.7
       dist: trusty
+      before_install:
+        - "pip install --upgrade pip"
+        - "pip install --upgrade setuptools"
       install:
         - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
       script:
@@ -40,6 +30,9 @@ matrix:
       python:
         - 3.5
       dist: trusty
+      before_install:
+        - "pip install --upgrade pip"
+        - "pip install --upgrade setuptools"
       install:
         - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
       script:
@@ -56,6 +49,7 @@ matrix:
       dist: xenial
       before_install:
         - "pip install --upgrade pip"
+        - "pip install --upgrade setuptools"
       install:
         - "python --version"
         - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
@@ -96,6 +90,7 @@ matrix:
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
       install:
         - "pip install tqdm bs4 requests clint img2pdf enum34 future colorama cloudscraper"
+        - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
