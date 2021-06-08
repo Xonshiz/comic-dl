@@ -93,7 +93,7 @@ class Honcho(object):
                                 keep_files=kwargs.get("keep_files"))
             return 0
         elif domain in ["www.readcomiconline.li", "readcomiconline.li"]:
-            readcomicOnlineto.ReadComicOnlineTo(manga_url=comic_url, logger=logging,
+            readcomicOnlineli.ReadComicOnlineLi(manga_url=comic_url, logger=logging,
                                                 current_directory=current_directory, sorting_order=sorting,
                                                 log_flag=log_flag, download_directory=download_directory,
                                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
