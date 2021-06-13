@@ -17,9 +17,8 @@ matrix:
         - provider: pypi
           edge:
             branch: v1.8.45
-          username: xonshiz
-          password:
-            secure: lHfaeruvQM4QL3hk1+wSwVSNjkeQH153X9Oi+nY1SaahjEg1l9mNaubfq7l8mNRgbZzW3yOHswDOLz6bNlSKX9xnjecl/5jVOg97ImChujtwZobGmCJuSBq+F2HGt3KnJefjgv2E/kAMgKPLJJSZHIGzxaYDLyRiz8hr6aMdPFEU8rY8Ha4OpHOCjQrZOULgUYQs/UR2FzjI6QhIqHOlc+reZbtADI9Z69i16iTXf+isAFgwEW+Na/uxODT3kXgt5HXxNayODPlMCVBABfWyDajoeJFmYE90hggPI3FmBn9rapTEIJMMDhT5Sh/T7lIVgyJGBA6eT4lBiEPgB4CS8Vbh6nW00RjrgYWMDPMpxqNA3hBCRsQ1zpOQc5idH8yxS2Y+7GxwWqcqmGiuvE0/a0ytU5vDeM+VkjSN1irFEW1tAPjMNHLK8aPDDteu0qCyhDK17W4NOuZ8DQgxjvPwsSIElQOTnEy4UdXNkcQa8rnPIHnHa0ceoOZI1gYdn/xlrKcmXmGSGCi4KBpo1bQ1fC6QnHleKsognpNAr4diJxgqDjRMUmcfQOWW8c2hji2xUH34amvVMZVpbJu1zkM/o8I7upaAjwE6H/s7Azo2X/sKYyH0uJDeWYrTHofp9M3yWJKJQ3/nqzG8Ete9caZBbKcj0pb6RXdJ8iAR4JLUDJE=
+          username: __token__
+          password: $PYPI_TOKEN
           distributions: "sdist bdist_wheel"
           on:
             branch: master
@@ -106,15 +105,15 @@ matrix:
       language: sh
       python: "3.8"
       before_install:
-        - python3 --version
-        - python3 -m pip install --upgrade pip
+        - python --version
+        - python -m pip install --upgrade pip
       install:
         - "pip install  -r requirements.txt"
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
-        - python3 __main__.py --version
+        - python __main__.py --version
         - pyinstaller --onefile --hidden-import=queue "__main__.py"  -n "comic_dl_osx"
         - export huluVersion=`cat version.txt`
         - cd ..

@@ -1,39 +1,26 @@
-from distutils.core import setup
+import setuptools
+
+from comic_dl import __version__
 
 readme = open('ReadMe.md').read()
 history = open('Changelog.md').read()
 
-setup(
-  name = 'comic_dl',
-  packages = ['comic_dl','comic_dl.sites', 'comic_dl.manga_eden'], # this must be the same as the name above
-  install_requires=["selenium",
-                      "requests",
-                      "more_itertools",
-                      "cloudscraper",
-                      "bs4"
+setuptools.setup(
+    name="comic_dl", # Replace with your own username
+    version=__version__.__version__,
+    author="Xonshiz",
+    author_email='xonshiz@gmail.com',
+    url='https://github.com/Xonshiz/comic-dl',
+    download_url='https://github.com/Xonshiz/comic-dl/releases/latest',
+    description="Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.",
+    long_description='{0}\n\n{1}'.format(readme, history),
+    long_description_content_type="text/markdown",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-  version = '2018.01.10',
-  description = 'Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily.',
-  long_description=readme + '\n\n' + history,
-  author = 'Xonshiz',
-  author_email = 'xonshiz@psychoticelites.com',
-  url='https://github.com/Xonshiz/comic-dl',
-  download_url = 'https://codeload.github.com/Xonshiz/comic-dl/tar.gz/2018.1.10',
-  keywords = ['comic-dl', 'cli', 'comic downloader','manga downloader','mangafox','batoto','kissmanga','comic naver','readcomiconline'],
-  classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: Console',
-        'Intended Audience :: End Users/Desktop',
-        'License :: Public Domain',
-        'Natural Language :: English',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Operating System :: OS Independent',
-        'Topic :: Multimedia :: Graphics'
-    ],
+    python_requires='>=3.0',
 )
+

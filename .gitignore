@@ -103,3 +103,8 @@ comic_dl/config.json*
 comic_dl/build/__main__/localpycos/struct.pyo
 comic_dl/__main__.spec,old
 comic_dl/build/__main__/warn-__main__.txt
+venv/*
+build/*
+dist/*
+comic_dl/build/*
+comic_dl/dist/*
