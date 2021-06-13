@@ -65,7 +65,7 @@ matrix:
             branch: master
     - os: windows
       language: sh
-      python: "3.8"
+      python: 3.8
       before_install:
         - choco install python --version 3.8.0
         - python --version
@@ -103,17 +103,17 @@ matrix:
             branch: master
     - os: osx
       language: sh
-      python: "3.8"
+      python: 3.8
       before_install:
-        - python --version
-        - python -m pip install --upgrade pip
+        - python3 --version
+        - python3 -m pip install --upgrade pip
       install:
         - "pip install  -r requirements.txt"
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
         - cd comic_dl
-        - python __main__.py --version
+        - python3 __main__.py --version
         - pyinstaller --onefile --hidden-import=queue "__main__.py"  -n "comic_dl_osx"
         - export huluVersion=`cat version.txt`
         - cd ..
