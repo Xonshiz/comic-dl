@@ -16,7 +16,9 @@ class Manganelo():
         self.manga_url = manga_url
         self.print_index = kwargs.get("print_index")
 
-        if "/chapter/" in manga_url:
+        url_split = str(manga_url).split("/")
+
+        if "/chapter/" in manga_url or ("readmanganato" in manga_url and len(url_split) >= 5):
             self.single_chapter(manga_url=manga_url, download_directory=download_directory,
                                 conversion=conversion, keep_files=keep_files)
         else:
