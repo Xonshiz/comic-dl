@@ -7,7 +7,7 @@ import json
 import sys
 #import mangaChapterDownload
 from comic_dl import globalFunctions
-from .mangaChapterDownload import *
+from comic_dl.manga_eden.mangaChapterDownload import *
 
 
 class MangaChapters():
