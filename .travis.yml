@@ -110,7 +110,7 @@ matrix:
       install:
         - "pip install  -r requirements.txt"
         - "pip uninstall -y enum34"
-        - "pip install pyinstaller"
+        - "pip install -Iv pyinstaller==4.3"
       script:
         - cd comic_dl
         - python3 __init__.py --version
