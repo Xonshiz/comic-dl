@@ -39,11 +39,9 @@ matrix:
       script:
         - python cli.py --version
         - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
-        - ls
-        - cd comic_dl
-        - ls
         - cd dist
         - ls
+        - readlink -f comic_dl_linux
       notifications:
         email:
           - xonshiz@gmail.com
