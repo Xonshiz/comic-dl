@@ -3,7 +3,6 @@
 
 import os
 import sys
-sys.path.append("..")
 from comic_dl.comic_dl import ComicDL
 from comic_dl import sites
 from comic_dl import manga_eden
