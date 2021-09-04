@@ -8,17 +8,17 @@ import argparse
 import logging
 import sys
 import platform
-from comic_dl import honcho
+import honcho
 import os
 import time
 import json
-from comic_dl import configGenerator
-from comic_dl.manga_eden import mangaChapters
-from comic_dl.manga_eden import mangaChapterDownload
-from comic_dl.manga_eden import mangaSearch
+import configGenerator
+from manga_eden import mangaChapters
+from manga_eden import mangaChapterDownload
+from manga_eden import mangaSearch
 
-from comic_dl.readcomiconline import RCO
-from comic_dl.readcomiconline import dataUpdate
+from readcomiconline import RCO
+from readcomiconline import dataUpdate
 
 CONFIG_FILE = 'config.json'
 
