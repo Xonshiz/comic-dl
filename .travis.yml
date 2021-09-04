@@ -10,8 +10,7 @@ matrix:
       install:
         - "pip install -r requirements.txt"
       script:
-        - cd comic_dl
-        - python __init__.py --version
+        - python cli.py --version
         - cd ..
       deploy:
         - provider: pypi
@@ -40,8 +39,8 @@ matrix:
         - "pip install pyinstaller"
       script:
         - cd comic_dl
-        - python __init__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__init__.py" -n "comic_dl_linux"
+        - python cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
         - cd ..
       notifications:
         email:
@@ -78,8 +77,8 @@ matrix:
         - "pip install pyinstaller"
       script:
         - cd comic_dl
-        - python __init__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__init__.py" -n "comic_dl.exe"
+        - python cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl.exe"
         - cd ..
       notifications:
         email:
@@ -113,8 +112,8 @@ matrix:
         - "pip install -Iv pyinstaller==4.3"
       script:
         - cd comic_dl
-        - python3 __init__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__init__.py"  -n "comic_dl_osx"
+        - python3 cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py"  -n "comic_dl_osx"
         - cd ..
       notifications:
         email:

@@ -32,4 +32,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Topic :: Multimedia :: Graphics'
     ],
+    entry_points={"console_scripts": ["comic_dl=comic_dl.__main__:main"]}
 )

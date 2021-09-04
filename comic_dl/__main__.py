@@ -15,3 +15,7 @@ from comic_dl.comic_dl import ComicDL
 
 if __name__ == "__main__":
     ComicDL(sys.argv[1:])
+
+
+def main():
+    ComicDL(sys.argv[1:])
