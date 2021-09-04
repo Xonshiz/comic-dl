@@ -3,22 +3,22 @@
 
 from tqdm import tqdm
 
-from __version__ import __version__
+from .__version__ import __version__
 import argparse
 import logging
 import sys
 import platform
-import honcho
+from . import honcho
 import os
 import time
 import json
-import configGenerator
-from manga_eden import mangaChapters
-from manga_eden import mangaChapterDownload
-from manga_eden import mangaSearch
+from . import configGenerator
+from .manga_eden import mangaChapters
+from .manga_eden import mangaChapterDownload
+from .manga_eden import mangaSearch
 
-from readcomiconline import RCO
-from readcomiconline import dataUpdate
+from .readcomiconline import RCO
+from .readcomiconline import dataUpdate
 
 CONFIG_FILE = 'config.json'
 

@@ -6,25 +6,25 @@ try:
 except ImportError:
     from urlparse import urlparse
 import logging
-from sites import foolSlide
-from sites import readcomicOnlineli
-from sites import comicNaver
-from sites import mangaHere
-from sites import rawSenManga
-from sites import mangaFox
-from sites import omgBeauPeep
-from sites import mangaReader
-from sites import mangaEden
-from sites import acQQ
-from sites import stripUtopia
-from sites import readComicBooksOnline
-from sites import readComicsWebsite
-from sites import batoto
-from sites import hqbr
-from sites import comicextra
-from sites import readComicsIO
-from sites import japscan
-from sites import manganelo
+from .sites import foolSlide
+from .sites import readcomicOnlineli
+from .sites import comicNaver
+from .sites import mangaHere
+from .sites import rawSenManga
+from .sites import mangaFox
+from .sites import omgBeauPeep
+from .sites import mangaReader
+from .sites import mangaEden
+from .sites import acQQ
+from .sites import stripUtopia
+from .sites import readComicBooksOnline
+from .sites import readComicsWebsite
+from .sites import batoto
+from .sites import hqbr
+from .sites import comicextra
+from .sites import readComicsIO
+from .sites import japscan
+from .sites import manganelo
 
 
 class Honcho(object):
