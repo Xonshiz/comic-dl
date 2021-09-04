@@ -11,7 +11,6 @@ matrix:
         - "pip install -r requirements.txt"
       script:
         - python cli.py --version
-        - cd ..
       deploy:
         - provider: pypi
           edge:
@@ -38,10 +37,8 @@ matrix:
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
-        - cd comic_dl
         - python cli.py --version
         - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
-        - cd ..
       notifications:
         email:
           - xonshiz@gmail.com
@@ -76,10 +73,8 @@ matrix:
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
-        - cd comic_dl
         - python cli.py --version
         - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl.exe"
-        - cd ..
       notifications:
         email:
           - xonshiz@gmail.com
@@ -111,10 +106,8 @@ matrix:
         - "pip uninstall -y enum34"
         - "pip install -Iv pyinstaller==4.3"
       script:
-        - cd comic_dl
         - python3 cli.py --version
         - pyinstaller --onefile --hidden-import=queue "cli.py"  -n "comic_dl_osx"
-        - cd ..
       notifications:
         email:
           - xonshiz@gmail.com
