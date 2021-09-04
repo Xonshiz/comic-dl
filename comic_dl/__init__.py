@@ -6,3 +6,4 @@
 # from comic_dl import comic_dl
 # from comic_dl import globalFunctions
 # from comic_dl import comic_dl.comic_dl.ComicDL
+from . import *
