@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from comic_dl import ComicDL
-import sites
-import manga_eden
+import os
 import sys
+sys.path.append("..")
+from comic_dl.comic_dl import ComicDL
+from comic_dl import sites
+from comic_dl import manga_eden
 
 if __name__ == "__main__":
     ComicDL(sys.argv[1:])

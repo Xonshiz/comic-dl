@@ -4,7 +4,7 @@ import os
 import re
 
 import cloudscraper
-import globalFunctions
+from comic_dl import globalFunctions
 from PIL import Image
 from bs4 import BeautifulSoup
 from tqdm import tqdm
