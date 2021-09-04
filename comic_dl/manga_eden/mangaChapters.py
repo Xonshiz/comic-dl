@@ -5,9 +5,9 @@ import cloudscraper
 import requests
 import json
 import sys
-#import mangaChapterDownload
-from comic_dl import globalFunctions
-from comic_dl.manga_eden.mangaChapterDownload import *
+# import mangaChapterDownload
+# from comic_dl import globalFunctions
+from .mangaChapterDownload import *
 
 
 class MangaChapters():

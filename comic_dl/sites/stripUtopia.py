@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from comic_dl import globalFunctions
+from .. import globalFunctions
 import os
 import logging
 
