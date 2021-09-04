@@ -54,7 +54,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl_linux"
+          file: "comic-dl/comic_dl/dist/comic_dl_linux"
           skip_cleanup: true
           draft: false
           on:
@@ -90,7 +90,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl.exe"
+          file: "comic-dl/comic_dl/dist/comic_dl.exe"
           skip_cleanup: true
           draft: false
           on:
@@ -122,7 +122,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl_osx"
+          file: "comic-dl/comic_dl/dist/comic_dl_osx"
           skip_cleanup: true
           draft: false
           on:
