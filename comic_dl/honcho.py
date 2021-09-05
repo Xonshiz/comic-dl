@@ -6,26 +6,25 @@ try:
 except ImportError:
     from urlparse import urlparse
 import logging
-from sites import foolSlide
-from sites import readcomicOnlineli
-from sites import comicNaver
-from sites import mangaHere
-from sites import rawSenManga
-from sites import mangaFox
-from sites import omgBeauPeep
-from sites import mangaReader
-from sites import mangaEden
-from sites import acQQ
-from sites import stripUtopia
-from sites import readComicBooksOnline
-from sites import readComicsWebsite
-from sites import batoto
-from sites import hqbr
-from sites import comicextra
-from sites import readComicsIO
-from sites import japscan
-from sites import manganelo
-import globalFunctions
+from .sites import foolSlide
+from .sites import readcomicOnlineli
+from .sites import comicNaver
+from .sites import mangaHere
+from .sites import rawSenManga
+from .sites import mangaFox
+from .sites import omgBeauPeep
+from .sites import mangaReader
+from .sites import mangaEden
+from .sites import acQQ
+from .sites import stripUtopia
+from .sites import readComicBooksOnline
+from .sites import readComicsWebsite
+from .sites import batoto
+from .sites import hqbr
+from .sites import comicextra
+from .sites import readComicsIO
+from .sites import japscan
+from .sites import manganelo
 
 
 class Honcho(object):
@@ -92,7 +91,7 @@ class Honcho(object):
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                 keep_files=kwargs.get("keep_files"))
             return 0
-        elif domain in ["www.readcomiconline.li", "readcomiconline.li"]:
+        elif domain in ["www.readcomiconline.li", "readcomiconline.li", "www.readcomicsonline.ru", "readcomicsonline.ru"]:
             readcomicOnlineli.ReadComicOnlineLi(manga_url=comic_url, logger=logging,
                                                 current_directory=current_directory, sorting_order=sorting,
                                                 log_flag=log_flag, download_directory=download_directory,

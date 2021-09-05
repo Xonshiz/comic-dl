@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import globalFunctions
+from comic_dl import globalFunctions
 import requests
 import cloudscraper
 from bs4 import BeautifulSoup

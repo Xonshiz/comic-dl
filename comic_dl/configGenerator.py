@@ -19,7 +19,6 @@ class configGenerator(object):
                 print("3. Edit config file?")
                 print("\n0. Quit")
                 choice = input(" >>  ")
-                print
                 
                 os.system('clear')
 

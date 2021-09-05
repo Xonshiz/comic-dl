@@ -10,9 +10,7 @@ matrix:
       install:
         - "pip install -r requirements.txt"
       script:
-        - cd comic_dl
-        - python __main__.py --version
-        - cd ..
+        - python cli.py --version
       deploy:
         - provider: pypi
           edge:
@@ -39,10 +37,8 @@ matrix:
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
-        - cd comic_dl
-        - python __main__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__main__.py" -n "comic_dl_linux"
-        - cd ..
+        - python cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
       notifications:
         email:
           - xonshiz@gmail.com
@@ -58,7 +54,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl_linux"
+          file: "dist/comic_dl_linux"
           skip_cleanup: true
           draft: false
           on:
@@ -77,10 +73,8 @@ matrix:
         - "pip uninstall -y enum34"
         - "pip install pyinstaller"
       script:
-        - cd comic_dl
-        - python __main__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__main__.py" -n "comic_dl.exe"
-        - cd ..
+        - python cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl.exe"
       notifications:
         email:
           - xonshiz@gmail.com
@@ -96,7 +90,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl.exe"
+          file: "dist/comic_dl.exe"
           skip_cleanup: true
           draft: false
           on:
@@ -110,13 +104,10 @@ matrix:
       install:
         - "pip install  -r requirements.txt"
         - "pip uninstall -y enum34"
-        - "pip install pyinstaller"
+        - "pip install -Iv pyinstaller==4.3"
       script:
-        - cd comic_dl
-        - python3 __main__.py --version
-        - pyinstaller --onefile --hidden-import=queue "__main__.py"  -n "comic_dl_osx"
-        - export huluVersion=`cat version.txt`
-        - cd ..
+        - python3 cli.py --version
+        - pyinstaller --onefile --hidden-import=queue "cli.py"  -n "comic_dl_osx"
       notifications:
         email:
           - xonshiz@gmail.com
@@ -131,7 +122,7 @@ matrix:
           overwrite: true
           api_key: $GITHUB_TOKEN
           name: "Comic_dl"
-          file: "comic_dl/dist/comic_dl_osx"
+          file: "dist/comic_dl_osx"
           skip_cleanup: true
           draft: false
           on:

@@ -5,8 +5,8 @@ import cloudscraper
 import requests
 import json
 import sys
-#import mangaChapterDownload
-import globalFunctions
+# import mangaChapterDownload
+# from comic_dl import globalFunctions
 from .mangaChapterDownload import *
 
 

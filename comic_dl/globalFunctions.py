@@ -28,7 +28,13 @@ def easySlug(string, repl="-", directory=False):
         return re.sub("^\.|\.+$", "", easySlug(string, directory=False))
     else:
         return re.sub("[\\\\/:*?\"<>\|]|\ $", repl, string)
-        
+
+
+def merge_two_dicts(x, y):
+    z = x.copy()   # start with keys and values of x
+    z.update(y)    # modifies z with keys and values of y
+    return z
+
 
 class GlobalFunctions(object):
     def page_downloader(self, manga_url, scrapper_delay=5, **kwargs):
@@ -39,6 +45,8 @@ class GlobalFunctions(object):
                     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
                 'Accept-Encoding': 'gzip, deflate'
             }
+        if kwargs.get('append_headers'):
+            headers = merge_two_dicts(headers, dict(kwargs.get('append_headers')))
 
         sess = requests.session()
         sess = cloudscraper.create_scraper(sess, delay=scrapper_delay)
@@ -78,6 +86,8 @@ class GlobalFunctions(object):
                 'Accept-Encoding': 'gzip, deflate',
                 'Referer': referer
             }
+            if kwargs.get('append_headers'):
+                headers = merge_two_dicts(headers, dict(kwargs.get('append_headers')))
 
             sess = requests.session()
             sess = cloudscraper.create_scraper(sess)
@@ -212,7 +222,7 @@ class GlobalFunctions(object):
         return str(current_chapter_value).zfill(max_digits)
 
     def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag,
-                             pool_size=4):
+                             pool_size=4, **kwargs):
         """
         :param chapter_number: string used for the progress bar
         :param comic_name: string used for the progress bar
@@ -230,7 +240,7 @@ class GlobalFunctions(object):
                 try:
                     worker_item = in_queue.get()
                     self.downloader(referer=comic_url, directory_path=directory_path, pbar=pbar, log_flag=log_flag,
-                                    image_and_name=worker_item)
+                                    image_and_name=worker_item, **kwargs)
                     in_queue.task_done()
                 except queue.Empty as ex1:
                     logging.info(ex1)

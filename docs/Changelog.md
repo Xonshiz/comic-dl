@@ -117,4 +117,11 @@
 - PR Merge for #199   [2018.11.27]
 - All PRs Merged [2019.05.26]
 - All PRs Merged [2021.06.13]
+- Fixing import levels [2021.09.04]
+- Added a 5 second wait while downloading whole chapter from RCO as suggested in #261 [2021.09.05]
+- Fixed #220 [2021.09.05]
+- Added support for readcomicsonline.ru [Fix for #290] [2021.09.05]
+- Updated ReadMe to include "execution" on windows [2021.09.05]
+- Removed setup2.py file [2021.09.05]
+- Checking for existing CBZ/PDF files before downloading them again [Fix for #247] [2021.09.05]
 - Fix for chapter download at readmanganato

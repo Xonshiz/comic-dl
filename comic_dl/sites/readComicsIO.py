@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import globalFunctions
-import re
+from comic_dl import globalFunctions
 import os
 
 

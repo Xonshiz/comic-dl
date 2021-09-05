@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import globalFunctions
+from comic_dl import globalFunctions
 import re
 
-from manga_eden import mangaChapters
+from comic_dl.manga_eden import mangaChapters
 
 
 class MangaEden:

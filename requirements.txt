@@ -6,3 +6,4 @@ img2pdf
 future
 colorama
 cloudscraper
+jsbeautifier
