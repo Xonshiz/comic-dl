@@ -5,6 +5,7 @@ from comic_dl import globalFunctions
 import re
 import os
 import logging
+import time
 
 
 class ReadComicOnlineLi(object):
@@ -38,27 +39,46 @@ class ReadComicOnlineLi(object):
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         # print("Received Comic Url : {0}".format(comic_url))
         print("Fooling CloudFlare...Please Wait...")
+        appended_headers = {
+            'referer': comic_url,
+            'Accept': "*/*",
+            'Cache-Control': 'no-cache'
+        }
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
-
-        img_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
-
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
-        # directory_path = os.path.realpath(file_directory)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        # image_len = len(image_list)
+        main_directory = str(directory_path).split(os.sep)
+        main_directory.pop()
+        converted_file_directory = str(os.sep.join(main_directory)) + os.sep
+        # For https://github.com/Xonshiz/comic-dl/issues/247
+        if str(conversion) != "None":
+            base_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(globalFunctions.easySlug(comic_name), chapter_number)
+            if os.path.isfile("{0}.cbz".format(base_file_name)) or os.path.isfile("{0}.pdf".format(base_file_name)):
+                print('Converted File already exists. Skipping.')
+                return 0
+
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=appended_headers)
+
+        img_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
+
+        if len(img_list) == 0:
+            data_src = re.findall(r'data-src="(.*?)"', str(source))
+            if len(data_src) > 0:
+                img_list = data_src
+
+
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
 
         links = []
         file_names = []
         for current_chapter, image_link in enumerate(img_list):
-            image_link = image_link.replace("\\", "")
+            image_link = str(image_link).strip().replace("\\", "")
 
             logging.debug("Image Link : %s" % image_link)
             image_link = image_link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
@@ -141,6 +161,7 @@ class ReadComicOnlineLi(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
+                    time.sleep(5)  # 5 second wait before downloading next chapter. Suggestion in #261
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
@@ -155,6 +176,7 @@ class ReadComicOnlineLi(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
+                    time.sleep(5)  # 5 second wait before downloading next chapter. Suggestion in #261
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
