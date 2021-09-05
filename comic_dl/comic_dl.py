@@ -258,7 +258,7 @@ class ComicDL(object):
                 args.convert = ["None"]
             if not args.keep:
                 args.keep = ["True"]
-            if not args.quality:
+            if not args.quality or args.quality == "True":
                 args.quality = ["Best"]
 
             # user_input = unicode(args.input[0], encoding='latin-1')

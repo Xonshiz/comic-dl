@@ -25,6 +25,7 @@ from .sites import comicextra
 from .sites import readComicsIO
 from .sites import japscan
 from .sites import manganelo
+from .sites import webtoons
 
 
 class Honcho(object):
@@ -232,6 +233,12 @@ class Honcho(object):
                                 sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                 keep_files=kwargs.get("keep_files"))
+            return 0
+        elif domain in ["www.webtoons.com", "webtoons.com"]:
+            webtoons.Webtoons(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                keep_files=kwargs.get("keep_files"), image_quality=kwargs.get("image_quality"))
             return 0
         else:
             print("%s is not supported at the moment. You can request it on the Github repository." % domain)

@@ -125,3 +125,4 @@
 - Removed setup2.py file [2021.09.05]
 - Checking for existing CBZ/PDF files before downloading them again [Fix for #247] [2021.09.05]
 - Fix for chapter download at readmanganato
+- Added support for webtoons.com (No audio download yet) [Fix for #284] [2021.09.05.1]
