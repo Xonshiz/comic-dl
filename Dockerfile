@@ -21,8 +21,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 #    ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
 
 # This install comic-dl and symlink to comic_dl command
+ENV PYTHONPATH "${PYTHONPATH}:/opt/comic-dl/comic_dl/"
 COPY / /opt/comic-dl
 RUN python -m pip install --upgrade pip && \
     python -m pip install -r /opt/comic-dl/requirements.txt && \
     chmod +x /opt/comic-dl/comic_dl/__main__.py  && \
-    ln -s /opt/comic-dl/comic_dl/__main__.py /usr/local/bin/comic_dl
+    cp /opt/comic-dl/comic_dl/__main__.py /usr/local/bin/comic_dl
