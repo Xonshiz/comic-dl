@@ -87,16 +87,16 @@ The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](
 
 **Linux/Debian** users make sure that this script is executable.just run this command, if you run into problem(s) :
 
-`chmod +x __main__.py`
+`chmod +x cli.py`
 
 and then, execute with this :
 
-`./__main__.py`
+`./cli.py`
 
 
 ### Docker
 
-With docker you can get the whole dependencies enclosed in a container and use the `comic_dl` from your system.
+With docker, you can get the whole dependencies enclosed in a container and use the `comic_dl` from your system.
 
 You need an up and running Docker client running, follow the [Docker Documentation](https://docs.docker.com/install/).
 
@@ -104,19 +104,28 @@ A minimal example is here, you can change each step as you wish.
 
 1. Clone this repo with  `git clone [REPOSITORY URL.git]`
 
-2. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
+2. edit the OWNER_UID and OWNER_GID in the Dockerfile with the user needed in your download directory
+
+you can determine the UID GID with the command `id`
 
 ```bash
-docker build -t comic-dl:py3.6.5-stretch .
+user@DESKTOP:/home/user$ id
+uid=1000(user) gid=1000(user)
 ```
 
-3. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
+3. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
 
 ```bash
-alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.6.5-stretch comic_dl -dd /directory"
+docker build -t comic-dl:py3.8-buster .
 ```
 
-4. Run it on your system. This actually starts a container on request and stop&delete it when finish.
+4. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
+
+```bash
+alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.8-buster comic_dl -dd /directory"
+```
+
+5. Run it on your system. This actually starts a container on request and stop&delete it when finish.
 
 ```bash
 usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
@@ -127,6 +136,28 @@ usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
                [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
                [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
 [...]
+```
+
+### Docker armv7
+
+It is recommended to cross build it. It takes a few hours on x86_64.
+
+qpdf and pikepdf need to be built from source on armv7.
+
+```bash
+docker build -f Dockerfile.armv7 -t comic-dl:py3.8-buster-armv7 --platform linux/arm/v7 .
+docker save -o comic-dl.tar comic-dl:py3.8-buster-armv7
+```
+
+and then import it on your arm machine.
+```bash
+docker load --input comic-dl.tar
+```
+
+and then use the correct alias:
+
+```bash
+alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.8-buster-armv7 comic_dl -dd /directory"
 ```
 
 ## Python Support
