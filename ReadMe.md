@@ -24,7 +24,8 @@ If you're looking for an application, or a UI for this, please move to : [CoMang
 * [List of Arguments](#list-of-arguments)
 * [Language Codes](#language-codes)
 * [Using The Search](#using-the-search)
-* [Youtube Tutorial](https://www.youtube.com/watch?v=TmQYhLHEZxA)
+* [
+Tutorial]()
 * [Usage](#usage)
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
@@ -332,7 +333,7 @@ Our example command for One Piece, chapter 2 would be : `comic_dl.exe --page-id 
 
 
 ## Youtube Tutorial
-[![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)](https://www.youtube.com/watch?v=TmQYhLHEZxA)
+[![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)]()
 
 ## Usage
 With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](https://github.com/Xonshiz/comic-dl#list-of-arguments) to know more about which arguments the script offers.
