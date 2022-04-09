@@ -19,18 +19,18 @@ on:
       - '.gitignore'
       - '.dockerignore'
 
-  pull_request:
-    branches: [ master ]
-    
-    # Don't trigger if it's just a documentation update
-    paths-ignore:
-      - '**.md'
-      - '**.MD'
-      - '**.yml'
-      - 'LICENSE'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.dockerignore'
+#  pull_request:
+#    branches: [ master ]
+#
+#    # Don't trigger if it's just a documentation update
+#    paths-ignore:
+#      - '**.md'
+#      - '**.MD'
+#      - '**.yml'
+#      - 'LICENSE'
+#      - '.gitattributes'
+#      - '.gitignore'
+#      - '.dockerignore'
 
 
 # TODO change to sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
