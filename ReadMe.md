@@ -1,5 +1,11 @@
 [![N|Solid](https://raw.githubusercontent.com/Xonshiz/comic-dl/master/Images/Icon.png)](https://github.com/Xonshiz/comic-dl)
-# Comic-DL | [![Build Status](https://travis-ci.com/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.com/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) | [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)  | [![GitHub release](https://img.shields.io/github/release/xonshiz/comic-dl.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases/latest) | [![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases)
+# Comic-DL
+[![Build Status](https://travis-ci.com/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.com/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) |
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)  |
+[![GitHub release](https://img.shields.io/github/release/xonshiz/comic-dl.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases/latest) |
+[![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases) |
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/)
+
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. You can search Manga from this tool as well. Idea from [youtube-dl](https://github.com/rg3/youtube-dl).
 
@@ -24,8 +30,6 @@ If you're looking for an application, or a UI for this, please move to : [CoMang
 * [List of Arguments](#list-of-arguments)
 * [Language Codes](#language-codes)
 * [Using The Search](#using-the-search)
-* [
-Tutorial]()
 * [Usage](#usage)
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
@@ -101,32 +105,17 @@ With docker, you can get the whole dependencies enclosed in a container and use 
 
 You need an up and running Docker client running, follow the [Docker Documentation](https://docs.docker.com/install/).
 
-A minimal example is here, you can change each step as you wish.
+[Docker images are available here](https://github.com/Xonshiz/comic-dl/pkgs/container/comic-dl/) 
 
-1. Clone this repo with  `git clone [REPOSITORY URL.git]`
+Define a handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX systems, and also under Windows Linux subsystem.
 
-2. edit the OWNER_UID and OWNER_GID in the Dockerfile with the user needed in your download directory
-
-you can determine the UID GID with the command `id`
+You can change the value of PGID and PUID with the value for the user needed in your download directory.
 
 ```bash
-user@DESKTOP:/home/user$ id
-uid=1000(user) gid=1000(user)
+alias comic_dl="docker run -it --rm -e PGID=$(id -g) -e PUID=$(id -u) -v $(pwd):/directory:rw -w /directory ghcr.io/Xonshiz/comic-dl:latest comic_dl -dd /directory"
 ```
 
-3. Build the image and give a name and a tag in the format `name:tag`. Here we are using `python:3.6.5-stretch` as base image, hence he tag.
-
-```bash
-docker build -t comic-dl:py3.8-buster .
-```
-
-4. Define an handy alias on your system with some docker tricks. This mounts the local directory under `/directory` in the container. This works on *NIX sistem, maybe also under Windows Linux subsystem (we need to Check).
-
-```bash
-alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.8-buster comic_dl -dd /directory"
-```
-
-5. Run it on your system. This actually starts a container on request and stop&delete it when finish.
+Run it on your system. This actually starts a container on request and stop&delete it when finished.
 
 ```bash
 usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
@@ -137,28 +126,6 @@ usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
                [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
                [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
 [...]
-```
-
-### Docker armv7
-
-It is recommended to cross build it. It takes a few hours on x86_64.
-
-qpdf and pikepdf need to be built from source on armv7.
-
-```bash
-docker build -f Dockerfile.armv7 -t comic-dl:py3.8-buster-armv7 --platform linux/arm/v7 .
-docker save -o comic-dl.tar comic-dl:py3.8-buster-armv7
-```
-
-and then import it on your arm machine.
-```bash
-docker load --input comic-dl.tar
-```
-
-and then use the correct alias:
-
-```bash
-alias comic_dl="docker run -it --rm -v $(pwd):/directory -w /directory comic-dl:py3.8-buster-armv7 comic_dl -dd /directory"
 ```
 
 ## Python Support
@@ -331,9 +298,6 @@ Our example command for One Piece, chapter 2 would be : `comic_dl.exe --page-id 
 #### Note:
 * If you download the chapter separately, you will need to provide the `Manga Name` and `Chapter Number` yourself. Because MangaEden's API doesn't list those values in their JSON reply (weird).
 
-
-## Youtube Tutorial
-[![Check The YouTube Tutorial](https://img.youtube.com/vi/TmQYhLHEZxA/0.jpg)]()
 
 ## Usage
 With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](https://github.com/Xonshiz/comic-dl#list-of-arguments) to know more about which arguments the script offers.
