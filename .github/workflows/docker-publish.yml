@@ -14,6 +14,7 @@ on:
       - '**.md'
       - '**.MD'
       - '**.yml'
+      - 'docs/**'
       - 'LICENSE'
       - '.gitattributes'
       - '.gitignore'
