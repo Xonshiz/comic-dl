@@ -112,7 +112,7 @@ Define a handy alias on your system with some docker tricks. This mounts the loc
 You can change the value of PGID and PUID with the value for the user needed in your download directory.
 
 ```bash
-alias comic_dl="docker run -it --rm -e PGID=$(id -g) -e PUID=$(id -u) -v $(pwd):/directory:rw -w /directory ghcr.io/Xonshiz/comic-dl:latest comic_dl -dd /directory"
+alias comic_dl="docker run -it --rm -e PGID=$(id -g) -e PUID=$(id -u) -v $(pwd):/directory:rw -w /directory ghcr.io/xonshiz/comic-dl:latest comic_dl -dd /directory"
 ```
 
 Run it on your system. This actually starts a container on request and stop&delete it when finished.
