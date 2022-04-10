@@ -1,11 +1,15 @@
 [![N|Solid](https://raw.githubusercontent.com/Xonshiz/comic-dl/master/Images/Icon.png)](https://github.com/Xonshiz/comic-dl)
 # Comic-DL
-[![Build Status](https://travis-ci.com/Xonshiz/comic-dl.svg?branch=master)](https://travis-ci.com/Xonshiz/comic-dl) [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](http://comic-dl.readthedocs.io/en/latest/?badge=latest) |
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)  |
 [![GitHub release](https://img.shields.io/github/release/xonshiz/comic-dl.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases/latest) |
 [![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases) |
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
+| Service           | Status |
+|:------------------|:------:|
+| PyPI Distribution | [![PyPI](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml) |  |
+| Releases Build    |  [![Building & Creating Distributables](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml) |  |
+| Docker Build      |  [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/) |  |
+| Readthedocs Build |  [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](https://comic-dl.readthedocs.io/en/latest/?badge=latest)  |
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. You can search Manga from this tool as well. Idea from [youtube-dl](https://github.com/rg3/youtube-dl).
 
@@ -52,7 +56,7 @@ This script can run on multiple Operating Systems. You need `Node.js` in your sy
 ### Linux/Debian :
 Since most (if not all) Linux/Debian OS come with python pre-installed, you don't have to install python manually. Make sure you're using python >= 2.7.x though.
 
-We need `pip` to install any external dependenc(ies). So, open any terminal and type in `pip list` and if it shows some data, then it is fine. But, if it shows error, like `pip not found` or something along this line, then you need to install `pip`. Just type this command in terminal :
+We need `pip` to install any external dependency(ies). So, open any terminal and type in `pip list` and if it shows some data, then it is fine. But, if it shows error, like `pip not found` or something along this line, then you need to install `pip`. Just type this command in terminal :
 
 `sudo apt-get install python-pip`
 
