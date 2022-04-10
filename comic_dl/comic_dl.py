@@ -309,5 +309,5 @@ class ComicDL(object):
 
     @staticmethod
     def version():
-        print("Current Version : %s" % __version__)
+        print(__version__)
 

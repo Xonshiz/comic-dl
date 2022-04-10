@@ -1,0 +1,115 @@
+name: Building & Creating Distributables
+
+on:
+  push:
+    branches: [ master, main ]
+    
+    # Don't trigger if it's just a documentation update
+    paths-ignore:
+      - '**.md'
+      - '**.MD'
+      - '**.yml'
+      - '**.sh'
+      - 'docs/**'
+      - 'Dockerfile'
+      - 'LICENSE'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.dockerignore'
+
+jobs:
+  linux_job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Initialize Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+        cache: 'pip'
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: Build Dist
+      run: |
+        python cli.py --version
+        pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
+        chmod +x dist/comic_dl_linux
+        dist/comic_dl_linux --version
+    - name: Generate Release Tag
+      id: tag
+      run: |
+        echo "::set-output name=release_tag::$(dist/comic_dl_linux --version)"
+        echo Current Version ${{ steps.tag.outputs.release_tag }}.
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.14
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        files: dist/comic_dl_linux
+  windows_job:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Initialize Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+        cache: 'pip'
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: Build Dist
+      run: |
+        python cli.py --version
+        pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl.exe"
+        dist/comic_dl.exe --version
+    - name: Generate Release Tag
+      id: tag
+      run: |
+        echo "::set-output name=release_tag::$(dist/comic_dl.exe --version)"
+        echo Current Version ${{ steps.tag.outputs.release_tag }}.
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.14
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        files: dist/comic_dl.exe
+  mac_os_job:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Initialize Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+        cache: 'pip'
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: Build Dist
+      run: |
+        python cli.py --version
+        pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_osx"
+        chmod +x dist/comic_dl_osx
+        dist/comic_dl_osx --version
+    - name: Generate Release Tag
+      id: tag
+      run: |
+        echo "::set-output name=release_tag::$(dist/comic_dl_osx --version)"
+        echo Current Version ${{ steps.tag.outputs.release_tag }}.
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.14
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        files: dist/comic_dl_osx

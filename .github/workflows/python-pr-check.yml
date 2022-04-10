@@ -1,0 +1,37 @@
+name: Checking Pull Request
+
+on:
+  pull_request:
+    # Don't trigger if it's just a documentation/docker update.
+    # We have separate build for checking docker updates.
+    paths-ignore:
+      - '**.md'
+      - '**.MD'
+      - '**.yml'
+      - '**.sh'
+      - 'docs/**'
+      - 'Dockerfile'
+      - 'LICENSE'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.dockerignore'
+jobs:
+  linux_job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Stup Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+        cache: 'pip'
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: Run CLI App
+      run: |
+        python cli.py --version
+        pyinstaller --onefile --hidden-import=queue "cli.py" -n "comic_dl_linux"
+        chmod +x dist/comic_dl_linux
+        dist/comic_dl_linux --version
