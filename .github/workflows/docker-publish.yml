@@ -18,26 +18,32 @@ on:
       - '.gitattributes'
       - '.gitignore'
       - '.dockerignore'
-      
-  pull_request:
-    branches: [ master ]
-    
-    # Don't trigger if it's just a documentation update
-    paths-ignore:
-      - '**.md'
-      - '**.MD'
-      - '**.yml'
-      - 'LICENSE'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.dockerignore'
 
+#  pull_request:
+#    branches: [ master ]
+#
+#    # Don't trigger if it's just a documentation update
+#    paths-ignore:
+#      - '**.md'
+#      - '**.MD'
+#      - '**.yml'
+#      - 'LICENSE'
+#      - '.gitattributes'
+#      - '.gitignore'
+#      - '.dockerignore'
+
+
+# TODO change to sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
+# when PR fix for lowercase is merged
 jobs:
   build_and_push:
-    uses: sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
+    uses: darodi/common-github-workflows/.github/workflows/build_and_push_image.yml@main
     with:
+      platform_linux_arm32v6_enabled: true
       platform_linux_arm32v7_enabled: true
-      platform_linux_arm64v8_enabled: false
+      platform_linux_arm64v8_enabled: true
+      platform_linux_amd64_enabled: true
+      platform_linux_i386_enabled: false
       push_enabled: true
       ghcr_repo_owner: ${{ github.repository_owner }}
       ghcr_repo: ${{ github.repository }}
