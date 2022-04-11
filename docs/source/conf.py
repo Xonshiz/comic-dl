@@ -25,6 +25,7 @@ from comic_dl.__version__ import __version__
 project = 'comic-dl'
 copyright = '2022, Xonshiz'
 author = 'Xonshiz'
+master_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
 release = __version__
