@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>List of Arguments &#8212; comic-dl 2022.04.09 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Language Codes:" href="language_codes.html" />
+    <link rel="prev" title="Windows Binary" href="windows_binary.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="list-of-arguments">
+<h1>List of Arguments<a class="headerlink" href="#list-of-arguments" title="Permalink to this headline">¶</a></h1>
+<p>Currently, the script supports these arguments :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-h, --help                             Prints the basic help menu of the script and exits.
+-i,--input                             Defines the input link to the comic/manga.
+--print-index                          Prints the range index for links in the input URL
+-V,--version                           Prints the VERSION and exits.
+-u,--username                          Indicates username for a website.
+-p,--password                          Indicates password for a website.
+-v,--verbose                           Enables Verbose logging.
+--sorting                              Sorts the download order.(VALUES = asc, ascending,old,new,desc,descending,latest,new)
+-a, --auto                             Download new chapters automatically (needs config file!)
+-c, --config                           Generates config file for autodownload function
+-dd,--download-directory               Specifies custom download location for the comics/manga.
+-rn,--range                            Selects the range of Chapters to download (Default = All) [ Ex : --range 1-10 (This will download first 10 episodes of a series)]
+--convert                              Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
+--keep                                 Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
+--quality                              Tells the script about the image quality you want to download. (Supported Values : low/bad/worst/mobile/cancer) [By default, images will be downloaded in Highest Quality Available. No need to provide any option.]
+-find, --search                        Searches for a manga through the Manga Eden Database.
+-ml, --manga-language                  Selects the language for manga. 0 is English (Default) and 1 is Italian.
+-sc, --skip-cache                      Forces to skip cache checking.
+-cid, --chapter-id                     Takes the Chapter ID to list all the chapters in a Manga.
+-fd, --force-download                  Forces download of chapters, when using comic-dl&#39;s search function.
+-pid, --page-id                        Takes the Page ID to download a particular &quot;chapter number&quot; of a manga.
+--comic                                Add this after -i if you are inputting a comic id or the EXACT comic name.
+                                       [ Ex : -i &quot;Deadpool Classic&quot; --comic ]
+-comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to
+                                       [ Ex : -comic-search &quot;Deadpool&quot; ]
+-comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact comic name).
+                                       [ Ex : -comic-info &quot;Deadpool Classic&quot; ] or [ Ex : -comic-info 3865 ]
+--update                               Updates the comic database for the given argument.
+                                       [ Ex: --update &quot;Deadpool Classic&quot; ] or [ Ex: --update &quot;https://readcomiconline.li/Comic/Deadpool-Classic&quot; ]
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">comic-dl</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dependencies_installation.html">Dependencies Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_support.html">Python Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows_binary.html">Windows Binary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">List of Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="language_codes.html">Language Codes:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="language_codes.html#language-code-language">Language Code –&gt; Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_the_search.html">Using The Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_download.html">Auto Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opening_an_issue.html">Opening An Issue/Requesting A Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="donations.html">Donations</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="windows_binary.html" title="previous chapter">Windows Binary</a></li>
+      <li>Next: <a href="language_codes.html" title="next chapter">Language Codes:</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Xonshiz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/list_of_arguments.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

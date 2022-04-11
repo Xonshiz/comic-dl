@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Dependencies Installation &#8212; comic-dl 2022.04.09 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="List of Supported Websites" href="supported_sites.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="dependencies-installation">
+<h1>Dependencies Installation<a class="headerlink" href="#dependencies-installation" title="Permalink to this headline">¶</a></h1>
+<p>This script can run on multiple Operating Systems. You need <code class="docutils literal notranslate"><span class="pre">Node.js</span></code>
+in your system’s path for this script to work (You need this on each and
+every Operating System, even on WINDOWS :/). Download the <code class="docutils literal notranslate"><span class="pre">Node.Js</span></code>
+from <a class="reference external" href="https://nodejs.org/en/">Node.js official website</a>. Doesn’t
+matter which operating system you’re on, this is a must. Follow the
+instructions mentioned below, according to your OS.</p>
+<section id="linux-debian">
+<h2>Linux/Debian :<a class="headerlink" href="#linux-debian" title="Permalink to this headline">¶</a></h2>
+<p>Since most (if not all) Linux/Debian OS come with python pre-installed,
+you don’t have to install python manually. Make sure you’re using python
+&gt;= 2.7.x though.</p>
+<p>We need <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install any external dependency(ies). So, open any
+terminal and type in <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">list</span></code> and if it shows some data, then it is
+fine. But, if it shows error, like <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">not</span> <span class="pre">found</span></code> or something along
+this line, then you need to install <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Just type this command in
+terminal :</p>
+<p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-pip</span></code></p>
+<p>If you’re on Fedora, CentOS/RHEL, openSUSE, Arch Linux, then you simply
+need to follow
+<a class="reference external" href="https://packaging.python.org/install_requirements_linux/">THIS TUTORIAL</a>
+to install <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<p>If this still doesn’t work, then you’ll manually need to install pip.
+Doing so is an easy one time job and you can follow
+<a class="reference external" href="https://pip.pypa.io/en/stable/installing/">THIS TUTORIAL</a> to do
+so.</p>
+</section>
+<section id="windows">
+<h2>Windows :<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<p>If you’re on windows, then it is recommended to download the <a class="reference external" href="windows_binary.html">Windows Binary</a>
+for this script. If you use the windows binary, you don’t need to
+install anything, except Node.js. But, if for some weird reason you want
+to use Python script instead, then follow these steps :</p>
+<ul class="simple">
+<li><p>Install Python &gt; 2.7.6. Download the desired installer from
+<a class="reference external" href="https://www.python.org/downloads/">here</a>.</p></li>
+<li><p><a class="reference external" href="http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path">Add it in the system
+path</a>
+(if not already added).</p></li>
+<li><p>If you’re using python &gt;2.7.9, you don’t need to install <code class="docutils literal notranslate"><span class="pre">PIP</span></code>.
+However, if you don’t have pip installed and added in windows path,
+then do so by following <a class="reference external" href="http://stackoverflow.com/a/12476379">this little
+tutorial</a>.</p></li>
+<li><p>Download <a class="reference external" href="https://github.com/Xonshiz/comic-dl/blob/master/requirements.txt">this
+`text</a>
+file and put it in some directory/folder.</p></li>
+<li><p>Open Command Prompt and browse to the directory where you downloaded
+your requiremenets.txt file and run this command :</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>It should install the required external libraries.</p></li>
+</ul>
+<p>Now, install Node.Js as well and make sure it’s in your path.</p>
+<p>Well, if everything came up good without any error(s), then you’re good
+to go!</p>
+</section>
+<section id="mac-os-x">
+<h2>Mac OS X :<a class="headerlink" href="#mac-os-x" title="Permalink to this headline">¶</a></h2>
+<p>Mac OS X users will have to fetch their version of <code class="docutils literal notranslate"><span class="pre">Python</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Pip</span></code>.</p>
+<p>1. Python installation guide :
+<a class="reference external" href="http://docs.python-guide.org/en/latest/starting/install/osx/">http://docs.python-guide.org/en/latest/starting/install/osx/</a></p>
+<p>2. Pip installation guide :
+<a class="reference external" href="http://stackoverflow.com/questions/17271319/installing-pip-on-mac-os-x">http://stackoverflow.com/questions/17271319/installing-pip-on-mac-os-x</a></p>
+<p>After downloading and installing these, you need to add PIP &amp; Python in
+your path. Follow
+<a class="reference external" href="http://www.pyladies.com/blog/Get-Your-Mac-Ready-for-Python-Programming/">THIS LITTLE GUIDE</a>
+to install both, Python &amp; pip successfully.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">comic-dl</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="supported_sites.html">List of Supported Websites</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dependencies Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#linux-debian">Linux/Debian :</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">Windows :</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mac-os-x">Mac OS X :</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_support.html">Python Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows_binary.html">Windows Binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_of_arguments.html">List of Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="language_codes.html">Language Codes:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_the_search.html">Using The Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_download.html">Auto Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opening_an_issue.html">Opening An Issue/Requesting A Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="donations.html">Donations</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="supported_sites.html" title="previous chapter">List of Supported Websites</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Xonshiz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/dependencies_installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

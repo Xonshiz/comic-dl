@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append("../..")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from comic_dl.__version__ import __version__
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -22,7 +27,7 @@ copyright = '2022, Xonshiz'
 author = 'Xonshiz'
 
 # The full version, including alpha/beta/rc tags
-release = '2016'
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -35,6 +40,7 @@ extensions = [
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+source_suffix = ['.rst', '.md']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -53,3 +59,6 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = 'comic-dldoc'

@@ -4,16 +4,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; comic-dl 2022.04.09 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Notes &#8212; comic-dl 2022.04.09 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Donations" href="donations.html" />
+    <link rel="prev" title="Opening An Issue/Requesting A Site" href="opening_an_issue.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -30,12 +33,26 @@
 
           <div class="body" role="main">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
-</div>
+  <section id="notes">
+<h1>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>comic.naver.com has korean characters and some OS won’t handle those
+characters. So, instead of naming the file folder with the series
+name in korean, the script will download and name the folder with the
+comic’s ID instead.</p></li>
+<li><p>Bato.to requires you to “log in” to read some chapters. So, to be on
+a safe side, provide the username/password combination to the script
+via “-p” and “-u” arguments.</p></li>
+<li><p>Bato.to also has comics for various languages. You need to pass the
+language code via “-ml” argument. Read the <a class="reference external" href="language_codes.html">Language Codes</a> section to find out the language codes.</p></li>
+<li><p>Bato.to only supports custom language downloads in “Batch” mode.</p></li>
+<li><p>URLs with special characters are tricky to work with, because of
+“Character Encoding”. If you wish to download such a comic/manga, you
+will need to use Python 3 (If on python) and also, you need to set
+your terminal’s character encoding to “utf-8” or “latin-1”. #95 is
+the same issue.</p></li>
+</ul>
+</section>
 
 
           </div>
@@ -54,7 +71,7 @@
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="supported_sites.html">List of Supported Websites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dependencies_installation.html">Dependencies Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -67,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="auto_download.html">Auto Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opening_an_issue.html">Opening An Issue/Requesting A Site</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donations.html">Donations</a></li>
 </ul>
 
@@ -75,6 +92,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="opening_an_issue.html" title="previous chapter">Opening An Issue/Requesting A Site</a></li>
+      <li>Next: <a href="donations.html" title="next chapter">Donations</a></li>
   </ul></li>
 </ul>
 </div>
@@ -107,6 +126,9 @@
       Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
+      |
+      <a href="_sources/notes.rst.txt"
+          rel="nofollow">Page source</a>
     </div>
 
     

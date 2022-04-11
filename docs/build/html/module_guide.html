@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Using the youtube_dl module &#8212; comic-dl 2022.04.09 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Comic-dl" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="using-the-youtube-dl-module">
+<h1>Using the <code class="docutils literal notranslate"><span class="pre">youtube_dl</span></code> module<a class="headerlink" href="#using-the-youtube-dl-module" title="Permalink to this headline">¶</a></h1>
+<p>When using the <code class="docutils literal notranslate"><span class="pre">youtube_dl</span></code> module, you start by creating an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">YoutubeDL</span></code> and adding all the available extractors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">youtube_dl</span> <span class="kn">import</span> <span class="n">YoutubeDL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ydl</span> <span class="o">=</span> <span class="n">YoutubeDL</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ydl</span><span class="o">.</span><span class="n">add_default_info_extractors</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="extracting-video-information">
+<h2>Extracting video information<a class="headerlink" href="#extracting-video-information" title="Permalink to this headline">¶</a></h2>
+<p>You use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">YoutubeDL.extract_info()</span></code> method for getting the video information, which returns a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">info</span> <span class="o">=</span> <span class="n">ydl</span><span class="o">.</span><span class="n">extract_info</span><span class="p">(</span><span class="s1">&#39;http://www.youtube.com/watch?v=BaW_jenozKc&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[youtube] Setting language</span>
+<span class="go">[youtube] BaW_jenozKc: Downloading webpage</span>
+<span class="go">[youtube] BaW_jenozKc: Downloading video info webpage</span>
+<span class="go">[youtube] BaW_jenozKc: Extracting video information</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+<span class="go">&#39;youtube-dl test video &quot;\&#39;/\\ä↭𝕐&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
+<span class="go">(720, 1280)</span>
+</pre></div>
+</div>
+<p>If you want to download or play the video you can get its url:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span>
+<span class="go">&#39;https://...&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="extracting-playlist-information">
+<h2>Extracting playlist information<a class="headerlink" href="#extracting-playlist-information" title="Permalink to this headline">¶</a></h2>
+<p>The playlist information is extracted in a similar way, but the dictionary is a bit different:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span> <span class="o">=</span> <span class="n">ydl</span><span class="o">.</span><span class="n">extract_info</span><span class="p">(</span><span class="s1">&#39;http://www.ted.com/playlists/13/open_source_open_world&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[TED] open_source_open_world: Downloading playlist webpage</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+<span class="go">&#39;Open-source, open world&#39;</span>
+</pre></div>
+</div>
+<p>You can access the videos in the playlist with the <code class="docutils literal notranslate"><span class="pre">entries</span></code> field:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="n">playlist</span><span class="p">[</span><span class="s1">&#39;entries&#39;</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Video #</span><span class="si">%d</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">video</span><span class="p">[</span><span class="s1">&#39;playlist_index&#39;</span><span class="p">],</span> <span class="n">video</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]))</span>
+
+<span class="go">Video #1: How Arduino is open-sourcing imagination</span>
+<span class="go">Video #2: The year open data went worldwide</span>
+<span class="go">Video #3: Massive-scale online collaboration</span>
+<span class="go">Video #4: The art of asking</span>
+<span class="go">Video #5: How cognitive surplus will change the world</span>
+<span class="go">Video #6: The birth of Wikipedia</span>
+<span class="go">Video #7: Coding a better government</span>
+<span class="go">Video #8: The era of open innovation</span>
+<span class="go">Video #9: The currency of the new economy is trust</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">comic-dl</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the <code class="docutils literal notranslate"><span class="pre">youtube_dl</span></code> module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#extracting-video-information">Extracting video information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extracting-playlist-information">Extracting playlist information</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Comic-dl</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Xonshiz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/module_guide.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
