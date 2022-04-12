@@ -20,25 +20,10 @@ on:
       - '.gitignore'
       - '.dockerignore'
 
-#  pull_request:
-#    branches: [ master ]
-#
-#    # Don't trigger if it's just a documentation update
-#    paths-ignore:
-#      - '**.md'
-#      - '**.MD'
-#      - '**.yml'
-#      - 'LICENSE'
-#      - '.gitattributes'
-#      - '.gitignore'
-#      - '.dockerignore'
 
-
-# TODO change to sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
-# when PR fix for lowercase is merged
 jobs:
   build_and_push:
-    uses: darodi/common-github-workflows/.github/workflows/build_and_push_image.yml@main
+    uses: sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
     with:
       platform_linux_arm32v6_enabled: true
       platform_linux_arm32v7_enabled: true
