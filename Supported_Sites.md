@@ -25,3 +25,4 @@
 * [readcomics.io](https://www.readcomics.io/)
 * [otakusmash.com](http://www.otakusmash.com/)
 * [webtoons.com](https://www.webtoons.com/)
+* [TMOFans/lectortmo.com](https://lectortmo.com/)

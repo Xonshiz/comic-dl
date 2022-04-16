@@ -42,8 +42,8 @@ class FoolSlide(object):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
-        print("Img Links : {0}".format(img_links))
-        print("LEN Img Links : {0}".format(str(len(img_links))))
+        # print("Img Links : {0}".format(img_links))
+        # print("LEN Img Links : {0}".format(str(len(img_links))))
 
         links = []
         file_names = []

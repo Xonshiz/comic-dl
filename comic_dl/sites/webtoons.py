@@ -9,6 +9,7 @@ Full Series: https://www.webtoons.com/es/fantasy/castle-swimmer/list?title_no=18
 Chapter: https://www.webtoons.com/es/fantasy/castle-swimmer/t2-ep-090/viewer?title_no=1852&episode_no=99
 """
 
+
 class Webtoons():
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")

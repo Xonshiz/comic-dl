@@ -31,8 +31,7 @@ class Japscan():
         if 'lecture-en-ligne' in manga_url:
             self.comic_id = str(str(manga_url).split("/")[-2])
             chapter_path = re.sub(re.compile(r'.*japscan.to'), '', str(self.manga_url))
-            self.single_chapter(chapter_path, comic_id=self.comic_id, download_directory=download_directory,
-                                scraper=scraper)
+            self.single_chapter(chapter_path, comic_id=self.comic_id, download_directory=download_directory)
 
     def full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, keep_files):
         scraper = self.scraper

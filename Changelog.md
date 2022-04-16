@@ -127,3 +127,5 @@
 - Fix for chapter download at readmanganato
 - Added support for webtoons.com (No audio download yet) [Fix for #284] [2021.09.05.1]
 - Fix for #299 [2022.04.16]
+- Added support for TMOFans/lectortmo.com [Fix for #231] [2022.04.17]
+- Fix for #236 [2022.04.17]
