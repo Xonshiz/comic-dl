@@ -81,3 +81,4 @@ dist/*
 comic_dl/build/*
 comic_dl/dist/*
 /comic_dl.egg-info
+docs/build/*
