@@ -178,12 +178,13 @@ Currently, the script supports these arguments :
 -pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
 --comic                                Add this after -i if you are inputting a comic id or the EXACT comic name.
                                        [ Ex : -i "Deadpool Classic" --comic ]
--comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to
+-comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.li
                                        [ Ex : -comic-search "Deadpool" ]
 -comic-info, --comic-info              Lists all the information about the given comic (argument can be either comic id or the exact comic name).
                                        [ Ex : -comic-info "Deadpool Classic" ] or [ Ex : -comic-info 3865 ]
 --update                               Updates the comic database for the given argument.
                                        [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.li/Comic/Deadpool-Classic" ]
+-cookie, --cookie                      Passes a cookie to be used throughout the session.
 ```
 
 ## Language Codes:
@@ -402,6 +403,8 @@ If you're here to make suggestions, please follow the basic syntax to post a req
 This should be enough, but it'll be great if you can add more ;)
 
 # Notes
+* Readcomiconline.li has been a pain to work with and it might block you out a lot. Now you can use `--cookie` parameter to pass a working cookie. You can retrieve the cookie by checking network tab for `Cookie` value in request headers or by using an external browser plugin. Read more about this on [#299](https://github.com/Xonshiz/comic-dl/issues/299).
+
 * comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
 
 * Bato.to requires you to "log in" to read some chapters. So, to be on a safe side, provide the username/password combination to the script via "-p" and "-u" arguments.

@@ -20,8 +20,6 @@ various Manga and Comic sites easily. You can search Manga from this
 tool as well. Idea from
 `youtube-dl <https://github.com/rg3/youtube-dl>`__.
 
-If you’re looking for an application, or a UI for this, please move to :
-`CoManga <https://github.com/Xonshiz/CoManga>`__
 
    Don’t overuse this script. Support the developers of those websites
    by disabling your adblock on their site. Advertisments pay for the

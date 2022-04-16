@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import base64
 
 from comic_dl import globalFunctions
 import re
@@ -12,6 +13,7 @@ class ReadComicOnlineLi(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
 
         current_directory = kwargs.get("current_directory")
+        self.manual_cookie = kwargs.get("manual_cookies", None)
         conversion = kwargs.get("conversion")
         keep_files = kwargs.get("keep_files")
         self.logging = kwargs.get("log_flag")
@@ -21,6 +23,21 @@ class ReadComicOnlineLi(object):
         self.print_index = kwargs.get("print_index")
 
         url_split = str(manga_url).split("/")
+        self.appended_headers = {
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'en-US,en;q=0.9',
+            'dnt': '1',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"macOS"',
+            'sec-fetch-dest': 'document',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-user': '?1',
+            'upgrade-insecure-requests': '1',
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36'
+        }
 
         if len(url_split) in [5]:  # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
             # Removing "6" from here, because it caused #47
@@ -39,11 +56,12 @@ class ReadComicOnlineLi(object):
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         # print("Received Comic Url : {0}".format(comic_url))
         print("Fooling CloudFlare...Please Wait...")
-        appended_headers = {
-            'referer': comic_url,
-            'Accept': "*/*",
-            'Cache-Control': 'no-cache'
-        }
+        if not comic_url.endswith("#1"):
+            comic_url += "#1"
+
+        if not self.appended_headers.get('cookie', None) and self.manual_cookie:
+            self.appended_headers['cookie'] = self.manual_cookie
+        self.appended_headers['referer'] = comic_url
         chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
@@ -62,7 +80,7 @@ class ReadComicOnlineLi(object):
                 print('Converted File already exists. Skipping.')
                 return 0
 
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=appended_headers)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
 
         img_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
 
@@ -77,14 +95,16 @@ class ReadComicOnlineLi(object):
 
         links = []
         file_names = []
+        print(img_list)
+        img_list = self.get_image_links(img_list)
         for current_chapter, image_link in enumerate(img_list):
             image_link = str(image_link).strip().replace("\\", "")
 
             logging.debug("Image Link : %s" % image_link)
-            image_link = image_link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
                 image_link = image_link.replace("=s0", "=s1600").replace("/s0", "/s1600")
+            image_link = image_link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
 
             current_chapter += 1
             file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
@@ -109,7 +129,10 @@ class ReadComicOnlineLi(object):
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
         print("Fooling CloudFlare...Please Wait...")
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10)
+        if not self.appended_headers.get('cookie', None) and self.manual_cookie:
+            self.appended_headers['cookie'] = self.manual_cookie
+        self.appended_headers['referer'] = comic_url
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
 
         all_links = []
 
@@ -157,7 +180,7 @@ class ReadComicOnlineLi(object):
 
         if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
-                chap_link = "http://readcomiconline.li" + chap_link
+                chap_link = "https://readcomiconline.li" + chap_link
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
@@ -172,7 +195,7 @@ class ReadComicOnlineLi(object):
 
         elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
-                chap_link = "http://readcomiconline.to" + chap_link
+                chap_link = "https://readcomiconline.li" + chap_link
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
@@ -186,3 +209,28 @@ class ReadComicOnlineLi(object):
                     globalFunctions.GlobalFunctions().addOne(comic_url)
 
         return 0
+
+    def get_image_links(self, urls):
+        # JS logic extracted by : https://github.com/Xonshiz/comic-dl/issues/299#issuecomment-1098189279
+        temp = []
+        for url in urls:
+            print(url + '\n')
+            quality_ = None
+            if '=s0' in url:
+                url = url[:-3]
+                quality_ = '=s0'
+            else:
+                url = url[:-6]
+                quality_ = '=s1600'
+            # url = url.slice(4, 22) + url.slice(25);
+            url = url[4:22] + url[25:]
+            # url = url.slice(0, -6) + url.slice(-2);
+            url = url[0:-6] + url[-2:]
+            url = str(base64.b64decode(url).decode("utf-8"))
+            # url = url.slice(0, 13) + url.slice(17);
+            url = url[0:13] + url[17:]
+            # url = url.slice(0, -2) + (containsS0 ? '=s0' : '=s1600');
+            url = url[0:-2] + quality_
+            # return 'https://2.bp.blogspot.com/' + url;
+            temp.append('https://2.bp.blogspot.com/{0}'.format(url))
+        return temp

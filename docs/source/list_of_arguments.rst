@@ -34,3 +34,5 @@ Currently, the script supports these arguments :
                                           [ Ex : -comic-info "Deadpool Classic" ] or [ Ex : -comic-info 3865 ]
    --update                               Updates the comic database for the given argument.
                                           [ Ex: --update "Deadpool Classic" ] or [ Ex: --update "https://readcomiconline.li/Comic/Deadpool-Classic" ]
+   -cookie, --cookie                      Passes a cookie to be used throughout the session.
+
