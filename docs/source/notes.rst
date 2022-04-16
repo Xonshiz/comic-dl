@@ -1,5 +1,6 @@
 Notes
 =====
+-  Readcomiconline.li has been a pain to work with and it might block you out a lot. Now you can use `--cookie` parameter to pass a working cookie. You can retrieve the cookie by checking network tab for `Cookie` value in request headers or by using an external browser plugin.
 
 -  comic.naver.com has korean characters and some OS won’t handle those
    characters. So, instead of naming the file folder with the series

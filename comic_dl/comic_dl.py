@@ -47,6 +47,7 @@ class ComicDL(object):
                             help='Tells the script which Quality of image to download (High/Low).', default='True')
 
         parser.add_argument('-i', '--input', nargs=1, help='Inputs the URL to comic.')
+        parser.add_argument('-cookie', '--cookie', nargs=1, help='Passes cookie (text format) to be used throughout the session.')
 
         # Chr1st-oo, added arguments
         parser.add_argument("--comic", action="store_true", help="Add this after -i if you are inputting a comic id or the EXACT comic name.")
@@ -210,6 +211,7 @@ class ComicDL(object):
             conversion = data["conversion"]
             keep_files = data["keep"]
             image_quality = data["image_quality"]
+            manual_cookie = data["cookie"]
             pbar_comic = tqdm(data["comics"], dynamic_ncols=True, desc="[Comic-dl] Auto processing", leave=True,
                               unit='comic')
             for elKey in pbar_comic:
@@ -227,7 +229,8 @@ class ComicDL(object):
                                             chapter_range=download_range, conversion=conversion,
                                             keep_files=keep_files, image_quality=image_quality,
                                             username=el["username"], password=el["password"],
-                                            comic_language=el["comic_language"])
+                                            comic_language=el["comic_language"],
+                                            cookie=manual_cookie)
                 except Exception as ex:
                     pbar_comic.write('[Comic-dl] Auto processing with error for %s : %s ' % (elKey, ex))
             pbar_comic.set_postfix()
@@ -246,6 +249,7 @@ class ComicDL(object):
                 print("Run the script with --help to see more information.")
         else:
             print_index = False
+            manual_cookie = None
             if args.print_index:
                 print_index = True
             if not args.sorting:
@@ -260,6 +264,8 @@ class ComicDL(object):
                 args.keep = ["True"]
             if not args.quality or args.quality == "True":
                 args.quality = ["Best"]
+            if args.cookie:
+                manual_cookie = args.cookie[0]
 
             # user_input = unicode(args.input[0], encoding='latin-1')
             user_input = args.input[0]
@@ -281,31 +287,12 @@ class ComicDL(object):
                                     chapter_range=args.range, conversion=args.convert[0],
                                     keep_files=args.keep[0], image_quality=args.quality[0],
                                     username=args.username[0], password=args.password[0],
-                                    comic_language=args.manga_language[0], print_index=print_index)
+                                    comic_language=args.manga_language[0], print_index=print_index,
+                                    cookie=manual_cookie)
             end_time = time.time()
             total_time = end_time - start_time
             print("Total Time Taken To Complete : %s" % total_time)
             sys.exit()
-
-    # def string_formatter(self, my_string):
-    #     temp = ""
-    #     for char in my_string:
-    #         print("Temp right now : {0}".format(char))
-    #         # temp = temp + str(char).replace(char, self.to_utf_8(char))
-    #         temp = temp + str(char).replace(char, self.to_utf_8(char))
-    #
-    #     print("Temp is : {0}".format(temp))
-    #
-    #
-    # def to_utf_8(self, char):
-    #     print("Received Key : {0}".format(char))
-    #     char_dict = {
-    #         'ë': '%C3%AB'
-    #     }
-    #     try:
-    #         return char_dict[char]
-    #     except KeyError:
-    #         return char
 
     @staticmethod
     def version():

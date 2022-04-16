@@ -74,6 +74,7 @@ class Honcho(object):
         sorting = kwargs.get("sorting_order")
         comic_language = kwargs.get("comic_language")
         print_index = kwargs.get("print_index")
+        manual_cookies = kwargs.get("cookie", None)
 
         if log_flag is True:
             logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
@@ -99,7 +100,7 @@ class Honcho(object):
                                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                                 keep_files=kwargs.get("keep_files"),
                                                 image_quality=kwargs.get("image_quality"),
-                                                print_index=print_index)
+                                                print_index=print_index, manual_cookies=manual_cookies)
             return 0
         elif domain in ["www.comic.naver.com", "comic.naver.com"]:
             comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,
