@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import random
-import sys
-
 from comic_dl import globalFunctions
 import os
 import logging
 import json
-import time
 
 
-class LectorTmo(object):
+class Mangadex(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
 
         current_directory = kwargs.get("current_directory")
@@ -20,59 +16,65 @@ class LectorTmo(object):
         self.sorting = kwargs.get("sorting_order")
         self.comic_name = None
         self.print_index = kwargs.get("print_index")
-        if "/library/" in manga_url:
-            self.full_series(manga_url, self.comic_name, self.sorting, download_directory, chapter_range=chapter_range,
-                             conversion=conversion, keep_files=keep_files)
-        # https://lectortmo.com/view_uploads/979773
-        elif "/viewer/" in manga_url or "/paginated/" in manga_url or "/view_uploads/" in manga_url:
+        # https://mangadex.org/chapter/17fd3a89-605d-4f6a-93be-71e559e0889c/4
+        if "/chapter/" in manga_url:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
                                 keep_files=keep_files)
+        else:
+            # https://mangadex.org/title/19465f6a-1c11-4179-891e-68293402b883/seton-academy-join-the-pack
+            self.full_series(manga_url, self.comic_name, self.sorting, download_directory, chapter_range=chapter_range,
+                             conversion=conversion, keep_files=keep_files)
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
+    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files, volume=None):
         comic_url = str(comic_url)
-        # https://lectortmo.com/viewer/004b1c38ce59f14291118de9f59bed7e/paginated/1
-        # https://lectortmo.com/view_uploads/979773
-        chapter_number = comic_url.split('/')[-1] if "/view_uploads/" in comic_url else comic_url.split('/')[-3]
-
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
-        ld_json_content = source.find_all("script", {"type": "application/ld+json"})
-        if len(ld_json_content) > 0:
-            cleaned_json_string = ld_json_content[0].next.strip().replace('\n', '')
-            loaded_json = json.loads(cleaned_json_string)
-            if loaded_json:
-                self.comic_name = comic_name = loaded_json['headline']
+        chapter_split = comic_url.split('/')
+        chapter_id = chapter_split[-2] if len(chapter_split) > 5 else chapter_split[-1]
         links = []
         file_names = []
-        img_url = self.extract_image_link_from_html(source=source)
-        links.append(img_url)
-        img_extension = str(img_url).rsplit('.', 1)[-1]
-        unique_id = str(img_url).split('/')[-2]
-        file_names.append('{0}.{1}'.format(1, img_extension))
-
-        total_page_list = source.find("select", {"id": "viewer-pages-select"})
-        last_page_number = 0
-        options = total_page_list.findAll('option')
-        if len(options) > 0:
-            last_page_number = int(options[-1]['value'])
-        if last_page_number <= 0:
-            print("Couldn't find all the pages. Exiting.")
-            sys.exit(1)
-        for page_number in range(2, last_page_number):
-            current_url = "https://lectortmo.com/viewer/{0}/paginated/{1}".format(unique_id, page_number)
-            print("Grabbing details for: {0}".format(current_url))
-            source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=current_url, cookies=cookies)
-            image_url = self.extract_image_link_from_html(source=source)
-            links.append(image_url)
-            img_extension = str(image_url).rsplit('.', 1)[-1]
-            file_names.append('{0}.{1}'.format(page_number, img_extension))
-            time.sleep(random.randint(1, 6))
+        chapter_number = chapter_id
+        # Get image info
+        # https://api.mangadex.org/at-home/server/17fd3a89-605d-4f6a-93be-71e559e0889c?forcePort443=false
+        api_images = "https://api.mangadex.org/at-home/server/{0}?forcePort443=false".format(chapter_id)
+        source_image_list, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=api_images)
+        # Get chapter info
+        api_chapter_info = "https://api.mangadex.org/chapter/{0}?includes[]=scanlation_group&includes[]=manga&includes[]=user".format(chapter_id)
+        source_chapter_info, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=api_chapter_info)
+        source_chapter_info = json.loads(str(source_chapter_info))
+        image_info = json.loads(str(source_image_list))
+        base_image_url = image_info['baseUrl']
+        base_hash = image_info['chapter']['hash']
+        images = image_info['chapter']['data']
+        for idx, image in enumerate(images):
+            links.append("{0}/data/{1}/{2}".format(base_image_url, base_hash, image))
+            img_extension = str(image).rsplit('.', 1)[-1]
+            file_names.append('{0}.{1}'.format(idx, img_extension))
+        if source_chapter_info:
+            chapter_number = source_chapter_info['data']['attributes']['chapter']
+            for relation in source_chapter_info['data']['relationships']:
+                if self.comic_name:
+                    break
+                if relation['type'] == "manga":
+                    try:
+                        self.comic_name = relation['attributes']['title']['en']
+                        break
+                    except Exception as NameNotFound:
+                        dict_obj = dict(relation['attributes']['title'])
+                        for key in dict_obj.keys():
+                            self.comic_name = dict_obj[key]
+                            # We'll take the first one that comes and break out of this loop
+                            break
+        else:
+            self.comic_name = chapter_id
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, self.comic_name)
-
+        if volume:
+            file_directory = file_directory.rsplit(os.sep, 2)[0]
+            file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, file_directory + os.sep + volume, os.sep)
         directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
-        globalFunctions.GlobalFunctions().multithread_download(chapter_number, self.comic_name, comic_url, directory_path,
+        globalFunctions.GlobalFunctions().multithread_download(chapter_number, self.comic_name, comic_url,
+                                                               directory_path,
                                                                file_names, links, self.logging)
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, self.comic_name,
@@ -81,14 +83,29 @@ class LectorTmo(object):
         return 0
 
     def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+        comic_id = str(comic_url).rsplit('/', 2)[-2]
+        comic_detail_url = "https://api.mangadex.org/manga/{0}/aggregate?translatedLanguage[]=en".format(comic_id)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_detail_url)
+        source = json.loads(str(source))
 
         all_links = []
-        all_chapter_links = source.find_all("a", {"class": "btn btn-default btn-sm"})
-        for chapter in all_chapter_links:
-            all_links.append(chapter['href'])
+        all_volumes = {}
+        volumes = dict(source['volumes'])
+        for volume in volumes.keys():
+            volume_info = dict(volumes[volume])
+            chapters = dict(volume_info.get('chapters', {}))
+            for chapter in chapters.keys():
+                chapter = dict(chapters[chapter])
+                # https://mangadex.org/chapter/17fd3a89-605d-4f6a-93be-71e559e0889c/4
+                chapter_url = "https://mangadex.org/chapter/{0}/{1}".format(chapter.get('id'), chapter.get('chapter', 1))
+                all_links.append(chapter_url)
+                all_volumes[chapter_url] = "Volume {0}".format(volume)
 
-        logging.debug("All Links : %s" % all_links)
+
+
+
+
+        logging.debug("All Links : {0}".format(all_links))
 
         # Uh, so the logic is that remove all the unnecessary chapters beforehand
         #  and then pass the list for further operations.
@@ -119,7 +136,8 @@ class LectorTmo(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
+                                        conversion=conversion, keep_files=keep_files,
+                                        volume=all_volumes.get(chap_link))
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
@@ -134,7 +152,8 @@ class LectorTmo(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name,
                                         download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
+                                        conversion=conversion, keep_files=keep_files,
+                                        volume=all_volumes.get(chap_link))
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas

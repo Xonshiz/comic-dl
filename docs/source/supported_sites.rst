@@ -26,6 +26,9 @@ List of Supported Websites
 -  `readcomics.io`_
 -  `otakusmash.com`_
 -  `webtoons.com`_
+-  `webtoons.com`_
+-  `mangatoon.mobi`_
+-  `mangadex.org`_
 
 .. _Mangafox.me: http://fanfox.net/
 .. _YoManga: http://yomanga.co/
@@ -52,3 +55,5 @@ List of Supported Websites
 .. _readcomics.io: https://www.readcomics.io/
 .. _otakusmash.com: http://www.otakusmash.com/
 .. _webtoons.com: https://www.webtoons.com/
+.. _mangatoon.mobi: https://mangatoon.mobi/
+.. _mangadex.org: https://mangadex.org/
