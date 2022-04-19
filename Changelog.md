@@ -129,3 +129,5 @@
 - Fix for #299 [2022.04.16]
 - Added support for TMOFans/lectortmo.com [Fix for #231] [2022.04.17]
 - Fix for #236 [2022.04.17]
+- Added support for mangatoon.mobi [Fix for #246] [2022.04.19]
+- Added support for mangadex.org [Fix for #195] [2022.04.19]
