@@ -29,6 +29,7 @@ from .sites import webtoons
 from .sites import lectortmo
 from .sites import mangatoonMobi
 from .sites import mangadex
+from .sites import quiremanhua
 
 
 class Honcho(object):
@@ -263,5 +264,11 @@ class Honcho(object):
                               chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                               keep_files=kwargs.get("keep_files"),
                               print_index=print_index)
+        elif domain in ["www.qiremanhua.com", "qiremanhua.com"]:
+            quiremanhua.QuireManhua(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                                    keep_files=kwargs.get("keep_files"),
+                                    print_index=print_index, manual_cookies=manual_cookies)
         else:
             print("%s is not supported at the moment. You can request it on the Github repository." % domain)
