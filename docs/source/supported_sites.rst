@@ -29,6 +29,7 @@ List of Supported Websites
 -  `webtoons.com`_
 -  `mangatoon.mobi`_
 -  `mangadex.org`_
+-  `qiremanhua.com`_
 
 .. _Mangafox.me: http://fanfox.net/
 .. _YoManga: http://yomanga.co/
@@ -57,3 +58,4 @@ List of Supported Websites
 .. _webtoons.com: https://www.webtoons.com/
 .. _mangatoon.mobi: https://mangatoon.mobi/
 .. _mangadex.org: https://mangadex.org/
+.. _qiremanhua.com: http://www.qiremanhua.com/

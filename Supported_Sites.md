@@ -28,3 +28,4 @@
 * [TMOFans/lectortmo.com](https://lectortmo.com/)
 * [Mangatoon.mobi](https://mangatoon.mobi)
 * [Mangadex.org](https://mangadex.org/)
+* [Qiremanhua.com](http://www.qiremanhua.com/)
