@@ -19,5 +19,6 @@
     "conversion": "cbz",
     "keep": "True",
     "sorting_order": "ascending",
-    "image_quality": "Best"
+    "image_quality": "Best",
+    "cookie": "None"
 }
