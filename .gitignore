@@ -81,4 +81,7 @@ dist/*
 comic_dl/build/*
 comic_dl/dist/*
 /comic_dl.egg-info
+/comics/
+/Manga_Eden_Data.json
+/config.json*
 docs/build/*

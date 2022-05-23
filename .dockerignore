@@ -10,7 +10,8 @@ comics
 .spec
 .travis.yml
 Dockerfile
+docs
 venv
-README.md
+*.md
 LICENSE
 MANIFEST
