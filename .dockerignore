@@ -9,12 +9,9 @@ comics
 .gitignore
 .spec
 .travis.yml
-Changelog.md
 Dockerfile
 docs
 venv
-ReadMe.md
-README.md
-Supported_Sites.md
+*.md
 LICENSE
 MANIFEST
