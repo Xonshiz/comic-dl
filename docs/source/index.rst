@@ -45,7 +45,6 @@ Every section has proper detail about using this script. Please go through it pr
     windows_binary
     list_of_arguments
     language_codes
-    using_the_search
     usage
     auto_download
     features

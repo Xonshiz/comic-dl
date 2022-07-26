@@ -14,7 +14,6 @@ from .sites import rawSenManga
 from .sites import mangaFox
 from .sites import omgBeauPeep
 from .sites import mangaReader
-from .sites import mangaEden
 from .sites import acQQ
 from .sites import stripUtopia
 from .sites import readComicBooksOnline
@@ -230,15 +229,6 @@ class Honcho(object):
                                 chapter_range=chapter_range, conversion=kwargs.get("conversion"),
                                 keep_files=kwargs.get("keep_files"),
                                 print_index=print_index)
-            return 0
-        elif domain in ["www.mangaeden.com"]:
-            if print_index:
-                print("please use -find and -cid instead!")
-                return -1
-            mangaEden.MangaEden(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                keep_files=kwargs.get("keep_files"))
             return 0
         elif domain in ["www.webtoons.com", "webtoons.com"]:
             webtoons.Webtoons(manga_url=comic_url, logger=logging, current_directory=current_directory,

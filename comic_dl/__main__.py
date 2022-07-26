@@ -9,7 +9,6 @@ sys.path.append("..")
 
 from comic_dl.__version__ import __version__
 from comic_dl.sites import *
-from comic_dl.manga_eden import *
 from comic_dl.readcomiconline import *
 from comic_dl.comic_dl import ComicDL
 
