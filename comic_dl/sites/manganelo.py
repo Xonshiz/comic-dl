@@ -5,7 +5,7 @@ from comic_dl import globalFunctions
 import os
 
 
-class Manganelo():
+class Manganelo(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
         current_directory = kwargs.get("current_directory")
         conversion = kwargs.get("conversion")
@@ -25,8 +25,16 @@ class Manganelo():
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
                              keep_files=keep_files)
 
-    def single_chapter(self, manga_url, download_directory, conversion, keep_files):
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url)
+    def single_chapter(self, manga_url, download_directory, conversion, keep_files, referer=None):
+        appended_headers = None
+
+        if referer:
+            # download the mirror url
+            appended_headers = {
+                'referer': referer
+            }
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=manga_url,
+                                                                            append_headers=appended_headers)
 
         if "mangakakalot" in manga_url:
             breadcrumb = source.find('div', {'class': 'breadcrumb'})
@@ -63,8 +71,21 @@ class Manganelo():
             links.append(image_link)
             i += 1
 
-        globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, manga_url, directory_path,
-                                                               file_names, links, self.logging)
+        try:
+            globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, manga_url,
+                                                                   directory_path,
+                                                                   file_names, links, self.logging)
+        except Exception as ex:
+            # try mirror server with a referer = origin page
+            if not referer:
+                found_mirrors = source.find("a", {"data-l": True})
+                if not found_mirrors:
+                    raise ValueError('mirror not found')
+                mirror_url = found_mirrors['data-l']
+                self.single_chapter(manga_url=mirror_url, download_directory=download_directory,
+                                    conversion=conversion, keep_files=keep_files, referer=manga_url)
+            else:
+                raise ex
 
         globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
                                                      chapter_number)
