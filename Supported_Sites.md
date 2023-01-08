@@ -19,6 +19,7 @@
 * [manganelo.com](https://manganelo.com/) 
 * [mangakakalot.com](https://mangakakalot.com/) 
 * [manganato.com](https://manganato.com/) 
+* [chapmanganato.com](https://chapmanganato.com/)
 * [readmanganato.com](https://readmanganato.com/)
 * [hqbr.com.br](https://hqbr.com.br/home)
 * [comicextra.com](http://www.comicextra.com)

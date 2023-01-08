@@ -41,7 +41,7 @@ class Manganelo(object):
             breadcrumb_parts = breadcrumb.findAll('a')
             comic_name = (breadcrumb_parts[1])['title']
             chapter_number = (breadcrumb_parts[2]).find('span').text
-        else:  # manganelo.com, manganato.com, readmanganato.com
+        else:  # manganelo.com, manganato.com, readmanganato.com, chapmanganato.com
             breadcrumb = source.find('div', {'class': 'panel-breadcrumb'})
             breadcrumb_parts = breadcrumb.findAll('a')
             comic_name = (breadcrumb_parts[1])['title']
