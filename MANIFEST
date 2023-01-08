@@ -8,10 +8,6 @@ comic_dl\comic_dl.py
 comic_dl\exeMaker.py
 comic_dl\globalFunctions.py
 comic_dl\honcho.py
-comic_dl\manga_eden\__init__.py
-comic_dl\manga_eden\mangaChapterDownload.py
-comic_dl\manga_eden\mangaChapters.py
-comic_dl\manga_eden\mangaSearch.py
 comic_dl\sites\__init__.py
 comic_dl\sites\acQQ.py
 comic_dl\sites\batoto.py

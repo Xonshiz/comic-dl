@@ -71,7 +71,6 @@ comic_dl/Logo.ico
 *.pdf
 *.old2
 *.xml___jb_tmp___
-comic_dl/Manga_Eden_Data.json
 *.mri
 comic_dl/config.json*
 comic_dl/__main__.spec,old
@@ -82,6 +81,5 @@ comic_dl/build/*
 comic_dl/dist/*
 /comic_dl.egg-info
 /comics/
-/Manga_Eden_Data.json
 /config.json*
 docs/build/*

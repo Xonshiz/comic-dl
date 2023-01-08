@@ -13,9 +13,6 @@ import os
 import time
 import json
 from . import configGenerator
-from .manga_eden import mangaChapters
-from .manga_eden import mangaChapterDownload
-from .manga_eden import mangaSearch
 
 from .readcomiconline import RCO
 from .readcomiconline import dataUpdate
@@ -59,23 +56,11 @@ class ComicDL(object):
         parser.add_argument('--print-index', action='store_true',
                             help='prints the range index for links in the input URL')
 
-        parser.add_argument('-find', '--search', nargs=1, help='Searches for a manga through the Manga Eden Database.')
-
         parser.add_argument('-ml', '--manga-language', nargs=1,
                             help='Selects the language for manga.', default='0')
 
         parser.add_argument('-sc', '--skip-cache', nargs=1,
                             help='Forces to skip cache checking.', default='0')
-
-        parser.add_argument('-cid', '--chapter-id', nargs=1,
-                            help='Takes the Chapter ID to list all the chapters in a Manga.')
-
-        parser.add_argument('-pid', '--page-id', nargs=1,
-                            help='Takes the Page ID to download a particular "chapter number" of a manga.')
-
-        parser.add_argument("-fd", "--force-download", help="Forces download of chapters, when using comic-dl's"
-                                                            " search function.",
-                            action="store_true")
 
         parser.add_argument('-p', '--password', nargs=1,
                             help='Takes Password used to log into a website, along with a username/email.',
@@ -116,18 +101,6 @@ class ComicDL(object):
             logging.debug("Script Version : {0}".format(__version__))
             logger = True
 
-        if args.search:
-            start_time = time.time()
-            mangaSearch.MangaSearch(search_string=str(args.search[0]),
-                                    manga_language=args.manga_language[0], skip_cache=args.skip_cache[0])
-
-            end_time = time.time()
-            total_time = end_time - start_time
-
-            print("Total Time Taken To Search : %s" % total_time)
-            print("API Provided By Manga Eden : http://www.mangaeden.com/")
-            sys.exit()
-
         # Chr1st-oo, comic search & comic info
         if args.comic_info or args.search_comic:
             rco = RCO.ReadComicOnline()
@@ -148,58 +121,6 @@ class ComicDL(object):
                 dataUpdate.RCOUpdater(link=query)
             else:
                 dataUpdate.RCOUpdater(name=query)
-
-
-        if args.chapter_id:
-            force_download = False
-
-            if args.force_download:
-                force_download = True
-            if type(args.range) == list:
-                args.range = args.range[0]
-            if not args.sorting:
-                args.sorting = ["ascending"]
-            elif args.sorting:
-                print("Sorting not supported in this section yet.")
-            if not args.convert:
-                args.convert = ["None"]
-            if not args.keep:
-                args.keep = ["True"]
-            if not args.download_directory:
-                args.download_directory = [os.getcwd()]
-            start_time = time.time()
-
-            mangaChapters.MangaChapters(chapter_id=args.chapter_id[0], download_directory=args.download_directory[0],
-                                        conversion=args.convert[0], keep_files=args.keep[0],
-                                        chapter_range=args.range, sorting_order=args.sorting[0],
-                                        force_download=force_download)
-
-            end_time = time.time()
-            total_time = end_time - start_time
-
-            print("Total Time Taken To Search : %s" % total_time)
-            print("API Provided By Manga Eden : http://www.mangaeden.com/")
-            sys.exit()
-
-        if args.page_id:
-            if not args.convert:
-                args.convert = ["None"]
-            if not args.keep:
-                args.keep = ["True"]
-            if not args.download_directory:
-                args.download_directory = [os.getcwd()]
-            start_time = time.time()
-            mangaChapterDownload.MangaChapterDownload(page_id=args.page_id[0],
-                                                      download_directory=args.download_directory[0],
-                                                      log_flag=logger, conversion=args.convert[0],
-                                                      keep_files=args.keep[0])
-
-            end_time = time.time()
-            total_time = end_time - start_time
-
-            print("Total Time Taken To Download : %s" % total_time)
-            print("API Provided By Manga Eden : http://www.mangaeden.com/")
-            sys.exit()
 
         if args.auto:
             # @dsanchezseco
@@ -297,4 +218,3 @@ class ComicDL(object):
     @staticmethod
     def version():
         print(__version__)
-

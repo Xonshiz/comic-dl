@@ -4,21 +4,19 @@
 [![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases) |
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
-| Service           | Status |
-|:------------------|:------:|
-| PyPI Distribution | [![PyPI](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml) |  |
-| Releases Build    |  [![Building & Creating Distributables](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml) |  |
-| Docker Build      |  [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/) |  |
-| Readthedocs Build |  [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](https://comic-dl.readthedocs.io/en/latest/?badge=latest)  |
+| Service           |                                                                                                       Status                                                                                                        |
+|:------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| PyPI Distribution |                [![PyPI](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml)                |  |
+| Releases Build    | [![Building & Creating Distributables](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml) |  |
+| Docker Build      |                [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/)                |  |
+| Readthedocs Build |                                 [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](https://comic-dl.readthedocs.io/en/latest/?badge=latest)                                 |
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. You can search Manga from this tool as well. Idea from [youtube-dl](https://github.com/rg3/youtube-dl).
 
 If you're looking for an application, or a UI for this, please move to : [CoManga](https://github.com/Xonshiz/CoManga)
 
 > Don't overuse this script. Support the developers of those websites by disabling your adblock on their site.
->Advertisments pay for the website servers.
-
-> Searching and downloading that manga is supported via MangaEden's API : http://www.mangaeden.com/api/
+>Advertisements pay for the website servers.
 
 ## Table of Content
 
@@ -33,7 +31,6 @@ If you're looking for an application, or a UI for this, please move to : [CoMang
 * [Windows Binary](#windows-binary)
 * [List of Arguments](#list-of-arguments)
 * [Language Codes](#language-codes)
-* [Using The Search](#using-the-search)
 * [Usage](#usage)
     * [Windows](#windows)
     * [Linux/Debian](#linuxdebian)
@@ -62,16 +59,16 @@ We need `pip` to install any external dependency(ies). So, open any terminal and
 
 If you're on Fedora, CentOS/RHEL, openSUSE, Arch Linux, then you simply need to follow [`THIS TUTORIAL`](https://packaging.python.org/install_requirements_linux/) to install `pip`.
 
-If this still doesn't work, then you'll manually need to install pip. Doing so is an easy one time job and you can follow   [`THIS TUTORIAL`](https://pip.pypa.io/en/stable/installing/) to do so.
+If this still doesn't work, then you'll manually need to install pip. Doing so is an easy one time job, and you can follow   [`THIS TUTORIAL`](https://pip.pypa.io/en/stable/installing/) to do so.
 
 ### Windows :
-If you're on windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything, except Node.js. But, if for some weird reason you want to use Python script instead, then follow these steps :
+If you're on Windows, then it is recommended to download the [`windows binary`](https://github.com/Xonshiz/comic-dl#windows-binary) for this script. If you use the windows binary, you don't need to install anything, except Node.js. But, if for some weird reason you want to use Python script instead, then follow these steps :
 
 * Install Python > 2.7.6. Download the desired installer from [here](https://www.python.org/downloads/).
 * [Add it in the system path](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path) (if not already added).
 * If you're using python >2.7.9, you don't need to install `PIP`. However, if you don't have pip installed and added in windows path, then do so by following [this little tutorial](http://stackoverflow.com/a/12476379).
 * Download [this `text`](https://github.com/Xonshiz/comic-dl/blob/master/requirements.txt) file and put it in some directory/folder.
-* Open Command Prompt and browse to the directory where you downloaded your requiremenets.txt file and run this command :
+* Open Command Prompt and browse to the directory where you downloaded your requirements.txt file and run this command :
 ```
 pip install -r requirements.txt
 ```
@@ -94,7 +91,7 @@ The instructions for all the OS would remain same. Download [`THIS REPOSITORY`](
 
 **Windows users**, it's better to not place it places where it requires administrator privileges. Good example would be `C:\Windows`. This goes for both, the Python script and the windows binary file (.exe).
 
-**Linux/Debian** users make sure that this script is executable.just run this command, if you run into problem(s) :
+**Linux/Debian** users make sure that this script is executable. Just run this command, if you run into problem(s) :
 
 `chmod +x cli.py`
 
@@ -126,9 +123,9 @@ usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
                [-dd DOWNLOAD_DIRECTORY] [-rn RANGE] [--convert CONVERT]
                [--keep KEEP] [--quality QUALITY] [-i INPUT] [--comic]
                [-comic-search SEARCH_COMIC] [-comic-info COMIC_INFO]
-               [--update UPDATE] [--print-index] [-find SEARCH]
-               [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] [-cid CHAPTER_ID]
-               [-pid PAGE_ID] [-fd] [-p PASSWORD] [-u USERNAME] [-v]
+               [--update UPDATE] [--print-index]
+               [-ml MANGA_LANGUAGE] [-sc SKIP_CACHE] 
+               [-p PASSWORD] [-u USERNAME] [-v]
 [...]
 ```
 
@@ -136,14 +133,14 @@ usage: comicdl [-h] [--version] [-s SORTING] [-a] [-c]
 This script supports python 3. You can run this on python 2 as well, as long as you have all the dependencies installed.
 
 ## Windows Binary
-It is recommended that windows users use this binary to save both, your head and time from installing all the dependencies.
+It is recommended that Windows users use this binary to save both, your head and time from installing all the dependencies.
 
 You need to download and install [Node.js](https://nodejs.org/en/) and make sure it is in your Windows path (watch out for the tick box during install).
 
 If you already have it, then you can download this binary and start using the script right off the bat :
 * `Binary (x86)` : [Click Here](https://github.com/Xonshiz/comic-dl/releases/latest)
 
-**`NOTE:`** This is a `COMMAND LINE TOOL` and will `NOT` work when you double click it. So, download this `.exe` file and put it in some folder (Not in windows or some other restricted folder) and then hold down `SHIFT KEY` and right click anywhere on the screen and select "`Open Command Window here`". It'll open a CMD window for you. Now, you need to execute it and pass arguments to it like:
+**`NOTE:`** This is a `COMMAND LINE TOOL` and will `NOT` work when you double-click it. So, download this `.exe` file and put it in some folder (Not in windows or some other restricted folder) and then hold down `SHIFT KEY` and right click anywhere on the screen and select "`Open Command Window here`". It'll open a CMD window for you. Now, you need to execute it and pass arguments to it like:
 
 ```
 comic_dl.exe -i "https://readcomicsonline.ru/comic/irredeemable-omnibus-2012"
@@ -170,12 +167,8 @@ Currently, the script supports these arguments :
 --convert						       Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
 --keep   							   Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
 --quality   						   Tells the script about the image quality you want to download. (Supported Values : low/bad/worst/mobile/cancer) [By default, images will be downloaded in Highest Quality Available. No need to provide any option.]
--find, --search                        Searches for a manga through the Manga Eden Database.
 -ml, --manga-language                  Selects the language for manga. 0 is English (Default) and 1 is Italian.
 -sc, --skip-cache                      Forces to skip cache checking.
--cid, --chapter-id                     Takes the Chapter ID to list all the chapters in a Manga.
--fd, --force-download                  Forces download of chapters, when using comic-dl's search function.
--pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
 --comic                                Add this after -i if you are inputting a comic id or the EXACT comic name.
                                        [ Ex : -i "Deadpool Classic" --comic ]
 -comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.li
@@ -226,83 +219,9 @@ Language Code --> Language
 ```
 
 #### Note :
-1.) Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
 
-2.) Since omgbeaupeep is uh... well, you just need to pass the absolute chapter numbers in the range section for that. For eg : Check out [Richie Rich](http://www.omgbeaupeep.com/comics/Richie_Rich/647/). If you want to download first 600 episodes, you would pass : --range 001-600. Just check the URLs for those chapters and pass accordingly.
-
-## Using The Search
-In the updated of version 2017.12.28, searching is also available. This is a rather confusing approach though, so carefully read this section.
-
-When you search via this tool, you will get the list of Manga and their respective unique IDs, that you will later use to download those Manga. Firstly, you will search for a Manga, it'll show it's unique ID, which you will copy and then pass into the tool again, it will list all the  chapters listed in that particular Manga. The tool will then ask whether you want to download all the chapters belonging to that Manga. You can type in "Yes", "Y", "N" or "No" accordingly.
-
-### How To Find A Manga:
-To search for a Manga, you need to use `-find` or `--search` argument followed by Manga Name.
-```
-Windows Binary Command : `comic_dl.exe -find "<name_of_manga>"`
-Python Command : `__main__.py -find "<name_of_manga>"`
-```
-
-For Example : If we wish to search for "One Piece", we wil use this : `comic_dl.exe -find "One Piece"`
-
-This will show something like this :
-```
-Manga Name  --> Manga ID
-------------------------
-One Piece: Wanted! --> 4e70ea60c092255ef7006726
-One Piece (Databook) --> 5218b0ef45b9ef8b83731b00
-One Piece x Toriko --> 4e70ea75c092255ef7006ee2
-One Piece dj - Boukyaku Countdown --> 55a19e2b719a1609004ad1f3
-One Piece --> 4e70ea10c092255ef7004aa2
-One Piece Party --> 566d9611719a1697dd8cf79a
-One Piece dj - Tears Will Surely Turn into Strength --> 55a19e31719a1609004ad1f7
-One Piece dj - Lotus Maker --> 55a19e2e719a1609004ad1f5
-One Piece dj - Three Days of Extreme Extravagance --> 55a19e34719a1609004ad1f9
-```
-
-As you can see, all the Manga matching the name show up, along with their unique IDs. You need to note these IDs down, if you want to download any of these Manga.
-Here, for sake of an example, we'll take "One Piece" Manga and its ID is : "4e70ea10c092255ef7004aa2".
-#### Note :
-* When ever you search/find a Manga, comic_dl makes a "Manga_Eden_Data.json" file, which more or less serves as a Cache. It'll always reference the cache file for the next 24 hours. However, if you don't want it to use that cache file, just pass `--skip-cache` argument along with your command, and it will ignore the cache completely and fetch fresh resources and overwrite the older cache to update it.
-* By default, the tool searches for only Manga translated in English Language. But, if you want to search for Manga translated in Italian, you can pass this argument : `--manga-language 1`.
-
-### Getting List Of Chapters For A Manga:
-So, now that you have the Manga's unique ID (mentioned above), you can now use that ID to get list of all the chapters for that Manga, or can even download those chapters directly.
-So, to list all the chapters of "One Piece", we will pass its ID with the argument `--chapter-id`. The command will be:
-```
-Windows Binary Command : `comic_dl.exe --chapter-id "<unique_id_of_manga>"`
-Python Command : `__main__.py --chapter-id "<unique_id_of_manga>"`
-```
-
-Our example command for One Piece would be : `comic_dl.exe --chapter-id "4e70ea10c092255ef7004aa2"`
-
-This will return all the chapters, along with their unique IDs, which can be later used to download a separate chapter.
-```
-Chapter Number --> Chapter ID
------------------------------
-761.5 --> 54ad50d045b9ef961eeeda2e
-714.5 --> 5552a262719a163d21dc7125
-2 --> 4efe1d2ac0922504a300001a
-127.5 --> 54ad15c445b9ef961eee798b
-4 --> 4efe1d20c092250492000014
-379.5 --> 5372485a45b9ef6a97744417
-217.5 --> 54ad1f3245b9ef961eee826b
-```
-#### Note:
-* If you use this command, it'll just list the chapters and then ask whether you want to download the chapters or not. If you wish to download the chapters without asking, just pass `--force-download` option along with the main command line. Script will NOT ask you anything. It'll list the chapters and start downloading them.
-* If you wish to download only a few chapters in a range, you can do so by giving the good old `--range` command. If you pass this argument, the script will not ask you whether you want to download the chapters or not. You will not need `--force-download` option, if you are using `--range` already.
-* Sorting is NOT supported in this, yet. YET!
-
-### Download A Chapter:
-You can download all the chapters of a Manga, as stated in the previous step. But, if you wish to download a particular chapter, then you need to get the unique ID of the chapter (mentioned above) and then download that chapter separately.
-You need to use `--page-id "<unique_id_of_chapter>"` argument.
-```
-Windows Binary Command : `comic_dl.exe --page-id "<unique_id_of_chapter>"`
-Python Command : `__main__.py --page-id "<unique_id_of_chapter>"`
-```
-Our example command for One Piece, chapter 2 would be : `comic_dl.exe --page-id "4efe1d2ac0922504a300001a"`
-#### Note:
-* If you download the chapter separately, you will need to provide the `Manga Name` and `Chapter Number` yourself. Because MangaEden's API doesn't list those values in their JSON reply (weird).
-
+1. Some websites like bato.to don't let you view some pages if you're not logged in. You'll have to create an account and pass the login information to the script via `-p` and `-u` arguments.
+2. Since omgbeaupeep is uh... well, you just need to pass the absolute chapter numbers in the range section for that. For eg : Check out [Richie Rich](http://www.omgbeaupeep.com/comics/Richie_Rich/647/). If you want to download first 600 episodes, you would pass : --range 001-600. Just check the URLs for those chapters and pass accordingly.
 
 ## Usage
 With this script, you have to pass arguments in order to be able to download anything. Passing arguments in a script is pretty easy. Since the script is pretty basic, it doesn't have too many arguments. Go check the [`ARGUMENTS SECTION`](https://github.com/Xonshiz/comic-dl#list-of-arguments) to know more about which arguments the script offers.
@@ -336,9 +255,9 @@ After you've saved this script in a directory/folder, you need to open `command 
 URL can be any URL of the [supported websites](https://github.com/Xonshiz/comic-dl/blob/master/Supported_Sites.md).
 
 ## Auto Download
-You can autodownload the new chapters of your favorite comics by creating a config file in json format.
+You can auto-download the new chapters of your favorite comics by creating a config file in json format.
 
-To generate the config file run the comand below and follow the instructions
+To generate the config file run the command below and follow the instructions
 
 ```
 python __main__.py --config
@@ -351,7 +270,7 @@ comic_dl.exe --config
 
 This commands supports the creation of the config file, the addition and remove of series and the edition of the common download configuration.
 
-Once the config file is generated you can download automatically the new chapters available for your selected comics by running the command bellow. The command will automatically update the config file to the lastest chapter downloaded, so in the next run it'll download just the new ones.
+Once the config file is generated you can download automatically the new chapters available for your selected comics by running the command bellow. The command will automatically update the config file to the latest chapter downloaded, so in the next run it'll download just the new ones.
 
 ```
 python __main__.py --auto
@@ -362,20 +281,20 @@ or with the binary
 comic_dl.exe --auto
 ```
 
-_Note: It's not necesary to keep the comic files to download the next chapters._
+_Note: It's not necessary to keep the comic files to download the next chapters._
 
 ## Features
-This is a very basic and small sript, so at the moment it only have a few features.
+This is a very basic and small script, so at the moment it only has a few features.
 * Downloads a Single Chapter and puts in a directory with the comic name, volume and chapter.
 * Downloads all the chapters available for a series.
 * Skip if the file has already been downloaded.
-* Show human readable error(s) in most places.
+* Show human-readable error(s) in most places.
 
 ## Changelog
 You can check the changelog [**`HERE`**](https://github.com/Xonshiz/comic-dl/blob/master/Changelog.md).
 
 ## Opening An Issue/Requesting A Site
-If your're planning to open an issue for the script or ask for a new feature or anything that requires opening an Issue, then please do keep these things in mind.
+If you're planning to open an issue for the script or ask for a new feature or anything that requires opening an Issue, then please do keep these things in mind.
 
 ### Reporting Issues
 If you're going to report an issue, then please run the script again with the "-v or --verbose" argument. It should generate a file in the same directory, with the name "Error Log.log". Copy that log file's data and post it on a [Gist](https://gist.github.com/) and share that gist's link while reporting the issue here. Make sure you **EDIT OUT YOUR USERNAME AND PASSWORD**, if supplied within the command.
@@ -384,7 +303,7 @@ If you don't include the verbose log, there are chances it'll take time to fix t
 
 **Command You Gave** : What was the command that you used to invoke the script?
 
-**Expected Behaviour** : After giving the above command, what did you expect shoud've happened?
+**Expected Behaviour** : After giving the above command, what did you expect should've happened?
 
 **Actual Behaviour** : What actually happened?
 
@@ -403,7 +322,7 @@ If you're here to make suggestions, please follow the basic syntax to post a req
 This should be enough, but it'll be great if you can add more ;)
 
 # Notes
-* Readcomiconline.li has been a pain to work with and it might block you out a lot. Now you can use `--cookie` parameter to pass a working cookie. You can retrieve the cookie by checking network tab for `Cookie` value in request headers or by using an external browser plugin. Read more about this on [#299](https://github.com/Xonshiz/comic-dl/issues/299).
+* Readcomiconline.li has been a pain to work with, and it might block you out a lot. Now you can use `--cookie` parameter to pass a working cookie. You can retrieve the cookie by checking network tab for `Cookie` value in request headers or by using an external browser plugin. Read more about this on [#299](https://github.com/Xonshiz/comic-dl/issues/299).
 
 * comic.naver.com has korean characters and some OS won't handle those characters. So, instead of naming the file folder with the series name in korean, the script will download and name the folder with the comic's ID instead.
 

@@ -20,12 +20,8 @@ Currently, the script supports these arguments :
    --convert                              Tells the script to convert the downloaded Images to PDF or anything else. (Supported Values : pdf, cbz) (Default : No) [By default, script will not convert anything.]
    --keep                                 Tells the script whether to keep the files after conversion or not. (Supported : No, False) (Default : Yes/True) [By default, images will be kept even after conversion.]
    --quality                              Tells the script about the image quality you want to download. (Supported Values : low/bad/worst/mobile/cancer) [By default, images will be downloaded in Highest Quality Available. No need to provide any option.]
-   -find, --search                        Searches for a manga through the Manga Eden Database.
    -ml, --manga-language                  Selects the language for manga. 0 is English (Default) and 1 is Italian.
    -sc, --skip-cache                      Forces to skip cache checking.
-   -cid, --chapter-id                     Takes the Chapter ID to list all the chapters in a Manga.
-   -fd, --force-download                  Forces download of chapters, when using comic-dl's search function.
-   -pid, --page-id                        Takes the Page ID to download a particular "chapter number" of a manga.
    --comic                                Add this after -i if you are inputting a comic id or the EXACT comic name.
                                           [ Ex : -i "Deadpool Classic" --comic ]
    -comic-search, --search-comic          Searches for a comic through the scraped data from ReadComicOnline.to
