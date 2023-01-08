@@ -133,3 +133,4 @@
 - Added support for mangadex.org [Fix for #195] [2022.04.19]
 - Fix for #310 [2022.04.20]
 - Added support for Qiremanhua [Fix for #193] [2022.04.23]
+- New host chapmanganato [#331] [2023.01.08]
