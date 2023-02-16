@@ -4,12 +4,12 @@
 [![Github All Releases](https://img.shields.io/github/downloads/xonshiz/comic-dl/total.svg?style=flat-square)](https://github.com/xonshiz/comic-dl/releases) |
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/xonshiz)
 
-| Service           |                                                                                                       Status                                                                                                        |
-|:------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| PyPI Distribution |                [![PyPI](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml)                |  |
-| Releases Build    | [![Building & Creating Distributables](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml) |  |
-| Docker Build      |                [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xonshiz/comic-dl/Docker?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/)                |  |
-| Readthedocs Build |                                 [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](https://comic-dl.readthedocs.io/en/latest/?badge=latest)                                 |
+| Service           |                                                                                                                 Status                                                                                                                  |
+|:------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| PyPI Distribution |                          [![PyPI](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-package.yml)                          |  |
+| Releases Build    |           [![Building & Creating Distributables](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml/badge.svg?branch=master)](https://github.com/Xonshiz/comic-dl/actions/workflows/python-release.yml)           |  |
+| Docker Build      |                [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/xonshiz/comic-dl/docker-publish.yml?label=docker%20build)](https://github.com/xonshiz/comic-dl/pkgs/container/comic-dl/)                |  |
+| Readthedocs Build |                                           [![Documentation Status](https://readthedocs.org/projects/comic-dl/badge/?version=latest)](https://comic-dl.readthedocs.io/en/latest/?badge=latest)                                           |
 
 Comic-dl is a command line tool to download Comics and Manga from various Manga and Comic sites easily. You can search Manga from this tool as well. Idea from [youtube-dl](https://github.com/rg3/youtube-dl).
 
