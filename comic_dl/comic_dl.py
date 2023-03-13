@@ -132,7 +132,7 @@ class ComicDL(object):
             conversion = data["conversion"]
             keep_files = data["keep"]
             image_quality = data["image_quality"]
-            manual_cookie = data["cookie"]
+            manual_cookie = data["cookie"] if "cookie" in data else None
             pbar_comic = tqdm(data["comics"], dynamic_ncols=True, desc="[Comic-dl] Auto processing", leave=True,
                               unit='comic')
             for elKey in pbar_comic:
