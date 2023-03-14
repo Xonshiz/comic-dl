@@ -127,7 +127,7 @@ class ComicDL(object):
             # read config file and download each item of list
             data = json.load(open(CONFIG_FILE))
             # common args
-            sorting_order = data["sorting_order"]
+            sorting_order = "ascending"
             download_directory = data["download_directory"]
             conversion = data["conversion"]
             keep_files = data["keep"]
