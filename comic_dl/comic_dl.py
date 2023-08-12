@@ -165,9 +165,8 @@ class ComicDL(object):
             sys.exit()
 
         if args.input is None:
-            if not str(args.search).strip():
-                print("I need an Input URL to download from.")
-                print("Run the script with --help to see more information.")
+            print("I need an Input URL to download from.")
+            print("Run the script with --help to see more information.")
         else:
             print_index = False
             manual_cookie = None
