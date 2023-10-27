@@ -7,7 +7,6 @@ import os
 import logging
 import time
 import platform
-from ast import literal_eval
 
 
 class ReadComicOnlineLi(object):
