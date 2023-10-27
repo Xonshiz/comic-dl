@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import base64
-
 from comic_dl import globalFunctions
 import re
 import os
 import logging
 import time
+import platform
+from ast import literal_eval
 
 
 class ReadComicOnlineLi(object):
@@ -23,30 +24,28 @@ class ReadComicOnlineLi(object):
         self.print_index = kwargs.get("print_index")
 
         url_split = str(manga_url).split("/")
+
         self.appended_headers = {
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'en-US,en;q=0.9',
-            'dnt': '1',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"macOS"',
-            'sec-fetch-dest': 'document',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-user': '?1',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36'
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Accept-Language': 'en-US,en;q=0.9;q=0.8;q=0.7',
+            'Sec-Ch-Ua-Platform': platform.system(),
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'same-origin',
+            'Sec-Fetch-User': '?1',
+            'Upgrade-Insecure-Requests': '1'
         }
 
-        if len(url_split) in [5]:  # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
+        # Sometimes, this value came out to be 6, instead of 5. Hmmmmmmmm weird.
+        if len(url_split) in [5]:
             # Removing "6" from here, because it caused #47
             self.full_series(comic_url=manga_url.replace("&readType=1", ""), comic_name=self.comic_name,
                              sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
                              conversion=conversion, keep_files=keep_files)
         else:
             if "&readType=0" in manga_url:
-                manga_url = str(manga_url).replace("&readType=0", "&readType=1")  # All Images in one page!
+                manga_url = str(manga_url).replace(
+                    "&readType=0", "&readType=1")  # All Images in one page!
             # disabled to fix #132 and #145
             # elif "&readType=1" not in manga_url:
             #     manga_url = str(manga_url) + "&readType=1"  # All Images in one page!
@@ -62,10 +61,14 @@ class ReadComicOnlineLi(object):
         if not self.appended_headers.get('cookie', None) and self.manual_cookie:
             self.appended_headers['cookie'] = self.manual_cookie
         self.appended_headers['referer'] = comic_url
-        chapter_number = str(comic_url).split("/")[5].split("?")[0].replace("-", " - ")
 
-        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
-        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
+        chapter_number = str(comic_url).split(
+            "/")[5].split("?")[0].replace("-", " - ")
+
+        file_directory = globalFunctions.GlobalFunctions(
+        ).create_file_directory(chapter_number, comic_name)
+        directory_path = os.path.realpath(
+            str(download_directory) + "/" + str(file_directory))
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
@@ -75,39 +78,44 @@ class ReadComicOnlineLi(object):
         converted_file_directory = str(os.sep.join(main_directory)) + os.sep
         # For https://github.com/Xonshiz/comic-dl/issues/247
         if str(conversion) != "None":
-            base_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(globalFunctions.easySlug(comic_name), chapter_number)
+            base_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(
+                globalFunctions.easySlug(comic_name), chapter_number)
             if os.path.isfile("{0}.cbz".format(base_file_name)) or os.path.isfile("{0}.pdf".format(base_file_name)):
                 print('Converted File already exists. Skipping.')
                 return 0
 
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(
+            manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
 
-        img_list = re.findall(r"lstImages.push\(\"(.*?)\"\);", str(source))
+        img_list = re.findall(r"lstImages.push\('(.+?)'",
+                              str(source))
 
         if len(img_list) == 0:
             data_src = re.findall(r'data-src="(.*?)"', str(source))
             if len(data_src) > 0:
                 img_list = data_src
 
-
         if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
             print("Downloading In Low Quality...")
 
         links = []
         file_names = []
-        print(img_list)
         img_list = self.get_image_links(img_list)
+
         for current_chapter, image_link in enumerate(img_list):
             image_link = str(image_link).strip().replace("\\", "")
-
             logging.debug("Image Link : %s" % image_link)
 
             if str(self.image_quality).lower().strip() in ["low", "worst", "bad", "cancer", "mobile"]:
-                image_link = image_link.replace("=s0", "=s1600").replace("/s0", "/s1600")
-            image_link = image_link.replace("=s1600", "=s0").replace("/s1600", "/s0")  # Change low quality to best.
+                image_link = image_link.replace(
+                    "=s0", "=s1600").replace("/s0", "/s1600")
+            # Change low quality to best.
+            image_link = image_link.replace(
+                "=s1600", "=s0").replace("/s1600", "/s0")
 
             current_chapter += 1
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(
+                current_chapter, len(img_list))) + ".jpg"
 
             file_names.append(file_name)
             links.append(image_link)
@@ -132,12 +140,12 @@ class ReadComicOnlineLi(object):
         if not self.appended_headers.get('cookie', None) and self.manual_cookie:
             self.appended_headers['cookie'] = self.manual_cookie
         self.appended_headers['referer'] = comic_url
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(
+            manga_url=comic_url, scrapper_delay=10, append_headers=self.appended_headers)
 
         all_links = []
 
         listing_table = source.find_all("table", {"class": "listing"})
-        # print(listing_table)
 
         for elements in listing_table:
             x = elements.findAll('a')
@@ -149,8 +157,6 @@ class ReadComicOnlineLi(object):
            This is a fix for issues like #74.
         """
         all_links.reverse()
-
-        # print("All Links : {0}".format(all_links))
 
         logging.debug("All Links : %s" % all_links)
 
@@ -184,7 +190,8 @@ class ReadComicOnlineLi(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
-                    time.sleep(5)  # 5 second wait before downloading next chapter. Suggestion in #261
+                    # 5 second wait before downloading next chapter. Suggestion in #261
+                    time.sleep(5)
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
@@ -199,7 +206,8 @@ class ReadComicOnlineLi(object):
                 try:
                     self.single_chapter(comic_url=chap_link, comic_name=comic_name, download_directory=download_directory,
                                         conversion=conversion, keep_files=keep_files)
-                    time.sleep(5)  # 5 second wait before downloading next chapter. Suggestion in #261
+                    # 5 second wait before downloading next chapter. Suggestion in #261
+                    time.sleep(5)
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
                     break  # break to continue processing other mangas
@@ -210,27 +218,24 @@ class ReadComicOnlineLi(object):
 
         return 0
 
-    def get_image_links(self, urls):
-        # JS logic extracted by : https://github.com/Xonshiz/comic-dl/issues/299#issuecomment-1098189279
-        temp = []
-        for url in urls:
-            print(url + '\n')
-            quality_ = None
-            if '=s0' in url:
-                url = url[:-3]
-                quality_ = '=s0'
-            else:
-                url = url[:-6]
-                quality_ = '=s1600'
-            # url = url.slice(4, 22) + url.slice(25);
+    def get_image_links(self, img_list):
+        import binascii
+
+        def beau(url):
+            url = url.replace("_x236", "d")
+            url = url.replace("_x945", "g")
+
+            if url.startswith("https"):
+                return url
+
+            url, sep, rest = url.partition("?")
+            containsS0 = "=s0" in url
+            url = url[:-3 if containsS0 else -6]
             url = url[4:22] + url[25:]
-            # url = url.slice(0, -6) + url.slice(-2);
             url = url[0:-6] + url[-2:]
-            url = str(base64.b64decode(url).decode("utf-8"))
-            # url = url.slice(0, 13) + url.slice(17);
+            url = binascii.a2b_base64(url).decode()
             url = url[0:13] + url[17:]
-            # url = url.slice(0, -2) + (containsS0 ? '=s0' : '=s1600');
-            url = url[0:-2] + quality_
-            # return 'https://2.bp.blogspot.com/' + url;
-            temp.append('https://2.bp.blogspot.com/{0}'.format(url))
-        return temp
+            url = url[0:-2] + ("=s0" if containsS0 else "=s1600")
+            return "https://2.bp.blogspot.com/" + url + sep + rest
+
+        return [beau(url) for url in img_list]
