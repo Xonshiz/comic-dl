@@ -104,6 +104,8 @@ class Manganelo(object):
             all_links = chapter_list.findAll('a')
         else:  # manganelo.com, manganato.com, readmanganato.com
             chapter_list = source.find('ul', {'class': 'row-content-chapter'})
+            if chapter_list is None:
+                raise Exception('no chapter found')
             all_links = chapter_list.findAll('a')
 
         chapter_links = []
