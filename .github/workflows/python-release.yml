@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Initialize Python 3.9
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.9
         cache: 'pip'
@@ -55,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Initialize Python 3.9
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.9
         cache: 'pip'
@@ -86,7 +86,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Initialize Python 3.9
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.9
         cache: 'pip'
