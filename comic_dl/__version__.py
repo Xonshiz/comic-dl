@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__version__ = "2023.01.08.2"
+__version__ = "2024.02.10"
