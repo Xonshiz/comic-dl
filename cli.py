@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 from comic_dl.__main__ import main
 
