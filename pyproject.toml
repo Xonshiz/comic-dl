@@ -1,0 +1,15 @@
+
+[tool.poetry]
+name = "comic-dl"
+version = "0.1.0"
+description = "Download comics from multiple sites"
+authors = ["xonshiz@gmail.com"]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+requests = "*"
+cloudscraper = "*"
+pillow = "*"
+
+[tool.poetry.scripts]
+comic-dl = "comic_dl.cli:main"
