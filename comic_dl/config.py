@@ -3,7 +3,7 @@ Define RunOptions dataclass and parsing logic using argparse.
 """
 
 from dataclasses import dataclass
-from typing      import Optional
+from typing      import Optional, List
 import argparse
 
 @dataclass
@@ -18,6 +18,9 @@ class RunOptions:
     start_chapter:  Optional[int]
     end_chapter:    Optional[int]
     keep_files:     bool
+    threads:        int
+    proxies:        Optional[List[str]]
+    delay:          float  # seconds between image downloads
 
 def parse_args() -> RunOptions:
     parser = argparse.ArgumentParser(
@@ -25,7 +28,7 @@ def parse_args() -> RunOptions:
     )
     parser.add_argument("url", help="URL of the comic chapter or title to download")
     parser.add_argument("-o", "--output",
-                        help="Output path (file base name for single, directory for series)")
+                        help="Output path (file base for single, directory for series)")
     parser.add_argument("-f", "--format",
                         choices=["cbz", "pdf"], default="cbz",
                         help="Output format: cbz (default) or pdf")
@@ -43,7 +46,15 @@ def parse_args() -> RunOptions:
                         help="Inclusive end index of chapters to download in series")
     parser.add_argument("--keep", dest="keep_files", action="store_true",
                         help="Do not delete raw images after conversion")
+    parser.add_argument("--threads", type=int, default=2,
+                        help="Number of concurrent download threads (default: 2)")
+    parser.add_argument("--proxies", type=str, default=None,
+                        help="Comma-separated list of proxy URLs to rotate")
+    parser.add_argument("--delay", type=float, default=0.01,
+                        help="Delay in seconds between image downloads (default: 0.01)")
+
     args = parser.parse_args()
+    proxy_list = args.proxies.split(",") if args.proxies else None
 
     return RunOptions(
         url=args.url,
@@ -56,4 +67,7 @@ def parse_args() -> RunOptions:
         start_chapter=args.start,
         end_chapter=args.end,
         keep_files=args.keep_files,
+        threads=args.threads,
+        proxies=proxy_list,
+        delay=args.delay,
     )

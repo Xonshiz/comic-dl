@@ -5,7 +5,7 @@ Registry mapping URL patterns to drivers and layouts.
 import re
 from typing import List, Type, Dict
 from .base           import BaseDriver
-from ..exceptions   import UnsupportedSiteError
+from ..exceptions    import UnsupportedSiteError
 
 _registry: List[Dict] = []
 

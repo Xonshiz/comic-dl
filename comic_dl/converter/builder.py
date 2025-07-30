@@ -26,8 +26,7 @@ class Converter:
                 pil_imgs[0].save(
                     output,
                     save_all=True,
-                    append_images=pil_imgs[1:],
-                    format="PDF"
+                    append_images=pil_imgs[1:], format="PDF"
                 )
         else:
             raise ValueError(f"Unknown format: {self.format}")

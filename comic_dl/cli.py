@@ -3,9 +3,9 @@ CLI entrypoint: parse args, invoke DownloadManager, handle errors.
 """
 
 import sys
-from .config           import parse_args
-from .core.manager     import DownloadManager
-from .exceptions       import UnsupportedSiteError
+from .config        import parse_args
+from .core.manager  import DownloadManager
+from .exceptions    import UnsupportedSiteError
 
 def main():
     opts = parse_args()
