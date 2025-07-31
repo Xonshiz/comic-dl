@@ -1,2 +1,4 @@
 cloudscraper
 pillow
+bs4
+beautifulsoup4

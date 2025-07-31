@@ -20,7 +20,7 @@ class RunOptions:
     keep_files:     bool
     threads:        int
     proxies:        Optional[List[str]]
-    delay:          float  # seconds between image downloads
+    delay:          float
 
 def parse_args() -> RunOptions:
     parser = argparse.ArgumentParser(
@@ -28,30 +28,31 @@ def parse_args() -> RunOptions:
     )
     parser.add_argument("url", help="URL of the comic chapter or title to download")
     parser.add_argument("-o", "--output",
-                        help="Output path (file base for single, directory for series)")
+                        help="Output directory (root for series or single chapter)")
     parser.add_argument("-f", "--format",
                         choices=["cbz", "pdf"], default="cbz",
-                        help="Output format: cbz (default) or pdf")
+                        help="Output format: cbz or pdf")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="Enable verbose logging")
-    parser.add_argument("--log-file", help="Path to write detailed log output")
+    parser.add_argument("--log-file",
+                        help="Path to write detailed log output")
 
     parser.add_argument("--language", default="en",
                         help="Chapter language code for series (default: en)")
     parser.add_argument("--sort", choices=["asc", "desc"], default="asc",
                         help="Order of chapters when downloading a series")
     parser.add_argument("--start", type=int, default=None,
-                        help="1‑based start index of chapters to download in series")
+                        help="1-based start index of chapters in series")
     parser.add_argument("--end", type=int, default=None,
-                        help="Inclusive end index of chapters to download in series")
+                        help="Inclusive end index of chapters in series")
     parser.add_argument("--keep", dest="keep_files", action="store_true",
-                        help="Do not delete raw images after conversion")
+                        help="Keep raw images after conversion")
     parser.add_argument("--threads", type=int, default=2,
-                        help="Number of concurrent download threads (default: 2)")
+                        help="Number of concurrent download threads")
     parser.add_argument("--proxies", type=str, default=None,
                         help="Comma-separated list of proxy URLs to rotate")
     parser.add_argument("--delay", type=float, default=0.01,
-                        help="Delay in seconds between image downloads (default: 0.01)")
+                        help="Delay in seconds between image downloads")
 
     args = parser.parse_args()
     proxy_list = args.proxies.split(",") if args.proxies else None

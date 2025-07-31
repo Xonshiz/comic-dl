@@ -1,111 +1,82 @@
-"""
-DownloadManager orchestrates downloads with concurrency, proxy rotation, delay,
-and automatically detects single‑chapter vs series.
-"""
-
-import os
 import shutil
-import time
 import random
-from pathlib             import Path
-from concurrent.futures  import ThreadPoolExecutor, as_completed
+from pathlib            import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Dict
 
-from ..config            import RunOptions
-from ..drivers.registry  import get_driver
-from ..logger            import setup_logger
+from ..config           import RunOptions
+from ..drivers.registry import get_driver
+from ..logger           import setup_logger
 from ..converter.builder import Converter
 
 class DownloadManager:
     def __init__(self, options: RunOptions):
-        self.options = options
-        self.logger  = setup_logger(
-            __name__, options.verbose, options.log_file
-        )
+        self.opts   = options
+        self.logger = setup_logger(__name__, options.verbose, options.log_file)
 
     def run(self):
-        opts   = self.options
-        driver = get_driver(opts.url)
+        driver = get_driver(self.opts.url)
         self.logger.info(f"Using driver: {driver.__class__.__name__}")
 
-        is_series = "/title/" in opts.url
-        if is_series:
+        if driver.is_series_url(self.opts.url):
             self._run_series(driver)
         else:
-            chap = {
-                "url":      opts.url,
-                "volume":   None,
-                "chapter":  None,
-                "title":    None,
-                "language": opts.language
-            }
-            self._run_single(driver, chap)
+            self._run_single_chapter(driver)
 
     def _run_series(self, driver):
-        opts = self.options
-        chapters = driver.list_chapters(opts.url)
-        filtered = [c for c in chapters if c["language"] == opts.language]
-        if not filtered:
-            self.logger.error(f"No chapters found for language '{opts.language}'")
-            return
+        opts         = self.opts
 
-        reverse = (opts.sort == "desc")
-        filtered.sort(key=lambda c: c["chapter"], reverse=reverse)
+        raw_series = driver.download_series_content(self.opts.url)
+        series_meta = driver.fetch_series_metadata(raw_series)
 
+        # filter, sort, slice
+        filtered = [c for c in series_meta["chapters"] if (c.get("language") or opts.language) == opts.language]
+        filtered.sort(key=lambda c: c["chapter"], reverse=(opts.sort=="desc"))
         start = opts.start_chapter or 1
         end   = opts.end_chapter   or len(filtered)
         selected = filtered[start-1:end]
 
-        self.logger.info(
-            f"Downloading chapters {start}–{end} of {len(filtered)} "
-            f"(lang={opts.language}, sorted={opts.sort})"
-        )
         for chap in selected:
-            self._run_single(driver, chap)
+            self._run_single_chapter(driver, chap["url"], series_meta["series_title"])
 
-    def _run_single(self, driver, chap: dict):
-        opts = self.options
-        url  = chap["url"]
-        self.logger.info(f"Processing: {url}")
+    def _run_single_chapter(self, driver, chapter_url = None, series_title = None):
+        opts         = self.opts
 
-        meta  = driver.fetch_metadata(url)
-        pages = driver.list_pages(meta)
-        self.logger.info(f"Found {len(pages)} pages")
+        raw_chap = driver.download_chapter_content(chapter_url or self.opts.url)
+        chap_meta = driver.fetch_chapter_metadata(raw_chap)
 
-        # Determine tmp & output paths
-        if "/title/" in opts.url:
-            base_dir = Path(opts.output or "series")
-            chap_dir = base_dir / chap["volume"] / f"Chapter_{chap['chapter']}"
-            tmp_dir  = chap_dir
-            out_path = chap_dir.with_suffix(f".{opts.format}")
-        else:
-            tmp_dir  = Path(opts.output or meta["chapter_id"]).with_suffix("")
-            out_path = tmp_dir.with_suffix(f".{opts.format}")
+        series_title = series_title or chap_meta.get("series_title", "")
+        if not chap_meta.get("series_title"):
+            chap_meta["series_title"] = series_title
+
+        self._download_task(driver, chap_meta)
+
+    def _download_task(self, driver, chap_meta: Dict):
+        opts     = self.opts
+        series   = chap_meta.get("series_title","")
+        chapter  = chap_meta["chapter_id"]
+        pages    = chap_meta["pages"]
+
+        root = Path(opts.output or ".")
+        if series:
+            root = root / series
+        tmp_dir = root / chapter
+        final_path = tmp_dir.with_suffix(f".{opts.format}")
 
         tmp_dir.mkdir(parents=True, exist_ok=True)
 
-        # Concurrent downloads
         with ThreadPoolExecutor(max_workers=opts.threads) as exe:
             futures = []
-            for idx, page in enumerate(pages, start=1):
-                ext   = page.split(".")[-1].split("?")[0]
-                dest  = tmp_dir / f"{idx:04d}.{ext}"
+            for idx, url in enumerate(pages,1):
+                ext = url.split(".")[-1].split("?")[0]
+                dest = tmp_dir / f"{idx:04d}.{ext}"
                 proxy = random.choice(opts.proxies) if opts.proxies else None
-                futures.append(
-                    exe.submit(self._dl_task, driver, page, dest, proxy)
-                )
+                self.logger.info(f"Downloading Image: {idx}.{ext}")
+                futures.append(exe.submit(driver.download_image, url, dest, proxy))
             for f in as_completed(futures):
-                f.result()
+                pass
 
-        # Convert to CBZ/PDF
-        converter = Converter(format=opts.format)
-        converter.build(sorted(tmp_dir.iterdir()), out_path)
-        self.logger.info(f"Created {out_path}")
-
-        # Cleanup raw images
+        Converter(format=opts.format).build(sorted(tmp_dir.iterdir()), final_path)
         if not opts.keep_files:
             shutil.rmtree(tmp_dir)
-            self.logger.debug(f"Removed temporary folder {tmp_dir}")
 
-    def _dl_task(self, driver, page_url, dest, proxy):
-        driver.download_image(page_url, dest, proxy)
-        time.sleep(self.options.delay)
